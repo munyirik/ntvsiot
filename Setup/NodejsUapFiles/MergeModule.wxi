@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Property Id="VWDEXTENSION_INSTALLPATH" Secure="yes" SuppressModularization="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+        <Directory Id="Dir_VSExtensions_FakeParent" Name="VSExtensions" ComponentGuidGenerationSeed="{5BBE933A-53C0-46DD-9902-E158207F2E53}">
+            <Directory Id="Dir_VSExtensions_Ver" Name="$(var.VSTargetVersion)">
+                <Directory Id="Dir_VSExtensions" />
+            </Directory>
+        </Directory>
+        <Directory Id="Dir_VSTemplates_FakeParent" Name="VSTemplates" ComponentGuidGenerationSeed="{90D6A8E3-AF2C-4AE3-B2B5-6978C62D7E11}">
+            <Directory Id="Dir_VSTemplates_Ver" Name="$(var.VSTargetVersion)">
+                <Directory Id="Dir_VSTemplates" />
+            </Directory>
+        </Directory>
+        <Directory Id="Dir_VWDExtensions_FakeParent" Name="VWDExtensions" ComponentGuidGenerationSeed="{A4EE8FFB-A646-4357-B631-DDA0159617E5}">
+            <Directory Id="Dir_VWDExtensions_Ver" Name="$(var.VSTargetVersion)">
+                <Directory Id="Dir_VWDExtensions" />
+            </Directory>
+        </Directory>
+        <Directory Id="Dir_VWDTemplates_FakeParent" Name="VWDTemplates" ComponentGuidGenerationSeed="{8862D229-D79D-4BA9-AF62-6FB933C10689}">
+            <Directory Id="Dir_VWDTemplates_Ver" Name="$(var.VSTargetVersion)">
+                <Directory Id="Dir_VWDTemplates" />
+            </Directory>
+        </Directory>
+    </Directory>
+
+    <?foreach key in VS;VWD?>
+    <Configuration Name="Config_$(var.key)ExtensionsParent" Format="Key" Type="Identifier"/>
+    <Configuration Name="Config_$(var.key)TemplatesParent" Format="Key" Type="Identifier"/>
+
+    <Substitution Table="Directory" Row="Dir_$(var.key)Extensions" Column="Directory_Parent" Value="[=Config_$(var.key)ExtensionsParent]"/>
+    <Substitution Table="Directory" Row="Dir_$(var.key)Templates" Column="Directory_Parent" Value="[=Config_$(var.key)TemplatesParent]"/>
+
+    <DirectoryRef Id="Dir_$(var.key)Templates">
+        <Directory Id="Dir_$(var.key)AllProjectTemplates" Name="ProjectTemplates">
+            <Directory Id="Dir_$(var.key)JavaScriptProjectTemplates" Name="JavaScript">
+                <Directory Id="Dir_$(var.key)ProjectTemplates" Name="Node.js">
+                    <Directory Id="Dir_$(var.key)WebProjectTemplates" Name="Web" />
+                </Directory>
+            </Directory>
+        </Directory>
+        <Directory Id="Dir_$(var.key)AllItemTemplates" Name="ItemTemplates">
+            <Directory Id="Dir_$(var.key)ItemTemplates" Name="JavaScript" />
+            <Directory Id="Dir_$(var.key)ItemTemplates_CloudService" Name="CloudService">
+                <Directory Id="Dir_$(var.key)ItemTemplates_CloudService_NETFramework4" Name="NETFramework4">
+                    <Directory Id="Dir_$(var.key)ItemTemplates_CloudService_NETFramework4_WebRole" Name="Web Role">
+                        <Directory Id="Dir_$(var.key)ItemTemplates_CloudService_WebRole" Name="Node.js" />
+                    </Directory>
+                    <Directory Id="Dir_$(var.key)ItemTemplates_CloudService_NETFramework4_WorkerRole" Name="Worker Role">
+                        <Directory Id="Dir_$(var.key)ItemTemplates_CloudService_WorkerRole" Name="Node.js" />
+                    </Directory>
+                </Directory>
+            </Directory>
+        </Directory>
+    </DirectoryRef>
+
+    <DirectoryRef Id="Dir_$(var.key)Extensions">
+        <Directory Id="Dir_$(var.key)Extensions_Microsoft">
+            <?ifdef ProductSuffix?>
+            <Directory Id="Dir_$(var.key)InstallLocationParent" Name="Node.js UAP Extension - $(var.ProductSuffix)">
+                <Directory Id="Dir_$(var.key)InstallLocation" Name="$(var.ReleaseVersion)" />
+            </Directory>
+            <?else?>
+            <Directory Id="Dir_$(var.key)InstallLocationParent" Name="Node.js UAP Extension">
+                <Directory Id="Dir_$(var.key)InstallLocation" Name="$(var.ReleaseVersion)" />
+            </Directory>
+            <?endif?>
+        </Directory>
+    </DirectoryRef>
+
+    <?endforeach?>
+
+    <DirectoryRef Id="TARGETDIR">
+        <Directory Id="Dir_MSBuildTargets" ComponentGuidGenerationSeed="{F55793B2-074D-4426-B3F3-61E7676843D7}" />
+    </DirectoryRef>
+
+    <Configuration Name="Config_MSBuildLocation" Format="Key" Type="Identifier" DefaultValue="TARGETDIR" />
+    <Substitution Table="Directory" Column="Directory_Parent" Row="Dir_MSBuildTargets" Value="[=Config_MSBuildLocation]" />
+</Include>

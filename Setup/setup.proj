@@ -1,0 +1,14 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="SetupProjectBefore.settings" />
+  
+  <ItemGroup>
+    <ProjectFile Include="NodejsUapFiles\NodejsUapFiles.wixproj"/>
+    <ProjectFile Include="NodejsUapInstaller\NodejsUapInstaller.wixproj"/>
+  </ItemGroup>
+
+
+  <Import Project="$(TargetsPath)\Common.Build.Traversal.targets" />
+
+  <Import Project="$(TargetsPath)\Common.Build.VSSDK.targets" Condition="'$(SignedBinariesPath)' != ''"/>
+</Project>

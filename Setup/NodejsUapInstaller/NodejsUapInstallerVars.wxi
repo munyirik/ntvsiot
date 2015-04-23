@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+  <?if "$(var.VSTargetVersion)" = "14.0" ?>
+    <?define InstallerUpgradeGuid=7C563F26-E85D-4AE8-BBF2-2DBDF7D03107?>  
+    <?define Comp_InstallLocationGuid=5024A992-B681-4405-96EA-6B08C8126A26?>
+    <?define Comp_AllUserInstallDirItemGuid=7E00A2CB-6EF2-4F9D-AAF5-256091531FDB?>
+    <?define Comp_InstallDirItemGuid=9DDECEC2-C0A1-4D30-8DF5-3A9A6401DB18?>
+    <?define Comp_ProgramMenuFolder=C43EEE9B-7448-4D5C-BDE6-55DAF3F02A98?>
+    <?define NTVSDev14Guid=08FBC8DA-20FB-4E06-A4CE-2FBC02349C58?>
+  <?else?>
+    <!--Unknown VS version, We'll insert a bunch of bogus values such that Wix will error out-->
+    <!--  To fix this define a new section above for the new VS version.  Leave this such that future new versions continue to crash on build-->
+    <?define InstallerUpgradeGuid=UNKNOWN_VSTARGET?>
+    <?define Comp_InstallLocationGuid=UNKNOWN_VSTARGET?>
+    <?define Comp_AllUserInstallDirItemGuid=?>
+    <?define Comp_InstallDirItemGuid=?>
+  <?endif ?>
+
+  <?define ProductName=!(loc.ProductName) !(loc.ForVisualStudio) ?>
+</Include>

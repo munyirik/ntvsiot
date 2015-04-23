@@ -1,0 +1,10 @@
+Windows Registry Editor Version 5.00
+
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\StrongName\Verification\Microsoft.NodejsUap,B03F5F7F11D50A3A]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\StrongName\Verification\Nodejs.Tests.UI.Uap,B03F5F7F11D50A3A]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\StrongName\Verification\TestUtilities.Nodejs.Uap,B03F5F7F11D50A3A]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\StrongName\Verification\TestUtilities.UI.Nodejs.Uap,B03F5F7F11D50A3A]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\StrongName\Verification\Microsoft.NodejsUap,B03F5F7F11D50A3A]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\StrongName\Verification\Nodejs.Tests.UI.Uap,B03F5F7F11D50A3A]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\StrongName\Verification\TestUtilities.Nodejs.Uap,B03F5F7F11D50A3A]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\StrongName\Verification\TestUtilities.UI.Nodejs.Uap,B03F5F7F11D50A3A]
