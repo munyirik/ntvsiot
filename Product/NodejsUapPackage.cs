@@ -72,12 +72,6 @@ namespace Microsoft.NodejsUap
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
             this.RegisterProjectFactory(new NodejsUapProjectFactory(this));
-
-            // Register Extender to enable properties to be displayed in the Property Window
-            // and to filter out the base project properties.
-            EnvDTE.ObjectExtenders extensionManager = (EnvDTE.ObjectExtenders)GetService(typeof(EnvDTE.ObjectExtenders));
-            int cookie = 1980;
-            cookie = extensionManager.RegisterExtenderProvider("{04726c27-8125-471a-bac0-2301d273db5e}", NodejsUapExtenderProvider.Name, new NodejsUapExtenderProvider());
         }
 
         #endregion

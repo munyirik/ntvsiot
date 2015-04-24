@@ -227,13 +227,10 @@
     <Compile Include="ProjectFlavor\NodejsUapProjectFlavor.cs" />
     <Compile Include="ProjectFlavor\NodejsUapProjectFlavorCfg.cs" />
     <Compile Include="PropertyPage\Constants.cs" />
-    <Compile Include="PropertyPage\INodejsUapPropertyExtender.cs" />
     <Compile Include="PropertyPage\IPageView.cs" />
     <Compile Include="PropertyPage\IPageViewSite.cs" />
     <Compile Include="PropertyPage\IPropertyPageUI.cs" />
     <Compile Include="PropertyPage\IPropertyStore.cs" />
-    <Compile Include="PropertyPage\NodejsUapExtenderProvider.cs" />
-    <Compile Include="PropertyPage\NodejsUapPropertyExtender.cs" />
     <Compile Include="PropertyPage\NodejsUapPropertyPage.cs" />
     <Compile Include="PropertyPage\NodejsUapPropertyPageView.cs">
       <SubType>usercontrol</SubType>
