@@ -1,6 +1,6 @@
 <#
 .Synopsis
-    Builds a release of NTVS (Node.js Tools for Visual Studio) Windows Universal Extension
+    Builds a release of NTVS (Node.js Tools for Visual Studio) IoT Extension
 
 .Description
     This script is used to build a set of installers for NTVS Windows Universal
@@ -132,12 +132,12 @@ $build_project = gi "$buildroot\Setup\dirs.proj"
 $setup_project = gi "$buildroot\Setup\setup.proj"
 
 # Project metadata
-$project_name = "NTVS Windows Universal Extension"
-$project_url = ""
+$project_name = "NTVS IoT Extension Beta"
+$project_url = "http://nodejstools.codeplex.com"
 $project_keywords = "NTVS; Visual Studio; Node.js"
 
 # These people are able to approve code signing operations
-$approvers = "jinglou", "sitani", "munyirik"
+$approvers = "jinglou", "sitani"
 
 # These people are the contacts for the symbols uploaded to the symbol server
 $symbol_contacts = "$env:username;munyirik"
