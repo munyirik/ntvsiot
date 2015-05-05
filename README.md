@@ -8,7 +8,7 @@ You can also try out the [Blinky sample](http://ms-iot.github.io/content/win10/s
 
 ##Known issues
 Currently, only IntelliSense, Editing, and Debugging are supported from the existing [NTVS features](https://nodejstools.codeplex.com/documentation). Features like npm will not work as expected for now but will be available in the future.
-If you see problems related to any supported feature feel free to open an issue. Feature requests are also welcome.
+If you see problems related to any supported feature, feel free to open an issue. Feature requests are also welcome.
 
 ##Contributing
 Coming soon.
