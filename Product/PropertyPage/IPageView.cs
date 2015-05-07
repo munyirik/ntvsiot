@@ -1,27 +1,22 @@
-/****************************** Module Header ******************************\
- * Module Name:  IPageView.cs
- * Project:      CSVSXProjectSubType
- * Copyright (c) Microsoft Corporation.
- * 
- * The IPageView Interface is implemented by the PageView Class. 
- * 
- * It provides the main UI features of a PageView object. Through this interface, 
- * the PropertyPage object can show / hide / move a PageView object.
- *  
- * This source is subject to the Microsoft Public License.
- * See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
- * All other rights reserved.
- * 
- * THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
- * EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
- * WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
-\***************************************************************************/
+/* ****************************************************************************
+ *
+ * Copyright (c) Microsoft Corporation. 
+ *
+ * This source code is subject to terms and conditions of the Apache License, Version 2.0. A 
+ * copy of the license can be found in the License.html file at the root of this distribution. If 
+ * you cannot locate the Apache License, Version 2.0, please send an email to 
+ * vspython@microsoft.com. By using this source code in any fashion, you are agreeing to be bound 
+ * by the terms of the Apache License, Version 2.0.
+ *
+ * You must not remove this notice, or any other, from this software.
+ *
+ * ***************************************************************************/
 
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Microsoft.NodejsUap
+namespace Microsoft.NodejsUwp
 {
     public interface IPageView: IDisposable
     {

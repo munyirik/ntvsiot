@@ -8,10 +8,7 @@ var fs = require('fs');
 var util = require('util');
 
 var assemblies = [
-    'Microsoft.NodejsUap',
-    'TestUtilities.Nodejs.Uap',
-    'TestUtilities.UI.Nodejs.Uap',
-    'Nodejs.Tests.UI.Uap'
+    'Microsoft.NodejsUwp'
 ].sort();
 
 var files = [

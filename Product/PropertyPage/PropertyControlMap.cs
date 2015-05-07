@@ -1,34 +1,22 @@
-/****************************** Module Header ******************************\
- * Module Name:  PropertyControlMap.cs
- * Project:      CSVSXProjectSubType
- * Copyright (c) Microsoft Corporation.
- * 
- * The PropertyControlMap class is used to initialize the Controls on a PageView
- * Object. 
- * 
- * The IPageViewSite Interface is implemented by the PropertyPage class, and 
- * the IPropertyPageUI Interface is implemented by the PageView Class. With the 
- * PropertyControlTable object, the PropertyControlMap object could get a Property
- * value from a PropertyPage object, and use it to initialize the related Control
- * on the PageView object. 
- * 
- * It provides the main UI features of a PageView object. Through this interface, 
- * the PropertyPage object can show / hide / move a PageView object.
- *  
- * This source is subject to the Microsoft Public License.
- * See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
- * All other rights reserved.
- * 
- * THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
- * EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
- * WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
-\***************************************************************************/
+/* ****************************************************************************
+ *
+ * Copyright (c) Microsoft Corporation. 
+ *
+ * This source code is subject to terms and conditions of the Apache License, Version 2.0. A 
+ * copy of the license can be found in the License.html file at the root of this distribution. If 
+ * you cannot locate the Apache License, Version 2.0, please send an email to 
+ * vspython@microsoft.com. By using this source code in any fashion, you are agreeing to be bound 
+ * by the terms of the Apache License, Version 2.0.
+ *
+ * You must not remove this notice, or any other, from this software.
+ *
+ * ***************************************************************************/
 
 
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace Microsoft.NodejsUap
+namespace Microsoft.NodejsUwp
 {
     public class PropertyControlMap
     {
@@ -70,8 +58,8 @@ namespace Microsoft.NodejsUap
                     controlFromPropertyName, valueForProperty);
 
                 // TODO: This if statement is temporary. --no - console is required since there isn't a way to redirect stdout/err from
-                // node.js to UAP. --debug is required until something like IsDebuggerPresent can work in the UAP app or VS F5 can
-                // automatically pass the flag to the UAP app.
+                // node.js to UWP. --debug is required until something like IsDebuggerPresent can work in the UWP app or VS F5 can
+                // automatically pass the flag to the UWP app.
                 if (0 == string.Compare(valueForProperty, "") && 0 == string.Compare(controlFromPropertyName.Name, "_nodeArguments"))
                 {
                     this.propertyPageUI.SetControlValue(

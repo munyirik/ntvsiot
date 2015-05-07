@@ -1,34 +1,16 @@
-/****************************** Module Header ******************************\
- * Module Name:  PageView.cs
- * Project:      CSVSXProjectSubType
- * Copyright (c) Microsoft Corporation.
- * 
- * The PageView Class inherits from the UserControl and implements the IPageView
- * and IPropertyPageUI interfaces. It is used to display the properties in a 
- * PropertyStore object that belongs to a PropertyPage object. 
- * 
- * Through the IPageView interface, the PageView object can be shown, hidden 
- * or moved. 
- * 
- * The PropertyControlTable property is used to map the control on a PageView object
- * to a property in PropertyStore object. And through the IPropertyPageUI interface, 
- * the values of its controls could be accessed. 
- * 
- * NOTE: 1. This UserControl cannot be used directly, you have to design your own
- *          page view that inherits from it.
- * 
- *       2. You can only access the values of its TextBox and CheckBox controls.  
- *          If you want other controls, such as ComboBox, you have to override
- *          the methods of the IPropertyPageUI interface.
- *  
- * This source is subject to the Microsoft Public License.
- * See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
- * All other rights reserved.
- * 
- * THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
- * EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
- * WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
-\***************************************************************************/
+/* ****************************************************************************
+ *
+ * Copyright (c) Microsoft Corporation. 
+ *
+ * This source code is subject to terms and conditions of the Apache License, Version 2.0. A 
+ * copy of the license can be found in the License.html file at the root of this distribution. If 
+ * you cannot locate the Apache License, Version 2.0, please send an email to 
+ * vspython@microsoft.com. By using this source code in any fashion, you are agreeing to be bound 
+ * by the terms of the Apache License, Version 2.0.
+ *
+ * You must not remove this notice, or any other, from this software.
+ *
+ * ***************************************************************************/
 
 using System;
 using System.ComponentModel;
@@ -36,7 +18,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.VisualStudio;
 
-namespace Microsoft.NodejsUap
+namespace Microsoft.NodejsUwp
 { 
     public class PageView : UserControl, IPageView, IPropertyPageUI
     {
