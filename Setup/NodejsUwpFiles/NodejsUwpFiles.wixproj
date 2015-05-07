@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\SetupProjectBefore.settings" />
+  <PropertyGroup>
+    <ProductVersion>3.5</ProductVersion>
+    <ProjectGuid>{27D23F95-6D5C-4EEC-8153-F7B3C2ECE64D}</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputName>NodejsUwpFiles</OutputName>
+    <OutputType>Module</OutputType>
+    <DefineSolutionProperties>false</DefineSolutionProperties>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <Name>NodejsUwpFiles</Name>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="NodejsUwpFiles.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MergeModule.wxi" />
+    <Content Include="Microsoft.NodejsUwp.targets" />
+    <FilesProj Include="NodejsUwpFiles.proj" />
+  </ItemGroup>
+  <Import Project="..\SetupProjectAfter.settings" />
+</Project>

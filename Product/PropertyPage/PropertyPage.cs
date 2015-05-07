@@ -1,29 +1,16 @@
-/****************************** Module Header ******************************\
- * Module Name:  PropertyPage.cs
- * Project:      CSVSXProjectSubType
- * Copyright (c) Microsoft Corporation.
- * 
- * A PropertyPage object contains a PropertyStore object which stores the Properties,
- * and a PageView object which is a UserControl used to display the Properties.
- * 
- * The IPropertyPage and IPropertyPage2 Interfaces provide the main features of 
- * a property page object that manages a particular page within a property sheet.
- * 
- * A property page implements at least IPropertyPage and can optionally implement
- * IPropertyPage2 if selection of a specific property is supported. See
- * http://msdn.microsoft.com/en-us/library/microsoft.visualstudio.ole.interop.ipropertypage2.aspx
- * http://msdn.microsoft.com/en-us/library/ms683996(VS.85).aspx
- * 
- *  
- * 
- * This source is subject to the Microsoft Public License.
- * See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
- * All other rights reserved.
- * 
- * THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
- * EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
- * WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
-\***************************************************************************/
+/* ****************************************************************************
+ *
+ * Copyright (c) Microsoft Corporation. 
+ *
+ * This source code is subject to terms and conditions of the Apache License, Version 2.0. A 
+ * copy of the license can be found in the License.html file at the root of this distribution. If 
+ * you cannot locate the Apache License, Version 2.0, please send an email to 
+ * vspython@microsoft.com. By using this source code in any fashion, you are agreeing to be bound 
+ * by the terms of the Apache License, Version 2.0.
+ *
+ * You must not remove this notice, or any other, from this software.
+ *
+ * ***************************************************************************/
 
 using System;
 using System.Collections.Generic;
@@ -33,7 +20,7 @@ using System.Windows.Forms;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.OLE.Interop;
 
-namespace Microsoft.NodejsUap
+namespace Microsoft.NodejsUwp
 {
     abstract public class PropertyPage : IPropertyPage2, IPropertyPage, IPageViewSite
     {
@@ -249,12 +236,12 @@ namespace Microsoft.NodejsUap
         {
             switch (nCmdShow)
             {
-                case NodejsUap.Constants.SW_HIDE:
+                case NodejsUwp.Constants.SW_HIDE:
                     this.MyPageView.HideView();
                     return;
 
-                case NodejsUap.Constants.SW_SHOW:
-                case NodejsUap.Constants.SW_SHOWNORMAL:
+                case NodejsUwp.Constants.SW_SHOW:
+                case NodejsUwp.Constants.SW_SHOWNORMAL:
                     this.MyPageView.ShowView();
                     return;
             }
@@ -395,8 +382,8 @@ namespace Microsoft.NodejsUap
                     // changed its state, that is, one or more property values have been 
                     // changed in the page.
                     this.PropertyPageSite.OnStatusChange(
-                        NodejsUap.Constants.PROPPAGESTATUS_DIRTY
-                        | NodejsUap.Constants.PROPPAGESTATUS_VALIDATE);
+                        NodejsUwp.Constants.PROPPAGESTATUS_DIRTY
+                        | NodejsUwp.Constants.PROPPAGESTATUS_VALIDATE);
                 }
             }
         }

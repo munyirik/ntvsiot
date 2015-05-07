@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22815.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodejsUwp", "Product\NodejsUwp.csproj", "{F37548A2-B911-4DBA-ADDF-1018C10003E6}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "NodejsUwpFiles", "Setup\NodejsUwpFiles\NodejsUwpFiles.wixproj", "{27D23F95-6D5C-4EEC-8153-F7B3C2ECE64D}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "NodejsUwpInstaller", "Setup\NodejsUwpInstaller\NodejsUwpInstaller.wixproj", "{4BB9C2C3-78F5-458F-ABE6-F1675EC54B68}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F37548A2-B911-4DBA-ADDF-1018C10003E6}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{F37548A2-B911-4DBA-ADDF-1018C10003E6}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{F37548A2-B911-4DBA-ADDF-1018C10003E6}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{F37548A2-B911-4DBA-ADDF-1018C10003E6}.Debug|x86.ActiveCfg = Debug|x86
+		{F37548A2-B911-4DBA-ADDF-1018C10003E6}.Debug|x86.Build.0 = Debug|x86
+		{F37548A2-B911-4DBA-ADDF-1018C10003E6}.Release|Any CPU.ActiveCfg = Release|x86
+		{F37548A2-B911-4DBA-ADDF-1018C10003E6}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{F37548A2-B911-4DBA-ADDF-1018C10003E6}.Release|Mixed Platforms.Build.0 = Release|x86
+		{F37548A2-B911-4DBA-ADDF-1018C10003E6}.Release|x86.ActiveCfg = Release|x86
+		{F37548A2-B911-4DBA-ADDF-1018C10003E6}.Release|x86.Build.0 = Release|x86
+		{27D23F95-6D5C-4EEC-8153-F7B3C2ECE64D}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{27D23F95-6D5C-4EEC-8153-F7B3C2ECE64D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{27D23F95-6D5C-4EEC-8153-F7B3C2ECE64D}.Debug|x86.ActiveCfg = Debug|x86
+		{27D23F95-6D5C-4EEC-8153-F7B3C2ECE64D}.Debug|x86.Build.0 = Debug|x86
+		{27D23F95-6D5C-4EEC-8153-F7B3C2ECE64D}.Release|Any CPU.ActiveCfg = Release|x86
+		{27D23F95-6D5C-4EEC-8153-F7B3C2ECE64D}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{27D23F95-6D5C-4EEC-8153-F7B3C2ECE64D}.Release|Mixed Platforms.Build.0 = Release|x86
+		{27D23F95-6D5C-4EEC-8153-F7B3C2ECE64D}.Release|x86.ActiveCfg = Release|x86
+		{27D23F95-6D5C-4EEC-8153-F7B3C2ECE64D}.Release|x86.Build.0 = Release|x86
+		{4BB9C2C3-78F5-458F-ABE6-F1675EC54B68}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{4BB9C2C3-78F5-458F-ABE6-F1675EC54B68}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{4BB9C2C3-78F5-458F-ABE6-F1675EC54B68}.Debug|x86.ActiveCfg = Debug|x86
+		{4BB9C2C3-78F5-458F-ABE6-F1675EC54B68}.Debug|x86.Build.0 = Debug|x86
+		{4BB9C2C3-78F5-458F-ABE6-F1675EC54B68}.Release|Any CPU.ActiveCfg = Release|x86
+		{4BB9C2C3-78F5-458F-ABE6-F1675EC54B68}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{4BB9C2C3-78F5-458F-ABE6-F1675EC54B68}.Release|Mixed Platforms.Build.0 = Release|x86
+		{4BB9C2C3-78F5-458F-ABE6-F1675EC54B68}.Release|x86.ActiveCfg = Release|x86
+		{4BB9C2C3-78F5-458F-ABE6-F1675EC54B68}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

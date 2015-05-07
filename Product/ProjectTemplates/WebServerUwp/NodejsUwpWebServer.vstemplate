@@ -1,0 +1,36 @@
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>Basic Node.js Web Server (Windows Universal)</Name>
+    <Description>Basic 'Hello World' Node.js Web Server (Windows Universal)</Description>
+    <Icon Package="{FE8A8C3D-328A-476D-99F9-2A24B75F8C7F}" ID="406" />
+    <ProjectType>JavaScript</ProjectType>
+    <TemplateID>Microsoft.JavaScript.NodejsUwpWebServer</TemplateID>
+    <SortOrder>125</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>NodejsWebServer</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <PromptForSaveOnCreation>true</PromptForSaveOnCreation>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="NodejsUwpWebServer.njsproj" ReplaceParameters="true">
+      <ProjectItem OpenInEditor="true">server.js</ProjectItem>
+      <ProjectItem ReplaceParameters="true">package.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true">Package.appxmanifest</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Assets\Logo.scale-100.png">Logo.scale-100.png</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Assets\SmallLogo.scale-100.png">SmallLogo.scale-100.png</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Assets\SplashScreen.scale-100.png">SplashScreen.scale-100.png</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Assets\StoreLogo.scale-100.png">StoreLogo.scale-100.png</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Assets\WideLogo.scale-100.png">WideLogo.scale-100.png</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="$projectname$_TemporaryKey.pfx">Application_TemporaryKey.pfx</ProjectItem>
+    </Project>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>Microsoft.VisualStudio.WinRT.TemplateWizards, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+    <FullClassName>Microsoft.VisualStudio.WinRT.TemplateWizards.CreateProjectCertificate.Wizard</FullClassName>
+  </WizardExtension>
+  <WizardExtension>
+    <Assembly>Microsoft.NodejsTools.ProjectWizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+    <FullClassName>Microsoft.NodejsTools.ProjectWizard.NodejsPackageParametersExtension</FullClassName>
+  </WizardExtension>
+</VSTemplate>

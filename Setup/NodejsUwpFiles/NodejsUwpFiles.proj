@@ -1,0 +1,28 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <BuildRoot Condition="'$(BuildRoot)' == ''">$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), build.root))</BuildRoot>
+
+        <TargetName>NodejsUwpFiles</TargetName>
+    </PropertyGroup>
+    <ItemGroup>
+        <!-- Registration files -->
+        <File Include="NodejsUwp\extension.vsixmanifest" />
+        <File Include="Microsoft.NodejsUwp.pkgdef" />
+
+        <!-- Core extension -->
+        <File Include="Microsoft.NodejsUwp.dll" />
+
+        <!-- Resources -->
+        <File Include="..\Icons\NodeJS.ico" />
+        <File Include="..\Icons\NodejsProject.ico" />
+        <File Include="..\Icons\NodeJS_200x.png" />
+
+        <ProjectTemplate Include="ProjectTemplates\JavaScript\Node.js\1033\WebServerUwp.zip"/>
+
+        <!-- MSBuild files-->
+        <MSBuildFile Include="Microsoft.NodejsUwp.targets"/>               
+
+    </ItemGroup>
+
+    <Import Project="$(BuildRoot)\Setup\WixGenerator.targets"/>
+</Project>

@@ -3,7 +3,7 @@
   <Import Project="SetupProjectBefore.settings" />
   
   <ItemGroup>
-    <ProjectFile Include="..\Product\NodejsUap.csproj"/>
+    <ProjectFile Include="..\Product\NodejsUwp.csproj"/>
 	<ProjectFile Include="setup.proj"/>
   </ItemGroup>
 

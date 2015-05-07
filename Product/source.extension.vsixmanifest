@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="94078bd6-24f0-4e98-a2b4-44476f0cfbfa" Version="1.0" Language="en-US" Publisher="Microsoft" />
-    <DisplayName>NodejsUap</DisplayName>
-    <Description>VS package for building Node.js UAP applications</Description>
+    <Identity Id="0BBF5C2B-3093-431D-8A14-47AC07CFFABF" Version="1.0" Language="en-US" Publisher="Microsoft" />
+    <DisplayName>NodejsUwp</DisplayName>
+    <Description>VS package for building Node.js UWP applications</Description>
   </Metadata>
   <Installation InstalledByMsi="true">
     <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[14.0]" />

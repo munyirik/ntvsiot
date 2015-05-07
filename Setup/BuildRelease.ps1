@@ -212,12 +212,12 @@ function after-build-all($buildroot, $outdir) {
 #   {2} will be replaced by the VS name preceded by a space
 #   {3} will be replaced by the config ('Debug') marker preceded by a space
 $installer_names = @{
-    'NodejsUapInstaller.msi'="NTVS {1}{2}{3}.msi";
+    'NodejsUwpInstaller.msi'="NTVS {1}{2}{3}.msi";
 }
 
 # Add list of files requiring signing here
 $managed_files = (
-    "Microsoft.NodejsUap.dll"
+    "Microsoft.NodejsUwp.dll"
 )
 
 $native_files = @()

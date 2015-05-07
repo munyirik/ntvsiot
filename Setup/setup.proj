@@ -3,8 +3,8 @@
   <Import Project="SetupProjectBefore.settings" />
   
   <ItemGroup>
-    <ProjectFile Include="NodejsUapFiles\NodejsUapFiles.wixproj"/>
-    <ProjectFile Include="NodejsUapInstaller\NodejsUapInstaller.wixproj"/>
+    <ProjectFile Include="NodejsUwpFiles\NodejsUwpFiles.wixproj"/>
+    <ProjectFile Include="NodejsUwpInstaller\NodejsUwpInstaller.wixproj"/>
   </ItemGroup>
 
 
