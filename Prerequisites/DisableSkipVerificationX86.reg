@@ -1,3 +1,7 @@
 Windows Registry Editor Version 5.00
 
 [-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\StrongName\Verification\Microsoft.NodejsUwp,B03F5F7F11D50A3A]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\StrongName\Verification\NodejsUwp.Tests,B03F5F7F11D50A3A]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\StrongName\Verification\TestUtilities,B03F5F7F11D50A3A]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\StrongName\Verification\TestUtilities.NodejsUwp,B03F5F7F11D50A3A]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\StrongName\Verification\TestUtilities.UI,B03F5F7F11D50A3A]
