@@ -546,7 +546,7 @@ namespace Microsoft.NodejsUwp
             try
             {
                 VsDebugTargetInfo2[] targets;
-                uint deployFlags = (uint)(_AppContainerDeployOptions.ACDO_NetworkLoopbackEnable | _AppContainerDeployOptions.ACDO_SetNetworkLoopback | _AppContainerDeployOptions.ACDO_ForceCleanLayout);
+                uint deployFlags = (uint)(_AppContainerDeployOptions.ACDO_NetworkLoopbackEnable | _AppContainerDeployOptions.ACDO_SetNetworkLoopback);
                 string recipeFile = null;
                 string layoutDir = null;
                 EnvDTE.DTE dte = (EnvDTE.DTE)Package.GetGlobalService(typeof(EnvDTE.DTE));
@@ -840,7 +840,7 @@ namespace Microsoft.NodejsUwp
 
 
                 IVsBuildPropertyStorage bps = this;//.project as IVsBuildPropertyStorage;      
-                rgDebugTargetInfo[0].bstrExe = "winuniversalnode.exe";
+                rgDebugTargetInfo[0].bstrExe = "nodeuwp.exe";
                 propertiesList.TryGetValue(NodejsUwpConstants.DebuggerMachineName, out debuggerMachineName);
                 rgDebugTargetInfo[0].bstrRemoteMachine = debuggerMachineName;
                 rgDebugTargetInfo[0].guidLaunchDebugEngine = debugEngineGuids[0];
