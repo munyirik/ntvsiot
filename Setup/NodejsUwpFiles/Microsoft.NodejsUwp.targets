@@ -32,9 +32,9 @@
     <WriteLinesToFile File="$(OutputPath)startupinfo.xml" Lines="." Overwrite="true"/>
   </Target>
 
-  <!-- Include winrt.node to project when building to allow access to WinRT namespaces -->
-  <Target Name="CopyWinRTAddon" BeforeTargets="CoreCompile">
-    <Copy SourceFiles="$(NodechUWPSDKPath)\$(Platform)\winrt.node" DestinationFolder="$(ProjectHome)\node_modules" OverwriteReadOnlyFiles="true"/>
+  <!-- Include uwp.node to project when building to allow access to UWP namespaces -->
+  <Target Name="CopyUWPAddon" BeforeTargets="CoreCompile">
+    <Copy SourceFiles="$(NodechUWPSDKPath)\$(Platform)\uwp.node" DestinationFolder="$(ProjectHome)\node_modules" OverwriteReadOnlyFiles="true"/>
   </Target>
 
   <ItemGroup>
