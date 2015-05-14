@@ -63,8 +63,8 @@ namespace Microsoft.NodejsUwp
                 if (0 == string.Compare(valueForProperty, "") && 0 == string.Compare(controlFromPropertyName.Name, "_nodeArguments"))
                 {
                     this.propertyPageUI.SetControlValue(
-                        controlFromPropertyName, "--no-console --debug");
-                    propertyPageUI_UserEditComplete(controlFromPropertyName, "--no-console --debug");
+                        controlFromPropertyName, "--debug");
+                    propertyPageUI_UserEditComplete(controlFromPropertyName, "--debug");
                 }
             }
             this.propertyPageUI.UserEditComplete +=                
