@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22815.0
-MinimumVisualStudioVersion = 10.0.40219.1
+VisualStudioVersion = 14.0.22823.1
+MinimumVisualStudioVersion = 14.0.22823.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodejsUwp", "Product\NodejsUwp.csproj", "{F37548A2-B911-4DBA-ADDF-1018C10003E6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{FC3BEB51-682B-43A6-BE17-B120BC31C3B5}"
