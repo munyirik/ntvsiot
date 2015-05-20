@@ -1,0 +1,1 @@
+Test utilities reused from [base NTVS project](https://github.com/Microsoft/nodejstools/tree/master/Common).
