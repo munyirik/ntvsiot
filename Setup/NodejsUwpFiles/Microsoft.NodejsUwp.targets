@@ -40,6 +40,10 @@
   <ItemGroup>
     <NodeModulesContentDir Include="$(ProjectHome)\node_modules"/>
   </ItemGroup>
+  
+  <ItemGroup>
+    <NodeTestsDir Include="$(ProjectHome)\test"/>
+  </ItemGroup>
 
   <ItemGroup>
     <NodeHostFiles Include="$(NodechUWPSDKPath)\$(Platform)\*.dll"/>
@@ -62,6 +66,9 @@
       <Output TaskParameter="AssignedFiles" ItemName="CustomOutputGroupForPackagingOutput" />
     </AssignTargetPath>
     <AssignTargetPath Files="@(NodeModulesContentDir->'%(FullPath)')" RootFolder="@(NodeModulesContentDir)" Condition="Exists(@(NodeModulesContentDir))">
+      <Output TaskParameter="AssignedFiles" ItemName="CustomOutputGroupForPackagingOutput" />
+    </AssignTargetPath>
+    <AssignTargetPath Files="@(NodeTestsDir->'%(FullPath)')" RootFolder="@(NodeTestsDir)" Condition="Exists(@(NodeTestsDir))">
       <Output TaskParameter="AssignedFiles" ItemName="CustomOutputGroupForPackagingOutput" />
     </AssignTargetPath>
   </Target>
