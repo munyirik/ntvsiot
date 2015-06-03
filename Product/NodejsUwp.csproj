@@ -301,7 +301,6 @@
     <ZipProject Include="ProjectTemplates\Express4Uwp\Express4Uwp.vstemplate" />
     <ZipProject Include="ProjectTemplates\Express4Uwp\index.js" />
     <ZipProject Include="ProjectTemplates\Express4Uwp\Logo.scale-100.png" />
-    <ZipProject Include="ProjectTemplates\Express4Uwp\Preview.png" />
     <ZipProject Include="ProjectTemplates\Express4Uwp\SmallLogo.scale-100.png" />
     <ZipProject Include="ProjectTemplates\Express4Uwp\SplashScreen.scale-100.png" />
     <ZipProject Include="ProjectTemplates\Express4Uwp\StoreLogo.scale-100.png" />
