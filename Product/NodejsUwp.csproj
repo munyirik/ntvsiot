@@ -273,6 +273,14 @@
     <None Include="..\README.md">
       <Link>README.md</Link>
     </None>
+    <ZipProject Include="ProjectTemplates\Express4Uwp\Application_TemporaryKey.pfx" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\error.jade" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\index.jade" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\layout.jade" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\package.json" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\style.styl" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\www" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\Package.appxmanifest" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
@@ -288,6 +296,16 @@
     </ZipProject>
   </ItemGroup>
   <ItemGroup>
+    <ZipProject Include="ProjectTemplates\Express4Uwp\app.js" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\Express4Uwp.njsproj" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\Express4Uwp.vstemplate" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\index.js" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\Logo.scale-100.png" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\SmallLogo.scale-100.png" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\SplashScreen.scale-100.png" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\StoreLogo.scale-100.png" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\users.js" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\WideLogo.scale-100.png" />
     <Content Include="VSTemplateStore.pkgdef" />
     <VSCTCompile Include="NodejsUwp.vsct">
       <ResourceName>1000</ResourceName>
