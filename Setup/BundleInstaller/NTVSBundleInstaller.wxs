@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
 	
-	<Bundle Name="Node.js Tools for Visual Studio 2015 Bundle Installer" Version="1.0" Manufacturer="Microsoft Corporation" UpgradeCode="0DB0A3E0-3865-4358-A120-0588422A1ABE">
-	
+	<Bundle Name="Node.js Tools for Visual Studio 2015 Bundle Installer" Version="1.0" Manufacturer="Microsoft Corporation" UpgradeCode="0DB0A3E0-3865-4358-A120-0588422A1ABE" IconSourceFile="..\Icons\NodeJS.ico">
+
 	<BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
 		<bal:WixStandardBootstrapperApplication 
 			LicenseFile="License.rtf" 
@@ -13,9 +13,9 @@
     </BootstrapperApplicationRef>
 
     <Chain>
-	  <MsiPackage Id="NTVSBaseInstaller" SourceFile="NTVS 1.1 Beta VS 2015.msi" Vital="yes" DisplayInternalUI="no" Visible="yes"/>
+	  <MsiPackage Id="NTVSBaseInstaller" SourceFile="NTVS NTVS VS 2015.msi" Vital="yes" DisplayInternalUI="no" Visible="no"/>
       <RollbackBoundary />
-      <MsiPackage Id="NTVSIoTExtensionInstaller" SourceFile="NTVS  IoT Extension Beta VS 2015.msi" Vital="yes" DisplayInternalUI="no" Visible="yes"/>
+      <MsiPackage Id="NTVSIoTExtensionInstaller" SourceFile="NTVS  IoT VS 2015.msi" Vital="yes" DisplayInternalUI="no" Visible="no"/>
     </Chain>
 	
     <WixVariable Id="WixStdbaThemeWxl" Value="Theme.wxl" />
