@@ -50,9 +50,6 @@
       <Component Guid="{10EFA5AB-B452-4BC4-8932-5186F23F1550}" Directory="x86">
         <File Id="uwp_x86" Source="x86\uwp.node" KeyPath='yes' />
       </Component>
-      <Component Guid="{26C0FAB1-933B-4910-BFD5-E3BDE994D4D3}" Directory="x86">
-        <File Id="chakra_x86" Source="x86\chakra.dll" KeyPath='yes' />
-      </Component>
 
       <!--ARM binaries-->
       <Component Guid="{6ED526AB-61FA-404E-88F0-1DAFCE78DF9A}" Directory="ARM">
@@ -64,9 +61,6 @@
       <Component Guid="{C0A507C0-F07E-4C67-8566-5FFB0DA61D2F}" Directory="ARM">
         <File Id="uwp_ARM" Source="ARM\uwp.node" KeyPath='yes' />
       </Component>
-      <Component Guid="{EBE5A2B6-A318-4893-9B57-DC05E2EEE704}" Directory="ARM">
-        <File Id="chakra_ARM" Source="ARM\chakra.dll" KeyPath='yes' />
-      </Component>
 
       <!--x64 binaries-->
       <Component Guid="{F4984C23-443C-4143-8ABC-23EA64A16DEB}" Directory="x64">
@@ -77,9 +71,6 @@
       </Component>
       <Component Guid="{EB52ED9A-5918-4EB5-BB9E-9DCD752182EA}" Directory="x64">
         <File Id="uwp_x64" Source="x64\uwp.node" KeyPath='yes' />
-      </Component>
-      <Component Guid="{6DD083F5-0A39-442E-8904-B14CAB53548A}" Directory="x64">
-        <File Id="chakra_x64" Source="x64\chakra.dll" KeyPath='yes' />
       </Component>
 
       <ComponentGroupRef Id="CGroup_NodejsUwpFiles"/>
