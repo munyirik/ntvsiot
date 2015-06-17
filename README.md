@@ -1,5 +1,5 @@
 ##Summary
-The NTVS IoT Extension (Beta) enables developers to deploy Node.js as a [Universal Windows Platform (UWP) application](https://github.com/ms-iot/node-uwp) to Windows IoT Core devices like Raspberry Pi 2. 
+The NTVS IoT Extension (Beta) enables developers to deploy Node.js as a [Universal Windows Platform (UWP) application](https://github.com/ms-iot/node-uwp-app) to Windows IoT Core devices like Raspberry Pi 2. 
 This extension is written as a [project subtype](https://msdn.microsoft.com/en-us/library/bb166488.aspx) of [NTVS](http://aka.ms/ntvs) and extends some if its functionality like IntelliSense and debugging.
 
 ##Try it out!
