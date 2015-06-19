@@ -560,9 +560,18 @@ namespace Microsoft.NodejsUwp
                 string recipeFile = null;
                 string layoutDir = null;
                 EnvDTE.DTE dte = (EnvDTE.DTE)Package.GetGlobalService(typeof(EnvDTE.DTE));
-                EnvDTE.Project project = dte.Solution.Projects.Item(1);
-
-                string uniqueName = project.UniqueName;
+                EnvDTE.SolutionBuild sb = dte.Solution.SolutionBuild;
+                string uniqueName = string.Empty;
+                foreach (String s in (Array)sb.StartupProjects)
+                {
+                    // There should only be one startup project so get the first one we find.
+                    uniqueName = s;
+                    break;
+                }
+                if(uniqueName.Equals(string.Empty))
+                {
+                    throw new Exception("Could not find a startup project to deploy.");
+                }
                 IVsSolution solution = (IVsSolution)Package.GetGlobalService(typeof(SVsSolution));
                 IVsHierarchy hierarchy;
                 solution.GetProjectOfUniqueName(uniqueName, out hierarchy);
@@ -588,7 +597,7 @@ namespace Microsoft.NodejsUwp
                     
                 }
 
-                PrepareNodeStartupInfo();
+                PrepareNodeStartupInfo(uniqueName);
 
                 System.IServiceProvider sp = this.project as System.IServiceProvider;
                 IVsAppContainerProjectDeploy deployHelper = (IVsAppContainerProjectDeploy)sp.GetService(typeof(SVsAppContainerProjectDeploy));
@@ -1064,7 +1073,7 @@ namespace Microsoft.NodejsUwp
 
         }
 
-        private void PrepareNodeStartupInfo()
+        private void PrepareNodeStartupInfo(string uniqueName)
         {
             string targetDir = null;
             string startupInfoFile = "startupinfo.xml";
@@ -1075,9 +1084,6 @@ namespace Microsoft.NodejsUwp
             propertiesList.TryGetValue(NodejsUwpConstants.ScriptArguments, out scriptArguments);
             string canonicalName = null;
             EnvDTE.DTE dte = (EnvDTE.DTE)Package.GetGlobalService(typeof(EnvDTE.DTE));
-            EnvDTE.Project project = dte.Solution.Projects.Item(1);
-
-            string uniqueName = project.UniqueName;
             IVsSolution solution = (IVsSolution)Package.GetGlobalService(typeof(SVsSolution));
             IVsHierarchy hierarchy;
             solution.GetProjectOfUniqueName(uniqueName, out hierarchy);
