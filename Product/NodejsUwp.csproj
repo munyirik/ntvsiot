@@ -231,6 +231,8 @@
     <Compile Include="PropertyPage\IPageViewSite.cs" />
     <Compile Include="PropertyPage\IPropertyPageUI.cs" />
     <Compile Include="PropertyPage\IPropertyStore.cs" />
+    <Compile Include="PropertyPage\NodejsUwpExtenderProvider.cs" />
+    <Compile Include="PropertyPage\NodejsUwpPropertyExtender.cs" />
     <Compile Include="PropertyPage\NodejsUwpPropertyPage.cs" />
     <Compile Include="PropertyPage\NodejsUwpPropertyPageView.cs">
       <SubType>UserControl</SubType>

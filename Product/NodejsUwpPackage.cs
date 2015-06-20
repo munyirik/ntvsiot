@@ -58,6 +58,16 @@ namespace Microsoft.NodejsUwp
     public sealed class NodejsUwpPackage : Package
     {
         /// <summary>
+        /// Extender object that allows this project flavor to filter base project properties
+        /// </summary>
+        EnvDTE.ObjectExtenders propertyExtender;
+
+        /// <summary>
+        /// Cookie to keep track of active extender object
+        /// </summary>
+        int extenderCookie;   
+
+        /// <summary>
         /// Default constructor of the package.
         /// Inside this method you can place any initialization code that does not require 
         /// any Visual Studio service because at this point the package object is created but 
@@ -82,6 +92,20 @@ namespace Microsoft.NodejsUwp
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
             this.RegisterProjectFactory(new NodejsUwpProjectFactory(this));
+
+            // Register Extender to enable properties to filter the base project properties in the Property Window 
+            propertyExtender = (EnvDTE.ObjectExtenders)GetService(typeof(EnvDTE.ObjectExtenders));
+            extenderCookie = propertyExtender.RegisterExtenderProvider(GuidList.guidPropertyExtenderCATID.ToString("B"),
+                                                                 NodejsUwpExtenderProvider.uwpExtenderName, new NodejsUwpExtenderProvider());
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if(null != propertyExtender && 0 != extenderCookie)
+            {
+                propertyExtender.UnregisterExtenderProvider(extenderCookie);
+            }
+            base.Dispose(disposing);
         }
 
         #endregion
