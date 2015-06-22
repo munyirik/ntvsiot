@@ -36,7 +36,11 @@ namespace Microsoft.NodejsUwp
         public const string NodejsUwpPropertyPageControlString = "1BCA76F2-CEA7-4FCD-8219-BFEB1CB7D6B9";
         public const string NodejsUwpPropertyPageViewString = "05BB0C3B-BC95-4923-84ED-3A89C0DA882F";
 
+        // This string is the GUID for the "NodejsProjectNodeProperties" class in the base project
+        public const string PropertyExtenderCATIDString = "04726c27-8125-471a-bac0-2301d273db5e";
+
         public static readonly Guid guidNodejsUwpCmdSet = new Guid(NodejsUwpCmdSetString);
         public static readonly Guid guidNodejsUwpProjectFactory = new Guid(NodejsUwpProjectFactoryString);
+        public static readonly Guid guidPropertyExtenderCATID = new Guid(PropertyExtenderCATIDString);
     };
 }
