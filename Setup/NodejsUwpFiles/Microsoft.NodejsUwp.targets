@@ -14,13 +14,6 @@
     <TargetRuntime>none</TargetRuntime>
   </PropertyGroup>
 
-  <!-- For including VCLibs that Node.js UWP application depends on -->
-  <ItemGroup>
-    <SDKReference Include="Microsoft.VCLibs.AppLocal, Version=14.0">
-      <Name>Microsoft Visual C++ 14 AppLocal Runtime Package for Windows UWP</Name>
-    </SDKReference>
-  </ItemGroup>
-
   <!-- Normal install environment, use the current version -->
   <PropertyGroup>
     <ProjectHome Condition="'$(ProjectHome)' == ''">.</ProjectHome>
