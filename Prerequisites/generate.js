@@ -12,7 +12,8 @@ var assemblies = [
     'NodejsUwp.Tests',
     'TestUtilities.NodejsUwp',
     'TestUtilities',
-    'TestUtilities.UI'
+    'TestUtilities.UI',
+    'Microsoft.NodejsUwp.ProjectWizard'
 ].sort();
 
 var files = [

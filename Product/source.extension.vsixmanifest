@@ -2,7 +2,7 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
     <Identity Id="0BBF5C2B-3093-431D-8A14-47AC07CFFABF" Version="1.0" Language="en-US" Publisher="Microsoft" />
-    <DisplayName>NodejsUwp</DisplayName>
+    <DisplayName>NTVS IoT Extension</DisplayName>
     <Description>VS package for building Node.js UWP applications</Description>
   </Metadata>
   <Installation InstalledByMsi="true">
@@ -15,5 +15,6 @@
   <Assets>
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="%CurrentProject%" d:TargetPath="|%CurrentProject%;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="ProjectWizard" Path="|ProjectWizard|" AssemblyName="|ProjectWizard;AssemblyName|" />
   </Assets>
 </PackageManifest>
