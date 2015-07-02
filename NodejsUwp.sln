@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUtilities.NodejsUwp", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodejsUwp.Tests", "Tests\Tests\NodejsUwp.Tests.csproj", "{2198E1BD-40EC-4FE8-8A96-655A67435467}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectWizard", "Product\ProjectWizard\ProjectWizard.csproj", "{DBC73DF7-1B4C-48BE-8B48-715297487E7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{2198E1BD-40EC-4FE8-8A96-655A67435467}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2198E1BD-40EC-4FE8-8A96-655A67435467}.Release|x86.ActiveCfg = Release|Any CPU
 		{2198E1BD-40EC-4FE8-8A96-655A67435467}.Release|x86.Build.0 = Release|Any CPU
+		{DBC73DF7-1B4C-48BE-8B48-715297487E7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBC73DF7-1B4C-48BE-8B48-715297487E7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBC73DF7-1B4C-48BE-8B48-715297487E7A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DBC73DF7-1B4C-48BE-8B48-715297487E7A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DBC73DF7-1B4C-48BE-8B48-715297487E7A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DBC73DF7-1B4C-48BE-8B48-715297487E7A}.Debug|x86.Build.0 = Debug|Any CPU
+		{DBC73DF7-1B4C-48BE-8B48-715297487E7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBC73DF7-1B4C-48BE-8B48-715297487E7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBC73DF7-1B4C-48BE-8B48-715297487E7A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DBC73DF7-1B4C-48BE-8B48-715297487E7A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{DBC73DF7-1B4C-48BE-8B48-715297487E7A}.Release|x86.ActiveCfg = Release|Any CPU
+		{DBC73DF7-1B4C-48BE-8B48-715297487E7A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
