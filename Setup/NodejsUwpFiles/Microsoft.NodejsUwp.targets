@@ -5,6 +5,11 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <NodechUWPSDKPath Condition="'$(NodechUWPSDKPath)' == ''">$(ProgramFiles)\NodejsUWP</NodechUWPSDKPath>
   </PropertyGroup>
+  
+   <!-- Reference C++ runtime for UWP wrapper -->
+  <ItemGroup>
+    <SDKReference Include="Microsoft.VCLibs, Version=14.0" />
+  </ItemGroup>
 
   <!-- Import UWP related properties -->
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.WindowsSDK.props"/>
