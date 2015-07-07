@@ -217,7 +217,8 @@ $installer_names = @{
 
 # Add list of files requiring signing here
 $managed_files = (
-    "Microsoft.NodejsUwp.dll"
+    "Microsoft.NodejsUwp.dll",
+    "Microsoft.NodejsUwp.ProjectWizard.dll"
 )
 
 $native_files = @()
