@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
 	
-	<Bundle Name="Node.js Tools for Visual Studio 2015 Bundle Installer" Version="1.0" Manufacturer="Microsoft Corporation" UpgradeCode="0DB0A3E0-3865-4358-A120-0588422A1ABE" IconSourceFile="..\Icons\NodeJS.ico">
+	<Bundle Name="Node.js Tools for Visual Studio 2015 Bundle" Version="1.1" Manufacturer="Microsoft Corporation" UpgradeCode="0DB0A3E0-3865-4358-A120-0588422A1ABE" IconSourceFile="..\Icons\NodeJS.ico">
 
 	<BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
 		<bal:WixStandardBootstrapperApplication 
@@ -13,9 +13,11 @@
     </BootstrapperApplicationRef>
 
     <Chain>
-	  <MsiPackage Id="NTVSBaseInstaller" SourceFile="NTVS NTVS VS 2015.msi" Vital="yes" DisplayInternalUI="no" Visible="no"/>
+      <MsiPackage Id="NodejsChakraInstaller" SourceFile="node-chakra.msi" Vital="yes" DisplayInternalUI="yes" Visible="yes" ForcePerMachine="yes"/>
       <RollbackBoundary />
-      <MsiPackage Id="NTVSIoTExtensionInstaller" SourceFile="NTVS  IoT VS 2015.msi" Vital="yes" DisplayInternalUI="no" Visible="no"/>
+	  <MsiPackage Id="NTVSBaseInstaller" SourceFile="NTVS.msi" Vital="yes" DisplayInternalUI="no" Visible="no"/>
+      <RollbackBoundary />
+      <MsiPackage Id="NTVSIoTExtensionInstaller" SourceFile="NTVSIoTExtension.msi" Vital="yes" DisplayInternalUI="no" Visible="no"/>
     </Chain>
 	
     <WixVariable Id="WixStdbaThemeWxl" Value="Theme.wxl" />
