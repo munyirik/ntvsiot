@@ -132,7 +132,7 @@ $build_project = gi "$buildroot\Setup\dirs.proj"
 $setup_project = gi "$buildroot\Setup\setup.proj"
 
 # Project metadata
-$project_name = "NTVS IoT Extension Beta"
+$project_name = "NTVS IoT Extension"
 $project_url = "http://nodejstools.codeplex.com"
 $project_keywords = "NTVS; Visual Studio; Node.js"
 
