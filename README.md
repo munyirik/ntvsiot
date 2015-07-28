@@ -29,5 +29,7 @@ Please follow the guidelines below when creating new issues:
 * Install [Repo root]\Common\Prerequisites\VSTestHost.msi
 * Run [Repo root]\Prerequisites\EnableSkipVerification.reg
 * Uninstall Node.js Tools for Windows IoT if it is installed.
+* Install NTVS from [here](http://aka.ms/ntvslatest).
+* Run [Repo root]\Tests\PrepUwpEnv.bat (as Administrator) to copy files required by the Node.js UWP project system.
 * Open [Repo root]\NodejsUwp.sln.
 * Hit F5 (or Debug Menu -> Start Debugging) to build and start debugging.
