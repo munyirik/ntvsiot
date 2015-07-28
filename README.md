@@ -23,3 +23,11 @@ Please follow the guidelines below when creating new issues:
     * Describe the expected behavior and the actual behavior.
     * Provide example code or steps that reproduce the issue.
     * Specify any relevant exception messages and stack traces.
+	
+##Build and debug
+**Prerequisites:** Visual Studio 2015 and Visual Studio 2015 SDK need to be installed.
+* Install [Repo root]\Common\Prerequisites\VSTestHost.msi
+* Run [Repo root]\Prerequisites\EnableSkipVerification.reg
+* Uninstall Node.js Tools for Windows IoT if it is installed.
+* Open [Repo root]\NodejsUwp.sln.
+* Hit F5 (or Debug Menu -> Start Debugging) to build and start debugging.
