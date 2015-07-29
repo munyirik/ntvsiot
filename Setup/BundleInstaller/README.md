@@ -1,7 +1,8 @@
-The NTVS Bundle installer makes it convenient to Install NTVS tools for Visual Studio. Instead of users having to install the [NTVS base project](http://aka.ms/ntvslatest) and this IoT extension separately,
-they can use one installer that can install both tools.
+The NTVS Bundle installer makes it convenient to install Node.js Tools for Windows IoT. Instead of users having to install [Node.js (Chakra)](https://github.com/Microsoft/node), 
+[NTVS](http://aka.ms/ntvslatest), and this IoT extension separately, they can use one installer.
 
 ##How to build the NTVS Bundle Installer
-* Copy the NTVS base installer (e.g. NTVS 1.1 Beta VS 2015.msi) and IoT extension installer (e.g. NTVS  IoT Extension Beta VS 2015.msi) to the .\BundleInstaller directory (where NTVSBundleInstaller.wxs is located).
-* In NTVSBundleInstaller.wxs, ensure that the SourceFile attributes in the MsiPackage elements match the names of the MSI's.
+* Copy the [Node.js (Chakra) installer](https://github.com/Microsoft/node) to .\BundleInstaller directory and rename to node-chakra.msi.
+* Copy the [NTVS installer](http://aka.ms/ntvslatest) to .\BundleInstaller directory and rename to NTVS.msi.
+* Copy the NTVS IoT Extension installer (built from this project) to .\BundleInstaller directory and rename to NTVSIoTExtension.msi.
 * Run build.bat.
