@@ -19,9 +19,10 @@
         <File Include="..\Icons\NodeJS_200x.png" />
 
         <ProjectTemplate Include="ProjectTemplates\JavaScript\Node.js\1033\WebServerUwp.zip;
-                                  ProjectTemplates\JavaScript\Node.js\1033\Express4Uwp.zip"/>
+                                  ProjectTemplates\JavaScript\Node.js\1033\Express4Uwp.zip;
+                                  ProjectTemplates\JavaScript\Node.js\1033\CylonUwp.zip"/>
 
-        <!-- MSBuild files-->
+      <!-- MSBuild files-->
         <MSBuildFile Include="Microsoft.NodejsUwp.targets"/>               
 
     </ItemGroup>
