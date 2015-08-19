@@ -1,0 +1,19 @@
+{
+  "name": "$npmsafeprojectname$",
+  "version": "0.0.0",
+  "private": true,
+  "main": "app.js",
+  "description": "$projectname$",
+  "author": {
+    "name": "$username$",
+    "email": ""
+  },
+  "dependencies": {
+    "cylon": "~1.1.0",
+    "cylon-firmata": "~0.22.0",
+    "cylon-gpio": "~0.26.0",
+    "cylon-i2c": "~0.22.0"
+  }
+}
+
+

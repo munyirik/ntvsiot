@@ -283,6 +283,12 @@
     <ZipProject Include="ProjectTemplates\Express4Uwp\style.styl" />
     <ZipProject Include="ProjectTemplates\Express4Uwp\www" />
     <ZipProject Include="ProjectTemplates\Express4Uwp\Package.appxmanifest" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\Application_TemporaryKey.pfx" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\CylonUwp.njsproj" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </ZipProject>
+    <ZipProject Include="ProjectTemplates\CylonUwp\package.json" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
@@ -308,6 +314,13 @@
     <ZipProject Include="ProjectTemplates\Express4Uwp\StoreLogo.scale-100.png" />
     <ZipProject Include="ProjectTemplates\Express4Uwp\users.js" />
     <ZipProject Include="ProjectTemplates\Express4Uwp\WideLogo.scale-100.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\Logo.scale-100.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\CylonUwp.vstemplate" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\app.js" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\SmallLogo.scale-100.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\SplashScreen.scale-100.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\StoreLogo.scale-100.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\WideLogo.scale-100.png" />
     <Content Include="VSTemplateStore.pkgdef" />
     <VSCTCompile Include="NodejsUwp.vsct">
       <ResourceName>1000</ResourceName>
