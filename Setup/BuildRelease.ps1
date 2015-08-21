@@ -123,7 +123,7 @@ Write-Output "Build Root: $buildroot"
 # This value is used to determine the most significant digit of the build number.
 $base_year = 2012
 # This value is used to automatically generate outdir for -release and -internal builds
-$base_outdir = "\\scratch2\scratch\IoTDevX\NTVSIoT\Release"
+$base_outdir = "\\scratch2\scratch\IoTDevX\NTVSIoT\Release\IoTExtension"
 
 # This file is parsed to find version information
 $version_file = gi "$buildroot\Product\AssemblyVersion.cs"

@@ -41,37 +41,39 @@
         </Directory>
       </DirectoryRef>
 	  
+	  <?define Release_Path="\\scratch2\scratch\IoTDevX\NTVSIoT\Release\Device\Latest\SignedBinaries\"?> 
+	  
       <!--x86 binaries-->
       <Component Guid="{C0CA6134-A19A-4FB8-90C8-8D0AF0F434CE}" Directory="x86">
-        <File Id="nodeuwp_x86" Source="x86\nodeuwp.dll" KeyPath='yes' />
+        <File Id="nodeuwp_x86" Source="$(var.Release_Path)x86\nodeuwp.dll" KeyPath='yes' />
       </Component>
       <Component Guid="{8D40ED61-96A4-480F-9794-96DF63259866}" Directory="x86">
-        <File Id="node_x86" Source="x86\node.dll" KeyPath='yes' />
+        <File Id="node_x86" Source="$(var.Release_Path)x86\node.dll" KeyPath='yes' />
       </Component>
       <Component Guid="{10EFA5AB-B452-4BC4-8932-5186F23F1550}" Directory="x86">
-        <File Id="uwp_x86" Source="x86\uwp.node" KeyPath='yes' />
+        <File Id="uwp_x86" Source="$(var.Release_Path)x86\uwp.node" KeyPath='yes' />
       </Component>
 
       <!--ARM binaries-->
       <Component Guid="{6ED526AB-61FA-404E-88F0-1DAFCE78DF9A}" Directory="ARM">
-        <File Id="nodeuwp_ARM" Source="ARM\nodeuwp.dll" KeyPath='yes' />
+        <File Id="nodeuwp_ARM" Source="$(var.Release_Path)ARM\nodeuwp.dll" KeyPath='yes' />
       </Component>
       <Component Guid="{C54F84EC-9B85-4AC1-AFD7-6B9342986756}" Directory="ARM">
-        <File Id="node_ARM" Source="ARM\node.dll" KeyPath='yes' />
+        <File Id="node_ARM" Source="$(var.Release_Path)ARM\node.dll" KeyPath='yes' />
       </Component>
       <Component Guid="{C0A507C0-F07E-4C67-8566-5FFB0DA61D2F}" Directory="ARM">
-        <File Id="uwp_ARM" Source="ARM\uwp.node" KeyPath='yes' />
+        <File Id="uwp_ARM" Source="$(var.Release_Path)ARM\uwp.node" KeyPath='yes' />
       </Component>
 
       <!--x64 binaries-->
       <Component Guid="{F4984C23-443C-4143-8ABC-23EA64A16DEB}" Directory="x64">
-        <File Id="nodeuwp_x64" Source="x64\nodeuwp.dll" KeyPath='yes' />
+        <File Id="nodeuwp_x64" Source="$(var.Release_Path)x64\nodeuwp.dll" KeyPath='yes' />
       </Component>
       <Component Guid="{0384B5B5-57FA-4B37-9421-FCC6972E47D1}" Directory="x64">
-        <File Id="node_x64" Source="x64\node.dll" KeyPath='yes' />
+        <File Id="node_x64" Source="$(var.Release_Path)x64\node.dll" KeyPath='yes' />
       </Component>
       <Component Guid="{EB52ED9A-5918-4EB5-BB9E-9DCD752182EA}" Directory="x64">
-        <File Id="uwp_x64" Source="x64\uwp.node" KeyPath='yes' />
+        <File Id="uwp_x64" Source="$(var.Release_Path)x64\uwp.node" KeyPath='yes' />
       </Component>
 	  
 	  <!--Script to copy console Node.js to IoT device-->
