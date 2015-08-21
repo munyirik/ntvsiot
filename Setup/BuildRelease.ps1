@@ -15,7 +15,10 @@
 .Parameter outdir
     Directory to store the build.
 	
-	If `release` is specified, defaults to '\\scratch2\scratch\IoTDevX\NTVSIoT\Release\<build number>'.
+.Parameter nodejsBinDir
+    Directory where Node.js (Chakra) binaries are stored. 
+	See ..\NodejsUwpFiles\NodejsUwpFiles.wxs for the list of
+    binaries included in this installer.
 
 .Parameter vstarget
     [Optional] The VS version to build for. If omitted, builds for all versions
@@ -99,6 +102,7 @@
 [CmdletBinding()]
 param(
     [string] $outdir,
+    [string] $nodejsBinDir,
     [string] $vsTarget,
     [string] $name,
     [switch] $release,
@@ -123,7 +127,7 @@ Write-Output "Build Root: $buildroot"
 # This value is used to determine the most significant digit of the build number.
 $base_year = 2012
 # This value is used to automatically generate outdir for -release and -internal builds
-$base_outdir = "\\scratch2\scratch\IoTDevX\NTVSIoT\Release\IoTExtension"
+#$base_outdir = "" #Set default output directory if required.
 
 # This file is parsed to find version information
 $version_file = gi "$buildroot\Product\AssemblyVersion.cs"
@@ -245,6 +249,12 @@ if (-not $outdir -and -not $release) {
         Throw "Invalid output directory '$outdir'"
     }
 }
+
+if (-not $nodejsBinDir) {
+    Throw "Invalid Node.js binaries directory '$nodejsBinDir'"
+}
+
+$env:NodejsBinDir = $nodejsBinDir
 
 if ($dev) {
     if ($name) {

@@ -41,7 +41,7 @@
         </Directory>
       </DirectoryRef>
 	  
-	  <?define Release_Path="\\scratch2\scratch\IoTDevX\NTVSIoT\Release\Device\Latest\SignedBinaries\"?> 
+	  <?define Release_Path="$(env.NodejsBinDir)"?> 
 	  
       <!--x86 binaries-->
       <Component Guid="{C0CA6134-A19A-4FB8-90C8-8D0AF0F434CE}" Directory="x86">
