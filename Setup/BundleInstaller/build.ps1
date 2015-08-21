@@ -91,9 +91,7 @@ Start-Process -FilePath "..\..\Tools\Wix\3.9\candle.exe" -ArgumentList $wixCandl
 $wixLightArgs = $localReleaseBinDir + "\NTVSBundleInstaller.wixobj -ext WixBalExtension -cultures:en-us -loc Theme.wxl -out `"" + $localReleaseBinDir + "\" +$installerName + "`""
 Start-Process -FilePath "..\..\Tools\Wix\3.9\light.exe" -ArgumentList $wixLightArgs -Wait -NoNewWindow -RedirectStandardOutput "$localReleaseLogsDir\wixLight.log"
 
-# Copy the build output to outDir
-Copy-Item -Path $localReleaseBinDir -Destination ($outDir + "UnsignedMsi") -Recurse
-
+# Sign the Node.js Tools for IoT installer
 if ($sign -eq "true")
 {
     Write-Host "Signing the installer..."
@@ -120,3 +118,6 @@ if ($sign -eq "true")
     $project_name $project_url "$project_name Node.js Tools for IoT" $project_keywords `
     "authenticode"
 }
+
+# Copy the build output to outDir
+Copy-Item -Path $localReleaseBinDir -Destination $outDir -Recurse
