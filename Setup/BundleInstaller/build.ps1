@@ -3,7 +3,11 @@
 
 param (
     [string]$sign = "false",
-    [string]$version = ""
+    [string]$version = "",
+    [string]$outDir = "",
+    [string]$ntvsMsiDir = "",
+    [string]$nodejsMsiDir = "",
+    [string]$ntvsIoTMsiDir = ""
 )
 
 $localReleaseBinDir = ".\Release"
@@ -23,27 +27,33 @@ New-Item -ItemType Directory -Force -Path ".\Release\Logs" # For logs
 
 # Get the NTVS installer
 Write-Host "Copying NTVS installer to $localReleaseBinDir..."
-$ReleasePath = "\\cpvsbuild\Drops\nodejstools\NTVS_Out\"
-$dirs= Get-ChildItem -Path $ReleasePath | Where-Object {$_.Name -match "[0-9]\.[0-9]"} | Sort-Object -Descending
-$latestDir = $ReleasePath + $dirs[0].Name + "\"
+if ($ntvsMsiDir -eq "") {
+	Throw "No NTVS installer path provided"
+}
+$dirs= Get-ChildItem -Path $ntvsMsiDir | Where-Object {$_.Name -match "[0-9]\.[0-9]"} | Sort-Object -Descending
+$latestDir = $ntvsMsiDir + $dirs[0].Name + "\"
 $MSIName = Get-ChildItem -Path $latestDir | Where-Object {$_.Name -match "VS 2015.msi$"}
 $MSINamePath = $latestDir + $MSIName
 Copy-Item -Path $MSINamePath -Destination "$localReleaseBinDir\NTVS.msi"
 
 # Get the Node.js (Chakra) installer.
 Write-Host "Copying Node.js (Chakra) installer to $localReleaseBinDir..."
-$ReleasePath = "\\bpt-scratch\userfiles\node-chakra\release\node\"
-$dirs= Get-ChildItem -Path $ReleasePath | Sort-Object -Descending
-$latestDir = $ReleasePath + $dirs[0].Name + "\x86\UnsignedMsi\" #TODO: Change to 'SignedMsi'
+if ($nodejsMsiDir -eq "") {
+	Throw "No Node.js (Chakra) installer path provided"
+}
+$dirs= Get-ChildItem -Path $nodejsMsiDir | Sort-Object -Descending
+$latestDir = $nodejsMsiDir + $dirs[0].Name + "\x86\UnsignedMsi\" #TODO: Change to 'SignedMsi'
 $MSIName = Get-ChildItem -Path $latestDir
 $MSINamePath = $latestDir + $MSIName
 Copy-Item -Path $MSINamePath -Destination "$localReleaseBinDir\node-chakra.msi"
 
 # Get the NTVS IoT Extension installery.
 Write-Host "Copying NTVS IoT Extension installer to release directory..."
-$ReleasePath = "\\scratch2\scratch\IoTDevX\NTVSIoT\Release\IoTExtension\1.0\"
-$dirs= Get-ChildItem -Path $ReleasePath | Where-Object {$_.Name -match "[0-9]\.[0-9]"} | Sort-Object -Descending
-$latestDir = $ReleasePath + $dirs[0].Name + "\"
+if ($ntvsIoTMsiDir -eq "") {
+	Throw "No NTVS IoT Extension installer path provided"
+}
+$dirs= Get-ChildItem -Path $ntvsIoTMsiDir | Where-Object {$_.Name -match "[0-9]\.[0-9]"} | Sort-Object -Descending
+$latestDir = $ntvsIoTMsiDir + $dirs[0].Name + "\"
 $MSIName = Get-ChildItem -Path $latestDir | Where-Object {$_.Name -match "VS 2015.msi$"}
 $MSINamePath = $latestDir + $MSIName
 Copy-Item -Path $MSINamePath -Destination "$localReleaseBinDir\NTVSIoTExtension.msi"
@@ -53,10 +63,12 @@ Copy-Item -Path $MSINamePath -Destination "$localReleaseBinDir\NTVSIoTExtension.
 # version number by default. If "version" parameter is used in this script then that value is used.
 
 $baseYear = 2015  # This value is used to determine the most significant digit of the build number.
-$outDir = "\\scratch2\scratch\IoTDevX\NTVSIoT\Release\Bundle\"
 
-if((0 -eq $version.CompareTo("")))
-{
+if ($outDir -eq "") {
+	Throw "No output path provided"
+}
+
+if((0 -eq $version.CompareTo(""))) {
     $buildNumber = '{0}{1:MMdd}.{2:D2}' -f (((Get-Date).Year - $baseYear), (Get-Date), 0)
     for ($buildIndex = 0; $buildIndex -lt 10000; $buildIndex += 1) {
         $buildNumber = '{0}{1:MMdd}.{2:D2}' -f (((Get-Date).Year - $baseYear), (Get-Date), $buildIndex)
@@ -92,8 +104,7 @@ $wixLightArgs = $localReleaseBinDir + "\NTVSBundleInstaller.wixobj -ext WixBalEx
 Start-Process -FilePath "..\..\Tools\Wix\3.9\light.exe" -ArgumentList $wixLightArgs -Wait -NoNewWindow -RedirectStandardOutput "$localReleaseLogsDir\wixLight.log"
 
 # Sign the Node.js Tools for IoT installer
-if ($sign -eq "true")
-{
+if ($sign -eq "true") {
     Write-Host "Signing the installer..."
     Import-Module -Force "..\..\Build\BuildReleaseHelpers.psm1"
 
