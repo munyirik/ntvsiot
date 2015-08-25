@@ -3,7 +3,8 @@
   <String Id="Caption">[WixBundleName]</String>
   <String Id="InstallMessage">This program will install Node.js (Chakra), NTVS 1.1 RC for Visual Studio 2015, and NTVS IoT Extension RC</String>
   <String Id="ConfirmCancelMessage">Are you sure you want to cancel?</String>
-  <String Id="InstallAcceptCheckbox">I agree to the license terms and conditions</String>
+  <String Id="InstallAcceptCheckbox">I agree to the license terms and conditions and to the</String>
+  <String Id="InstallPrivacyStatement">privacy statement</String>
   <String Id="InstallOptionsButton">Options</String>
   <String Id="InstallInstallButton">Install</String>
   <String Id="InstallCloseButton">Close</String>
