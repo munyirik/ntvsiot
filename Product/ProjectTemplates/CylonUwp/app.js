@@ -1,5 +1,6 @@
 // !!BEFORE YOU RUN THIS CODE!!
-// Follow the steps in the "Build Serialport" section in the link below:
+
+// 1. Follow the steps in the "Build Serialport" section in the link below:
 // http://ms-iot.github.io/content/en-US/win10/samples/NodejsWUCylon.htm
 // Even though serialport (a Cylon dependency) is installed when a new 
 // Cylon project is created, it needs to be rebuilt so that:
@@ -9,12 +10,17 @@
 // to control a servo connected to an Arduino.
 // Go to http://cylonjs.com/documentation for Cylon.js documentation and more samples.
 
+// 2. Run 'npm dedupe' (in a cmd window) in the project node_modules folder. This step is
+// required to avoid deployment errors caused by node module paths that are too long for
+// the target device.
+
+
 var Cylon = require('cylon');
 
 Cylon.robot({
     connections: {
         // The port name used in connections can either be a regular port name like
-        // "COM1" or it can be in a format describing a USB-Serial device that has 
+        // "COM1" or it can be in a format describing a USB-Serial device that has
         // not been assigned a port name. The format is:
         // USB[#|\]VID_<Vendor ID>&PID_<Product ID>[#|\]<Serial String>
         // Example:
