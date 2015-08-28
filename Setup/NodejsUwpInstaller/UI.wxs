@@ -108,9 +108,6 @@
         <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
         <Control Id="Description" Type="Text" X="135" Y="70" Width="220" Height="40" Transparent="yes" NoPrefix="yes" Text="!(loc.ExitDialogDescription)" />
         <Control Id="Title" Type="Text" X="135" Y="20" Width="220" Height="60" Transparent="yes" NoPrefix="yes" Text="!(loc.ExitDialogTitle)" />
-        <Control Id="DownloadLinkBottom" Type="Hyperlink" X="135" Y="190" Width="220" Height="10" Transparent="yes">
-          <Text><![CDATA[<a href="http://go.microsoft.com/fwlink/?LinkID=519208">Click here to install Node.js and get started with NTVS</a>]]></Text>
-        </Control>
       </Dialog>
     </UI>
     <UI Id="WixUI_AdvancedCustom">
