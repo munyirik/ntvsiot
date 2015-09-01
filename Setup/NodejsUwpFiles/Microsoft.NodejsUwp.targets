@@ -35,18 +35,20 @@
     <Copy SourceFiles="$(NodechUWPSDKPath)\$(Platform)\uwp.node" DestinationFolder="$(ProjectHome)\node_modules" OverwriteReadOnlyFiles="true"/>
   </Target>
 
+  <!-- Node.js folders and files that will need to be custom packaged
+       into the appx (using CustomOutputGroupForPackaging target) -->
   <ItemGroup>
     <NodeModulesContentDir Include="$(ProjectHome)\node_modules"/>
   </ItemGroup>
-  
+  <ItemGroup>
+    <PublicDir Include="$(ProjectHome)\public"/>
+  </ItemGroup>
   <ItemGroup>
     <NodeTestsDir Include="$(ProjectHome)\test"/>
   </ItemGroup>
-
   <ItemGroup>
     <NodeHostFiles Include="$(NodechUWPSDKPath)\$(Platform)\*.dll"/>
   </ItemGroup>
-
   <ItemGroup>
     <NodeHostFiles Include="$(OutputPath)startupinfo.xml"/>
     <NodeHostFiles Include="$(ProgramFiles)\Microsoft Visual Studio 14.0\VC\redist\onecore\$(Platform)\Microsoft.VC140.CRT\*"/>
@@ -67,6 +69,9 @@
       <Output TaskParameter="AssignedFiles" ItemName="CustomOutputGroupForPackagingOutput" />
     </AssignTargetPath>
     <AssignTargetPath Files="@(NodeTestsDir->'%(FullPath)')" RootFolder="@(NodeTestsDir)" Condition="Exists(@(NodeTestsDir))">
+      <Output TaskParameter="AssignedFiles" ItemName="CustomOutputGroupForPackagingOutput" />
+    </AssignTargetPath>
+    <AssignTargetPath Files="@(PublicDir->'%(FullPath)')" RootFolder="@(PublicDir)" Condition="Exists(@(PublicDir))">
       <Output TaskParameter="AssignedFiles" ItemName="CustomOutputGroupForPackagingOutput" />
     </AssignTargetPath>
   </Target>

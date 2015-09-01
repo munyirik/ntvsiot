@@ -1,5 +1,5 @@
 ##Summary
-The NTVS (Node.js Tools for Visual Studio) IoT Extension RC enables developers to deploy Node.js as a [Universal Windows Platform (UWP) application](https://github.com/ms-iot/node-uwp-wrapper) 
+The NTVS (Node.js Tools for Visual Studio) IoT Extension enables developers to deploy Node.js as a [Universal Windows Platform (UWP) application](https://github.com/ms-iot/node-uwp-wrapper) 
 to Windows IoT Core devices like Raspberry Pi 2. This extension is written as a [project subtype](https://msdn.microsoft.com/en-us/library/bb166488.aspx) of [NTVS](http://aka.ms/ntvs) and extends 
 some if its functionality like IntelliSense and debugging.
 
