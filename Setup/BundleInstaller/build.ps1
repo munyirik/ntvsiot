@@ -42,13 +42,13 @@ if ($nodejsMsiDir -eq "") {
 	Throw "No Node.js (Chakra) installer path provided"
 }
 $dirs= Get-ChildItem -Path $nodejsMsiDir | Sort-Object -Descending
-$latestDir = $nodejsMsiDir + $dirs[0].Name + "\x86\UnsignedMsi\" #TODO: Change to 'SignedMsi'
+$latestDir = $nodejsMsiDir + $dirs[0].Name + "\x86\SignedMsi\"
 $MSIName = Get-ChildItem -Path $latestDir
 $MSINamePath = $latestDir + $MSIName
 Copy-Item -Path $MSINamePath -Destination "$localReleaseBinDir\node-chakra.msi"
 
 # Get the NTVS IoT Extension installery.
-Write-Host "Copying NTVS IoT Extension installer to release directory..."
+Write-Host "Copying NTVS IoT Extension installer to $localReleaseBinDir..."
 if ($ntvsIoTMsiDir -eq "") {
 	Throw "No NTVS IoT Extension installer path provided"
 }
@@ -105,7 +105,6 @@ Start-Process -FilePath "..\..\Tools\Wix\3.9\light.exe" -ArgumentList $wixLightA
 
 # Sign the Node.js Tools for IoT installer
 if ($sign -eq "true") {
-    Write-Host "Signing the installer..."
     Import-Module -Force "..\..\Build\BuildReleaseHelpers.psm1"
 
     $approvers = "jinglou", "sitani"
@@ -117,17 +116,32 @@ if ($sign -eq "true") {
     $wixInsigniaArgs = "-ib `"$localReleaseBinDir\Node.js Tools for Windows IoT " + $version + ".exe`" -o $localReleaseBinDir\engine.exe"
     Start-Process -FilePath "..\..\Tools\Wix\3.9\insignia.exe" -ArgumentList $wixInsigniaArgs -Wait -NoNewWindow -RedirectStandardOutput "$localReleaseLogsDir\wixInsigniaEngine.log"
 
-    begin_sign_files "engine.exe" "$localReleaseBinDir\Signed" $approvers `
+    $files_to_sign = @((Get-ChildItem "$localReleaseBinDir\engine.exe") | %{ @{
+        path=$_
+        name=$_.Name
+    }})
+
+    Write-Host "Signing $localReleaseBinDir\engine.exe..."
+    $job = begin_sign_files $files_to_sign "$localReleaseBinDir\Signed" $approvers `
     $project_name $project_url "$project_name Wix Burn Engine" $project_keywords `
     "authenticode"
+    end_sign_files $job
     
     # Sign the installer
     $wixInsigniaArgs = "-ab `"$localReleaseBinDir\engine.exe`"" + " `"$localReleaseBinDir\" + $installerName + "`"" + " -o " + "`"$localReleaseBinDir" + $installerName + "`""
     Start-Process -FilePath "..\..\Tools\Wix\3.9\insignia.exe" -ArgumentList $wixInsigniaArgs -Wait -NoNewWindow -RedirectStandardOutput "$localReleaseLogsDir\wixInsigniaInstaller.log"
 
-    begin_sign_files "$localReleaseBinDir\$installerName" "$localReleaseBinDir\Signed" $approvers `
+    $files_to_sign = @((Get-ChildItem "$localReleaseBinDir\$installerName") | %{ @{
+        path=$_
+        name=$_.Name
+    }})
+
+    Write-Host "Signing $localReleaseBinDir\$installerName..."
+    $job = begin_sign_files $files_to_sign "$localReleaseBinDir\Signed" $approvers `
     $project_name $project_url "$project_name Node.js Tools for IoT" $project_keywords `
     "authenticode"
+
+    end_sign_files $job
 }
 
 # Copy the build output to outDir
