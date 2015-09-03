@@ -15,9 +15,9 @@
     <Chain>
       <MsiPackage Id="NodejsChakraInstaller" SourceFile="$(env.NodejsToolsBundleRelDir)\node-chakra.msi" Vital="yes" DisplayInternalUI="yes" Visible="yes" ForcePerMachine="yes"/>
       <RollbackBoundary />
-	  <MsiPackage Id="NTVSBaseInstaller" SourceFile="$(env.NodejsToolsBundleRelDir)\NTVS.msi" Vital="yes" DisplayInternalUI="no" Visible="no"/>
+	  <MsiPackage Id="NTVSBaseInstaller" SourceFile="$(env.NodejsToolsBundleRelDir)\NTVS.msi" Vital="yes" DisplayInternalUI="no" Visible="yes"/>
       <RollbackBoundary />
-      <MsiPackage Id="NTVSIoTExtensionInstaller" SourceFile="$(env.NodejsToolsBundleRelDir)\NTVSIoTExtension.msi" Vital="yes" DisplayInternalUI="no" Visible="no"/>
+      <MsiPackage Id="NTVSIoTExtensionInstaller" SourceFile="$(env.NodejsToolsBundleRelDir)\NTVSIoTExtension.msi" Vital="yes" DisplayInternalUI="no" Visible="yes"/>
     </Chain>
 	
     <WixVariable Id="WixStdbaThemeWxl" Value="Theme.wxl" />
