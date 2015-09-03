@@ -26,7 +26,6 @@ New-Item -ItemType Directory -Force -Path ".\Release" # For binaries
 New-Item -ItemType Directory -Force -Path ".\Release\Logs" # For logs
 
 # Get the NTVS installer
-Write-Host "Copying NTVS installer to $localReleaseBinDir..."
 if ($ntvsMsiDir -eq "") {
 	Throw "No NTVS installer path provided"
 }
@@ -34,10 +33,10 @@ $dirs= Get-ChildItem -Path $ntvsMsiDir | Where-Object {$_.Name -match "[0-9]\.[0
 $latestDir = $ntvsMsiDir + $dirs[0].Name + "\"
 $MSIName = Get-ChildItem -Path $latestDir | Where-Object {$_.Name -match "VS 2015.msi$"}
 $MSINamePath = $latestDir + $MSIName
+Write-Host "Copying $MSINamePath to $localReleaseBinDir..."
 Copy-Item -Path $MSINamePath -Destination "$localReleaseBinDir\NTVS.msi"
 
 # Get the Node.js (Chakra) installer.
-Write-Host "Copying Node.js (Chakra) installer to $localReleaseBinDir..."
 if ($nodejsMsiDir -eq "") {
 	Throw "No Node.js (Chakra) installer path provided"
 }
@@ -45,10 +44,10 @@ $dirs= Get-ChildItem -Path $nodejsMsiDir | Sort-Object -Descending
 $latestDir = $nodejsMsiDir + $dirs[0].Name + "\x86\SignedMsi\"
 $MSIName = Get-ChildItem -Path $latestDir
 $MSINamePath = $latestDir + $MSIName
+Write-Host "Copying $MSINamePath installer to $localReleaseBinDir..."
 Copy-Item -Path $MSINamePath -Destination "$localReleaseBinDir\node-chakra.msi"
 
 # Get the NTVS IoT Extension installery.
-Write-Host "Copying NTVS IoT Extension installer to $localReleaseBinDir..."
 if ($ntvsIoTMsiDir -eq "") {
 	Throw "No NTVS IoT Extension installer path provided"
 }
@@ -56,6 +55,7 @@ $dirs= Get-ChildItem -Path $ntvsIoTMsiDir | Where-Object {$_.Name -match "[0-9]\
 $latestDir = $ntvsIoTMsiDir + $dirs[0].Name + "\"
 $MSIName = Get-ChildItem -Path $latestDir | Where-Object {$_.Name -match "VS 2015.msi$"}
 $MSINamePath = $latestDir + $MSIName
+Write-Host "Copying $MSINamePath installer to $localReleaseBinDir..."
 Copy-Item -Path $MSINamePath -Destination "$localReleaseBinDir\NTVSIoTExtension.msi"
 
 
@@ -118,7 +118,7 @@ if ($sign -eq "true") {
 
     $files_to_sign = @((Get-ChildItem "$localReleaseBinDir\engine.exe") | %{ @{
         path=$_
-        name=$_.Name
+        name=$project_name
     }})
 
     Write-Host "Signing $localReleaseBinDir\engine.exe..."
@@ -128,12 +128,12 @@ if ($sign -eq "true") {
     end_sign_files $job
     
     # Sign the installer
-    $wixInsigniaArgs = "-ab `"$localReleaseBinDir\engine.exe`"" + " `"$localReleaseBinDir\" + $installerName + "`"" + " -o " + "`"$localReleaseBinDir" + $installerName + "`""
+    $wixInsigniaArgs = "-ab `"$localReleaseBinDir\Signed\engine.exe`"" + " `"$localReleaseBinDir\" + $installerName + "`"" + " -o " + "`"$localReleaseBinDir\" + $installerName + "`""
     Start-Process -FilePath "..\..\Tools\Wix\3.9\insignia.exe" -ArgumentList $wixInsigniaArgs -Wait -NoNewWindow -RedirectStandardOutput "$localReleaseLogsDir\wixInsigniaInstaller.log"
 
     $files_to_sign = @((Get-ChildItem "$localReleaseBinDir\$installerName") | %{ @{
         path=$_
-        name=$_.Name
+        name=$project_name
     }})
 
     Write-Host "Signing $localReleaseBinDir\$installerName..."
