@@ -118,7 +118,7 @@ if ($sign -eq "true") {
 
     $files_to_sign = @((Get-ChildItem "$localReleaseBinDir\engine.exe") | %{ @{
         path=$_
-        name=$_.Name
+        name=$project_name
     }})
 
     Write-Host "Signing $localReleaseBinDir\engine.exe..."
@@ -133,7 +133,7 @@ if ($sign -eq "true") {
 
     $files_to_sign = @((Get-ChildItem "$localReleaseBinDir\$installerName") | %{ @{
         path=$_
-        name=$_.Name
+        name=$project_name
     }})
 
     Write-Host "Signing $localReleaseBinDir\$installerName..."
