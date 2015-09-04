@@ -48,9 +48,9 @@ $client = New-Object System.Net.WebClient
 $arch = $arch.ToLower()
 
 switch($arch) {
-    "arm" { $nodeExeUrl = [uri]"https://github.com/ms-iot/ntvsiot/releases/download/0.12.7.4-exe-arm/node.exe" }
-    "x86" { $nodeExeUrl = [uri]"https://github.com/ms-iot/ntvsiot/releases/download/0.12.7.4-exe-x86/node.exe" }
-    "x64" { $nodeExeUrl = [uri]"https://github.com/ms-iot/ntvsiot/releases/download/0.12.7.4-exe-x64/node.exe" }
+    "arm" { $nodeExeUrl = [uri]"https://github.com/ms-iot/ntvsiot/releases/download/0.12.7.5-exe-arm/node.exe" }
+    "x86" { $nodeExeUrl = [uri]"https://github.com/ms-iot/ntvsiot/releases/download/0.12.7.5-exe-x86/node.exe" }
+    "x64" { $nodeExeUrl = [uri]"https://github.com/ms-iot/ntvsiot/releases/download/0.12.7.5-exe-x64/node.exe" }
     default { Write-Host "Cannot copy node.exe to device. No valid device processor architecture provided. Valid values are ARM, x86, or x64" -foreground "Red"; Exit; }
 }
 

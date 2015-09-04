@@ -16,7 +16,7 @@ if($clean -eq "true")
 # Download the Node.js UWP device binaries
 $client = New-Object System.Net.WebClient
 
-$nodejsUwpZipUrl = [uri]"https://github.com/ms-iot/ntvsiot/releases/download/0.12.7.4-NodejsUwp/NodejsUwp.zip"
+$nodejsUwpZipUrl = [uri]"https://github.com/ms-iot/ntvsiot/releases/download/0.12.7.5-NodejsUwp/NodejsUwp.zip"
 $currentDir = $PSScriptRoot + "\"
 
 Write-Host "Copying $nodejsUwpZipUrl to $currentDir ..."
