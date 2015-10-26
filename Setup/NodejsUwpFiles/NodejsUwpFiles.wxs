@@ -37,12 +37,11 @@
             <Directory Id='ARM' Name='ARM'/>
             <Directory Id='x64' Name='x64'/>
           </Directory>
-          <Directory Id='NodejsChakra' Name='Node.js (Chakra)'/>
         </Directory>
       </DirectoryRef>
-	  
-	  <?define Release_Path="$(env.NodejsBinDir)"?> 
-	  
+      
+      <?define Release_Path="$(env.NodejsBinDir)"?> 
+      
       <!--x86 binaries-->
       <Component Guid="{C0CA6134-A19A-4FB8-90C8-8D0AF0F434CE}" Directory="x86">
         <File Id="nodeuwp_x86" Source="$(var.Release_Path)x86\nodeuwp.dll" KeyPath='yes' />
@@ -75,12 +74,12 @@
       <Component Guid="{EB52ED9A-5918-4EB5-BB9E-9DCD752182EA}" Directory="x64">
         <File Id="uwp_x64" Source="$(var.Release_Path)x64\uwp.node" KeyPath='yes' />
       </Component>
-	  
-	  <!--Script to copy console Node.js to IoT device-->
-      <Component Guid="{9C0C3C53-EFD5-480F-A25A-69F741189AFB}" Directory="NodejsChakra">
+      
+      <!--Script to copy console Node.js to IoT device-->
+      <Component Guid="{9C0C3C53-EFD5-480F-A25A-69F741189AFB}" Directory="NodejsUwp">
         <File Id="copyNodeScript" Source="..\CopyNodeChakra.ps1" KeyPath='yes' />
       </Component>
-	  
+      
       <ComponentGroupRef Id="CGroup_NodejsUwpFiles"/>
     </Module>
 </Wix>
