@@ -308,45 +308,41 @@
     <ZipProject Include="ProjectTemplates\Express4Uwp\Express4Uwp.njsproj" />
     <ZipProject Include="ProjectTemplates\Express4Uwp\Express4Uwp.vstemplate" />
     <ZipProject Include="ProjectTemplates\Express4Uwp\index.js" />
-    <ZipProject Include="ProjectTemplates\Express4Uwp\Logo.scale-100.png" />
-    <ZipProject Include="ProjectTemplates\Express4Uwp\SmallLogo.scale-100.png" />
-    <ZipProject Include="ProjectTemplates\Express4Uwp\SplashScreen.scale-100.png" />
-    <ZipProject Include="ProjectTemplates\Express4Uwp\StoreLogo.scale-100.png" />
     <ZipProject Include="ProjectTemplates\Express4Uwp\users.js" />
-    <ZipProject Include="ProjectTemplates\Express4Uwp\WideLogo.scale-100.png" />
-    <ZipProject Include="ProjectTemplates\CylonUwp\Logo.scale-100.png" />
     <ZipProject Include="ProjectTemplates\CylonUwp\CylonUwp.vstemplate" />
     <ZipProject Include="ProjectTemplates\CylonUwp\app.js" />
-    <ZipProject Include="ProjectTemplates\CylonUwp\SmallLogo.scale-100.png" />
-    <ZipProject Include="ProjectTemplates\CylonUwp\SplashScreen.scale-100.png" />
-    <ZipProject Include="ProjectTemplates\CylonUwp\StoreLogo.scale-100.png" />
-    <ZipProject Include="ProjectTemplates\CylonUwp\WideLogo.scale-100.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\LockScreenLogo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\SplashScreen.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\Square150x150Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\Square44x44Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\StoreLogo.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\Wide310x150Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\LockScreenLogo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\SplashScreen.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\Square150x150Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\Square44x44Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\StoreLogo.png" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\Wide310x150Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\WebServerUwp\LockScreenLogo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\WebServerUwp\SplashScreen.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\WebServerUwp\Square150x150Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\WebServerUwp\Square44x44Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\WebServerUwp\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <ZipProject Include="ProjectTemplates\WebServerUwp\StoreLogo.png" />
+    <ZipProject Include="ProjectTemplates\WebServerUwp\Wide310x150Logo.scale-200.png" />
     <Content Include="VSTemplateStore.pkgdef" />
     <VSCTCompile Include="NodejsUwp.vsct">
       <ResourceName>1000</ResourceName>
       <SubType>Designer</SubType>
     </VSCTCompile>
     <Content Include="Resources\Package.ico" />
-    <ZipProject Include="ProjectTemplates\WebServerUwp\Logo.scale-100.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </ZipProject>
     <ZipProject Include="ProjectTemplates\WebServerUwp\NodejsUwpWebServer.vstemplate">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </ZipProject>
     <ZipProject Include="ProjectTemplates\WebServerUwp\server.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </ZipProject>
-    <ZipProject Include="ProjectTemplates\WebServerUwp\SmallLogo.scale-100.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </ZipProject>
-    <ZipProject Include="ProjectTemplates\WebServerUwp\SplashScreen.scale-100.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </ZipProject>
-    <ZipProject Include="ProjectTemplates\WebServerUwp\StoreLogo.scale-100.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </ZipProject>
-    <ZipProject Include="ProjectTemplates\WebServerUwp\WideLogo.scale-100.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </ZipProject>
   </ItemGroup>
