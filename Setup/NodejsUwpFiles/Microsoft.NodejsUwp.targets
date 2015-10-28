@@ -45,24 +45,24 @@
           XmlDocument doc = new XmlDocument();
           doc.Load(ProjFile);
           XmlNode VSNode = doc.DocumentElement["ProjectExtensions"].FirstChild;
-          if(null == VSNode) {
-            return false;
-          }
           string nodeExeArguments = string.Empty;
           string scriptArguments = string.Empty;
-          foreach (XmlNode FPNode in VSNode) {
-            if (0 == String.Compare(FPNode.Attributes["Configuration"].InnerText, Config) && 
-                0 == String.Compare(FPNode.Attributes["Platform"].InnerText, Plat)) {
-               if(null != FPNode.FirstChild) {
-                 foreach (XmlNode PropNode in FPNode.FirstChild) {
-                    if(0 == String.Compare(PropNode.Name, "NodeExeArguments")) {
-                      nodeExeArguments = PropNode.InnerText;
-                    }
-                    if (0 == String.Compare(PropNode.Name, "ScriptArguments")) {
-                      scriptArguments = PropNode.InnerText;
-                    }
+
+          if(null != VSNode) {
+            foreach (XmlNode FPNode in VSNode) {
+              if (0 == String.Compare(FPNode.Attributes["Configuration"].InnerText, Config) && 
+                  0 == String.Compare(FPNode.Attributes["Platform"].InnerText, Plat)) {
+                 if(null != FPNode.FirstChild) {
+                   foreach (XmlNode PropNode in FPNode.FirstChild) {
+                      if(0 == String.Compare(PropNode.Name, "NodeExeArguments")) {
+                        nodeExeArguments = PropNode.InnerText;
+                      }
+                      if (0 == String.Compare(PropNode.Name, "ScriptArguments")) {
+                        scriptArguments = PropNode.InnerText;
+                      }
+                   }
                  }
-               }
+              }
             }
           }
 
@@ -106,7 +106,7 @@
     <NodeHostFiles Include="$(NodechUWPSDKPath)\$(Platform)\*.dll"/>
   </ItemGroup>
   <ItemGroup>
-    <NodeHostFiles Include="$(OutputPath)startupinfo.xml"/>
+    <NodeHostFiles Include="$(OutputPath)startupinfo.xml" Condition="Exists('$(OutputPath)startupinfo.xml')"/>
     <NodeHostFiles Include="$(ProgramFiles)\Microsoft Visual Studio 14.0\VC\redist\onecore\$(Platform)\Microsoft.VC140.CRT\*"/>
   </ItemGroup>
 
