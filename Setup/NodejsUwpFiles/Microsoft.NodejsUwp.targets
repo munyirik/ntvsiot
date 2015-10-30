@@ -106,7 +106,7 @@
     <NodeHostFiles Include="$(NodechUWPSDKPath)\$(Platform)\*.dll"/>
   </ItemGroup>
   <ItemGroup>
-    <NodeHostFiles Include="$(OutputPath)startupinfo.xml" Condition="Exists('$(OutputPath)startupinfo.xml')"/>
+    <NodeHostFiles Include="$(OutputPath)startupinfo.xml"/>
     <NodeHostFiles Include="$(ProgramFiles)\Microsoft Visual Studio 14.0\VC\redist\onecore\$(Platform)\Microsoft.VC140.CRT\*"/>
   </ItemGroup>
 
