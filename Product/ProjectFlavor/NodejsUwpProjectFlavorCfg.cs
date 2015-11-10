@@ -586,7 +586,11 @@ namespace Microsoft.NodejsUwp
 
             uint deployFlags = (uint)(_AppContainerDeployOptions.ACDO_NetworkLoopbackEnable | _AppContainerDeployOptions.ACDO_SetNetworkLoopback);
 
-            PrepareNodeStartupInfo(GetProjectUniqueName());
+            if(!PrepareNodeStartupInfo(GetProjectUniqueName()))
+            {
+                this.NotifyEndDeploy(0);
+                return;
+            }
 
             IVsAppContainerProjectDeployOperation localAppContainerDeployOperation = deployHelper.StartRemoteDeployAsync(deployFlags, this.debuggerDeployConnection, remoteMachine, this.GetRecipeFile(), this.GetProjectUniqueName(), this);
             lock (syncObject)
@@ -1175,7 +1179,7 @@ namespace Microsoft.NodejsUwp
             return toNotify;
         }
 
-        private void PrepareNodeStartupInfo(string uniqueName)
+        private bool PrepareNodeStartupInfo(string uniqueName)
         {
             string targetDir = null;
             string startupInfoFile = "startupinfo.xml";
@@ -1199,6 +1203,13 @@ namespace Microsoft.NodejsUwp
             // Get values to put into startupinfo.xml
             bps.GetPropertyValue("StartupFile", canonicalName, (uint)_PersistStorageType.PST_PROJECT_FILE, out startupFile);
 
+            if(string.IsNullOrEmpty(startupFile))
+            {
+                MessageBox.Show("A startup file for the project has not been selected.", "NTVS IoT Extension", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
             XDocument xdoc = new XDocument();
 
             XElement srcTree = new XElement("StartupInfo",
@@ -1213,6 +1224,7 @@ namespace Microsoft.NodejsUwp
             File.SetAttributes(nodeStartupInfoFilePath, FileAttributes.Normal);
 
             xdoc.Save(nodeStartupInfoFilePath);
+            return true;
         }
 
         public string this[string propertyName]
