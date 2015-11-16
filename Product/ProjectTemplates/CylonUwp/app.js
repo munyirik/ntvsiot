@@ -1,10 +1,6 @@
 // !!BEFORE YOU RUN THIS CODE!!
 
-// 1. Connect to your device using PowerShell or SSH (see http://windowsondevices.com for a guide to do that) and run:
-// reg.exe ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\EmbeddedMode\ProcessLauncher" /v AllowedExecutableFilesList /t REG_MULTI_SZ /d "c:\windows\system32\xcopy.exe\0"
-// This step is required to successfully deploy this app.
-
-// 2. Follow the steps in the "Build Serialport" section in the link below:
+// 1. Follow the steps in the "Build Serialport" section in the link below:
 // http://ms-iot.github.io/content/en-US/win10/samples/NodejsWUCylon.htm
 // Even though serialport (a Cylon dependency) is installed when a new 
 // Cylon project is created, it needs to be rebuilt so that:
@@ -14,7 +10,7 @@
 // to control a servo connected to an Arduino.
 // Go to http://cylonjs.com/documentation for Cylon.js documentation and more samples.
 
-// 3. Run 'npm dedupe' (in a cmd window) in the project node_modules folder. This is only
+// 2. Run 'npm dedupe' (in a cmd window) in the project node_modules folder. This is only
 // required if Visual Studio doesn't prompt to do it automatically. 
 // Using 'npm dedupe' (and npm v3+) is required to avoid deployment errors caused 
 // by node module paths that are too long for the target device.
