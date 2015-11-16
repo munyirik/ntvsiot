@@ -105,6 +105,12 @@
     <Reference Include="Microsoft.VisualStudio.OLE.Interop" />
     <Reference Include="Microsoft.VisualStudio.Shell.14.0, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.12.1.DesignTime, Version=12.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.14.0.DesignTime, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -116,9 +122,6 @@
     <Reference Include="Microsoft.VisualStudio.Shell.Interop.11.0">
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.Shell.Interop.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" Condition="'$(VSTarget)' != '11.0'">
-      <EmbedInteropTypes>true</EmbedInteropTypes>
-    </Reference>
     <Reference Include="Microsoft.VisualStudio.TemplateWizardInterface, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.Text.Data, Version=$(VSTarget).0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.Text.Logic, Version=$(VSTarget).0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
@@ -127,7 +130,11 @@
     <Reference Include="Microsoft.VisualStudio.TextManager.Interop" />
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.11.0" />
     <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0" />
+    <Reference Include="Microsoft.VisualStudio.TextManager.Interop.12.1.DesignTime, Version=12.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.TextManager.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Threading, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.WindowsAzure.CommonAzureTools.Contracts">
       <SpecificVersion>False</SpecificVersion>
       <Private>false</Private>
@@ -308,45 +315,41 @@
     <ZipProject Include="ProjectTemplates\Express4Uwp\Express4Uwp.njsproj" />
     <ZipProject Include="ProjectTemplates\Express4Uwp\Express4Uwp.vstemplate" />
     <ZipProject Include="ProjectTemplates\Express4Uwp\index.js" />
-    <ZipProject Include="ProjectTemplates\Express4Uwp\Logo.scale-100.png" />
-    <ZipProject Include="ProjectTemplates\Express4Uwp\SmallLogo.scale-100.png" />
-    <ZipProject Include="ProjectTemplates\Express4Uwp\SplashScreen.scale-100.png" />
-    <ZipProject Include="ProjectTemplates\Express4Uwp\StoreLogo.scale-100.png" />
     <ZipProject Include="ProjectTemplates\Express4Uwp\users.js" />
-    <ZipProject Include="ProjectTemplates\Express4Uwp\WideLogo.scale-100.png" />
-    <ZipProject Include="ProjectTemplates\CylonUwp\Logo.scale-100.png" />
     <ZipProject Include="ProjectTemplates\CylonUwp\CylonUwp.vstemplate" />
     <ZipProject Include="ProjectTemplates\CylonUwp\app.js" />
-    <ZipProject Include="ProjectTemplates\CylonUwp\SmallLogo.scale-100.png" />
-    <ZipProject Include="ProjectTemplates\CylonUwp\SplashScreen.scale-100.png" />
-    <ZipProject Include="ProjectTemplates\CylonUwp\StoreLogo.scale-100.png" />
-    <ZipProject Include="ProjectTemplates\CylonUwp\WideLogo.scale-100.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\LockScreenLogo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\SplashScreen.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\Square150x150Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\Square44x44Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\StoreLogo.png" />
+    <ZipProject Include="ProjectTemplates\CylonUwp\Wide310x150Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\LockScreenLogo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\SplashScreen.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\Square150x150Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\Square44x44Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\StoreLogo.png" />
+    <ZipProject Include="ProjectTemplates\Express4Uwp\Wide310x150Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\WebServerUwp\LockScreenLogo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\WebServerUwp\SplashScreen.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\WebServerUwp\Square150x150Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\WebServerUwp\Square44x44Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\WebServerUwp\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <ZipProject Include="ProjectTemplates\WebServerUwp\StoreLogo.png" />
+    <ZipProject Include="ProjectTemplates\WebServerUwp\Wide310x150Logo.scale-200.png" />
     <Content Include="VSTemplateStore.pkgdef" />
     <VSCTCompile Include="NodejsUwp.vsct">
       <ResourceName>1000</ResourceName>
       <SubType>Designer</SubType>
     </VSCTCompile>
     <Content Include="Resources\Package.ico" />
-    <ZipProject Include="ProjectTemplates\WebServerUwp\Logo.scale-100.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </ZipProject>
     <ZipProject Include="ProjectTemplates\WebServerUwp\NodejsUwpWebServer.vstemplate">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </ZipProject>
     <ZipProject Include="ProjectTemplates\WebServerUwp\server.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </ZipProject>
-    <ZipProject Include="ProjectTemplates\WebServerUwp\SmallLogo.scale-100.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </ZipProject>
-    <ZipProject Include="ProjectTemplates\WebServerUwp\SplashScreen.scale-100.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </ZipProject>
-    <ZipProject Include="ProjectTemplates\WebServerUwp\StoreLogo.scale-100.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </ZipProject>
-    <ZipProject Include="ProjectTemplates\WebServerUwp\WideLogo.scale-100.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </ZipProject>
   </ItemGroup>

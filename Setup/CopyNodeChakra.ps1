@@ -5,12 +5,17 @@
 # 2. Internet connection (to download a node.exe that matches the target device processor architecture).
 
 # Usage:
-# .\CopyNodeChakra.ps1 -arch <ARM | x86 | x64 > -ip <Device IP Address>
+# .\CopyNodeChakra.ps1 -arch <ARM | x86 | x64 > -ip <Device IP Address> -user <Username> -pass <Password>
 
 # Example:
-# .\CopyNodeChakra.ps1 -arch ARM -ip 10.125.152.300
+# .\CopyNodeChakra.ps1 -arch ARM -ip 10.125.152.300 -user Administrator -pass p@ssw0rd
 
-param([string]$arch = "", [string]$ip = "")
+param(
+[string]$arch = "", 
+[string]$ip = "",
+[string]$username = "",
+[string]$password = ""
+)
 
 # Check arguments
 if((0 -eq $arch.CompareTo("")))
@@ -26,17 +31,33 @@ if((0 -eq $ip.CompareTo("")))
   Exit
 }
 
-$key = 'HKCU:\SOFTWARE\Node.js (Chakra)'
+$key = 'HKLM:\SOFTWARE\WOW6432Node\Node.js (Chakra)'
 $sourcePath = (Get-ItemProperty -Path $key -Name InstallPath).InstallPath
-$destinationPath = "\\" + $ip + "\c$\Node.js (Chakra)\"
+$destinationPath = "\\" + $ip + "\c$"
+$nodePath = $destinationPath + "\Node.js (Chakra)\"
 
 #
 # Copy installed 'Node.js (Chakra)' directory to device
 #
-Write-Host "Copying" $sourcePath "to" $destinationPath "..."
-Get-ChildItem $sourcePath -Recurse | Where {$_.FullName -notlike "$sourcePath" + "node.exe" -and $_.FullName -notlike "$sourcePath" + "sdk*"} |
-    Copy-Item -Destination {Join-Path $destinationPath $_.FullName.Substring($sourcePath.length)} -Force
-Write-Host "Copy completed" -foreground "Green"
+if((0 -eq $password.CompareTo("")))
+{
+  Write-Host "Error: Password not provided"-foreground "Red"
+  Write-Host "Usage: .\CopyNodeChakra.ps1 -arch <ARM | x86 | x64 > -ip <Device IP Address> -user <Username> -pass <Password>"
+  Exit
+}
+if((0 -eq $username.CompareTo("")))
+{
+  Write-Host "Error: Username not provided"-foreground "Red"
+  Write-Host "Usage: .\CopyNodeChakra.ps1 -arch <ARM | x86 | x64 > -ip <Device IP Address> -user <Username> -pass <Password>"
+  Exit
+}
+$secureString  = ConvertTo-SecureString $password -AsPlainText -Force
+$creds = New-Object System.Management.Automation.PSCredential ($username, $secureString)
+New-PSDrive -Name IoTDrive -PSProvider FileSystem -Root $destinationPath -Credential $creds
+
+Write-Host "Copying" $sourcePath "to" $nodePath "..."
+Get-ChildItem $sourcePath -Recurse | Where {$_.FullName -notlike "$sourcePath" + "node.exe" -and $_.FullName -notlike "$sourcePath" + "chakra.dll" -and $_.FullName -notlike "$sourcePath" + "sdk*"} |
+    Copy-Item -Destination {Join-Path $nodePath $_.FullName.Substring($sourcePath.length)} -Force
 
 Write-Host "" # \n
 
@@ -54,14 +75,13 @@ switch($arch) {
     default { Write-Host "Cannot copy node.exe to device. No valid device processor architecture provided. Valid values are ARM, x86, or x64" -foreground "Red"; Exit; }
 }
 
-Write-Host "Copying" $nodeExeUrl "to" $destinationPath "..."
+Write-Host "Copying" $nodeExeUrl "to" $nodePath "..."
 try {
     Register-ObjectEvent $client DownloadFileCompleted -SourceIdentifier Finished
-    $destinationPath = $destinationPath + "node.exe"
-    $client.DownloadFileAsync($nodeExeUrl, $destinationPath)
+    $nodePath = $nodePath + "node.exe"
+    $client.DownloadFileAsync($nodeExeUrl, $nodePath)
     Wait-Event -SourceIdentifier Finished
 } finally {
-    Write-Host "Copy completed" -foreground "Green"
     $client.dispose()
     Unregister-Event -SourceIdentifier Finished
     Remove-Event -SourceIdentifier Finished

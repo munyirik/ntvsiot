@@ -10,16 +10,9 @@
 // to control a servo connected to an Arduino.
 // Go to http://cylonjs.com/documentation for Cylon.js documentation and more samples.
 
-// 2. Make sure npm v3 installs Cylon and its dependencies. To install npm v3:
-//   - Open a command window (as Administrator) and run 'npm install -g npm-windows-upgrade'
-//   - Then run 'npm-windows-upgrade --version:3.2.2'
-// If this project was not opened with npm v3 installed, you will need to uninstall and
-// reinstall the packages in this project: cylon, cylon-firmata, cylon-gpio, and cylon-i2c.
-
-// 3. Run 'npm dedupe' (in a cmd window) in the project node_modules folder. This is only
+// 2. Run 'npm dedupe' (in a cmd window) in the project node_modules folder. This is only
 // required if Visual Studio doesn't prompt to do it automatically. 
-
-// Using npm v3 and running 'npm dedupe' is required to avoid deployment errors caused 
+// Using 'npm dedupe' (and npm v3+) is required to avoid deployment errors caused 
 // by node module paths that are too long for the target device.
 
 
