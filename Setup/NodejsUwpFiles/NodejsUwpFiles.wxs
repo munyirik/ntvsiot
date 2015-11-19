@@ -36,6 +36,7 @@
             <Directory Id='x86' Name='x86'/>
             <Directory Id='ARM' Name='ARM'/>
             <Directory Id='x64' Name='x64'/>
+            <Directory Id='Console' Name='Console'/>
           </Directory>
         </Directory>
       </DirectoryRef>
@@ -76,7 +77,7 @@
       </Component>
       
       <!--Script to copy console Node.js to IoT device-->
-      <Component Guid="{9C0C3C53-EFD5-480F-A25A-69F741189AFB}" Directory="NodejsUwp">
+      <Component Guid="{9C0C3C53-EFD5-480F-A25A-69F741189AFB}" Directory="Console">
         <File Id="copyNodeScript" Source="..\CopyNodeChakra.ps1" KeyPath='yes' />
       </Component>
       
