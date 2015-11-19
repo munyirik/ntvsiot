@@ -99,6 +99,22 @@ namespace Microsoft.NodejsUwp
             serviceProvider = this.project as System.IServiceProvider;
         }
 
+        internal IVsHierarchy NodeConfig
+        {
+            get
+            {
+                IVsHierarchy proj = null;
+                var browseObj = _baseCfg as IVsCfgBrowseObject;
+
+                if (browseObj != null)
+                {
+                    uint itemId = 0;
+                    browseObj.GetProjectItem(out proj, out itemId);
+                }
+                return proj;
+            }
+        }
+
         #region IVsCfg Members
 
         public int get_DisplayName(out string pbstrDisplayName)
@@ -607,18 +623,17 @@ namespace Microsoft.NodejsUwp
 
         private string GetProjectUniqueName()
         {
-            EnvDTE.DTE dte = (EnvDTE.DTE)Package.GetGlobalService(typeof(EnvDTE.DTE));
-            EnvDTE.SolutionBuild sb = dte.Solution.SolutionBuild;
-            string projectUniqueName = string.Empty;
-            foreach (String s in (Array)sb.StartupProjects)
+            string projectUniqueName = null;
+
+            IVsSolution vsSolution = Package.GetGlobalService(typeof(SVsSolution)) as IVsSolution;
+            if (vsSolution != null)
             {
-                // There should only be one startup project so get the first one we find.
-                projectUniqueName = s;
-                break;
+                int hr = vsSolution.GetUniqueNameOfProject(this.NodeConfig, out projectUniqueName);
             }
-            if (projectUniqueName.Equals(string.Empty))
+
+            if (projectUniqueName == null)
             {
-                throw new Exception("Could not find a startup project.");
+                throw new Exception("Failed to get an unique project name.");
             }
             return projectUniqueName;
         }
