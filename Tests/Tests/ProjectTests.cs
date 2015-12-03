@@ -128,7 +128,7 @@ sd.StringDecoder
             using (var app = new VisualStudioApp()) {
                 using (var newProjDialog = app.FileNewProject()) {
                     newProjDialog.FocusLanguageNode("JavaScript");
-                    var nodejsApp = newProjDialog.ProjectTypes.FindItem("Basic Node.js Web Server (Windows Universal)");
+                    var nodejsApp = newProjDialog.ProjectTypes.FindItem("Basic Node.js Web Server (Universal Windows)");
                     nodejsApp.Select();
 
                     newProjDialog.OK();

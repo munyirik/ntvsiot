@@ -44,7 +44,7 @@ namespace NodejsUwp.Tests {
             var project = Project("CtrlSpace",
                 Compile("server", "var http = require('http');\r\nhttp.createS")
             );
-
+           
             using (var solution = project.Generate().ToVs()) {
                 var server = solution.OpenItem("CtrlSpace", "server.js");
 
