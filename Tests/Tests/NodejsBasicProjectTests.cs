@@ -78,13 +78,13 @@ namespace NodejsUwp.Tests {
                 nodeExeArguments.SetFocus();
                 Keyboard.ControlA();
                 Keyboard.Backspace();
-                Keyboard.Type("--no-console --debug");
+                Keyboard.Type("--use-logger --debug");
 
                 solution.App.Dte.ExecuteCommand("File.SaveAll");
 
                 var projFile = File.ReadAllText(solution.Project.FullName);
                 Assert.AreNotEqual(-1, projFile.IndexOf("<DebuggerMachineName>10.11.22.33</DebuggerMachineName>"));
-                Assert.AreNotEqual(-1, projFile.IndexOf("<NodeExeArguments>--no-console --debug</NodeExeArguments>"));
+                Assert.AreNotEqual(-1, projFile.IndexOf("<NodeExeArguments>--use-logger --debug</NodeExeArguments>"));
             }
         }
     }

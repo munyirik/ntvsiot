@@ -56,6 +56,28 @@
   <PropertyGroup>
     <DefineConstants>$(DefineConstants);NTVS_FEATURE_INTERACTIVEWINDOW</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;;FEATURE_AZURE_REMOTE_DEBUG;DEV14;DEV14_OR_LATER;DEV12_OR_LATER;DEV11_OR_LATER;NTVS_FEATURE_INTERACTIVEWINDOW</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>436</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>F:\Repos\my_ntvsiot\\Build\xTVS.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;;FEATURE_AZURE_REMOTE_DEBUG;DEV14;DEV14_OR_LATER;DEV12_OR_LATER;DEV11_OR_LATER;NTVS_FEATURE_INTERACTIVEWINDOW</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>436</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>F:\Repos\my_ntvsiot\\Build\xTVS.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="envdte, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>False</EmbedInteropTypes>

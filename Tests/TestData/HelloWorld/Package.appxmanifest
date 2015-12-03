@@ -5,9 +5,9 @@
   xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10"
   IgnorableNamespaces="uap mp iot">
 
-  <Identity Name="b5a43d57-56c6-4db3-85e3-a476c52e53a4" Publisher="CN=test" Version="1.0.0.0" />
+  <Identity Name="HelloWorld" Publisher="CN=test" Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="b5a43d57-56c6-4db3-85e3-a476c52e53a4" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="9f7ceb21-319c-4a8c-b0ef-0ab978678c98" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>HelloWorld</DisplayName>
@@ -20,22 +20,25 @@
   </Resources>
   
   <Dependencies>
-    <TargetPlatform Name="Windows.Universal" MinVersion="10.0.10041.0" MaxVersionTested="10.0.10041.0" />
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
   </Dependencies>
 
   <Applications>
     <Application Id="App">
       <uap:VisualElements
-        DisplayName="winuniversalnode"
-        Square150x150Logo="Assets\Logo.png"
-        Square44x44Logo="Assets\SmallLogo.png"
-        Description="winuniversalnode"
-        BackgroundColor="#464646"
+        DisplayName="nodeuwp"
+        Description="nodeuwp"
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png"
         AppListEntry="none">
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
+        <uap:SplashScreen Image="Assets\splashscreen.png" />
+
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="winuniversalnode.StartupTask">
+        <Extension Category="windows.backgroundTasks" EntryPoint="nodeuwp.StartupTask">
           <BackgroundTasks>
             <iot:Task Type="startup" />
           </BackgroundTasks>
@@ -48,13 +51,19 @@
     <Capability Name="internetClient" />
     <Capability Name="internetClientServer" />
     <Capability Name="privateNetworkClientServer" />
+    <iot:Capability Name="systemManagement" />
+    <DeviceCapability Name="serialcommunication">
+      <Device Id="any">
+        <Function Type="name:serialPort" />
+      </Device>
+    </DeviceCapability>
   </Capabilities>
 
   <Extensions>
     <Extension Category="windows.activatableClass.inProcessServer">
       <InProcessServer>
-        <Path>winuniversalnode.dll</Path>
-        <ActivatableClass ActivatableClassId="winuniversalnode.StartupTask" ThreadingModel="MTA" />
+        <Path>nodeuwp.dll</Path>
+        <ActivatableClass ActivatableClassId="nodeuwp.StartupTask" ThreadingModel="MTA" />
       </InProcessServer>
     </Extension>
   </Extensions>

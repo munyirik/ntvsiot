@@ -360,8 +360,7 @@
     <ProjectReference Include="ProjectWizard\ProjectWizard.csproj">
       <Project>{DBC73DF7-1B4C-48BE-8B48-715297487E7A}</Project>
       <Name>ProjectWizard</Name>
-      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
-      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+      <IncludeInVSIX>true</IncludeInVSIX>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -376,6 +375,30 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DefineConstants>TRACE;DEBUG;FEATURE_AZURE_REMOTE_DEBUG;DEV14;DEV14_OR_LATER;DEV12_OR_LATER;DEV11_OR_LATER;NODEJS_TOOLS;NTVS_FEATURE_INTERACTIVEWINDOW;SUPPRESS_COMMON_ASSEMBLY_VERSION</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;FEATURE_AZURE_REMOTE_DEBUG;DEV14;DEV14_OR_LATER;DEV12_OR_LATER;DEV11_OR_LATER;NODEJS_TOOLS;NTVS_FEATURE_INTERACTIVEWINDOW;SUPPRESS_COMMON_ASSEMBLY_VERSION</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>436</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>F:\Repos\my_ntvsiot\\Build\xTVS.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;;FEATURE_AZURE_REMOTE_DEBUG;DEV14;DEV14_OR_LATER;DEV12_OR_LATER;DEV11_OR_LATER;NODEJS_TOOLS;NTVS_FEATURE_INTERACTIVEWINDOW</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>436</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>F:\Repos\my_ntvsiot\\Build\xTVS.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="ProjectAfter.settings" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
