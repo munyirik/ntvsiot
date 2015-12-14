@@ -1,0 +1,46 @@
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>Basic Node.js Johnny Five Application (Universal Windows)</Name>
+    <Description>Basic Node.js Johnny Five Application (Universal Windows)</Description>
+    <Icon Package="{FE8A8C3D-328A-476D-99F9-2A24B75F8C7F}" ID="406" />
+    <ProjectType>JavaScript</ProjectType>
+    <TemplateID>Microsoft.JavaScript.JohnnyFiveUwp</TemplateID>
+    <SortOrder>125</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>JohnnyFiveUwp</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <PromptForSaveOnCreation>true</PromptForSaveOnCreation>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="JohnnyFiveUwp.njsproj" ReplaceParameters="true">
+      <ProjectItem OpenInEditor="true">app.js</ProjectItem>
+      <ProjectItem ReplaceParameters="true">package.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true">Package.appxmanifest</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Assets\LockScreenLogo.scale-200.png">LockScreenLogo.scale-200.png</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Assets\SplashScreen.scale-200.png">SplashScreen.scale-200.png</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Assets\Square44x44Logo.scale-200.png">Square44x44Logo.scale-200.png</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Assets\Square44x44Logo.targetsize-24_altform-unplated.png">Square44x44Logo.targetsize-24_altform-unplated.png</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Assets\Square150x150Logo.scale-200.png">Square150x150Logo.scale-200.png</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Assets\StoreLogo.png">StoreLogo.png</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="Assets\Wide310x150Logo.scale-200.png">Wide310x150Logo.scale-200.png</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="$projectname$_TemporaryKey.pfx">Application_TemporaryKey.pfx</ProjectItem>
+    </Project>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>Microsoft.VisualStudio.WinRT.TemplateWizards, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+    <FullClassName>Microsoft.VisualStudio.WinRT.TemplateWizards.CreateProjectCertificate.Wizard</FullClassName>
+  </WizardExtension>
+  <WizardExtension>
+    <Assembly>Microsoft.NodejsTools.ProjectWizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+    <FullClassName>Microsoft.NodejsTools.ProjectWizard.NodejsPackageParametersExtension</FullClassName>
+  </WizardExtension>
+  <WizardExtension>
+    <Assembly>Microsoft.NodejsUwp.ProjectWizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+    <FullClassName>Microsoft.NodejsUwp.ProjectWizard.WindowsSDKWizard</FullClassName>
+  </WizardExtension>
+  <WizardExtension>
+    <Assembly>Microsoft.NodejsTools.ProjectWizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+    <FullClassName>Microsoft.NodejsTools.ProjectWizard.NpmWizardExtension</FullClassName>
+  </WizardExtension>
+</VSTemplate>
