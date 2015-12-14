@@ -120,7 +120,7 @@
   <ItemGroup>
     <Compile Include="BasicIntellisense.cs" />
     <Compile Include="BasicProjectTests.cs" />
-    <Compile Include="DeployTests.cs" />
+    <Compile Include="DebugTests.cs" />
     <Compile Include="NodejsBasicProjectTests.cs" />
     <Compile Include="ProjectTests.cs" />
     <Compile Include="RequireIntellisense.cs" />
