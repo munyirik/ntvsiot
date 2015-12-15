@@ -143,8 +143,8 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Build\default.14.0Exp.testsettings">
-      <Link>default.14.0Exp.testsettings</Link>
+    <None Include="..\..\Build\default.14.0.testsettings">
+      <Link>default.14.0.testsettings</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
