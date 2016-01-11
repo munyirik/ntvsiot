@@ -1,12 +1,12 @@
 // !!BEFORE YOU RUN THIS CODE!!
 
-// 1. Follow the steps in the "Build Serialport" section in the link below:
+// 1. Follow the steps in the "Get Serialport" section in the link below:
 // http://ms-iot.github.io/content/en-US/win10/samples/NodejsWUJ5.htm
 // Even though serialport (a Johnny-Five dependency) is installed when a new 
-// Johnny-Five project is created, it needs to be rebuilt so that:
-//   - It matches the processor architecture of the device you are targeting.
-//   - It is UWP (Universal Windows Platform) compatible.
-// The link above also has a sample code and steps to run Johnny-Five on a
+// Johnny-Five project is created, you still need a version that:
+//   - Matches the processor architecture of the device you are targeting.
+//   - Is UWP (Universal Windows Platform) compatible.
+// The link above also has a sample code and steps to use Johnny-Five on a
 // Raspberry Pi 2 to control a servo connected to an Arduino.
 // Go to http://johnny-five.io/ for Johnny-Five documentation and more samples.
 
