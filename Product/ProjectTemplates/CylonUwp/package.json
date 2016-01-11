@@ -9,7 +9,7 @@
     "email": ""
   },
   "dependencies": {
-    "request": "2.65.0",
+    "request": "*",
     "cylon": "~1.1.0",
     "cylon-firmata": "~0.22.0",
     "cylon-gpio": "~0.26.0",
