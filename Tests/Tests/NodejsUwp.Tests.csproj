@@ -48,7 +48,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEV14;DEV14_OR_LATER;DEV12_OR_LATER;DEV11_OR_LATER</DefineConstants>
     <Optimize>true</Optimize>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>436</NoWarn>
@@ -63,7 +63,7 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="envdte80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="envdte90, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -120,6 +120,7 @@
   <ItemGroup>
     <Compile Include="BasicIntellisense.cs" />
     <Compile Include="BasicProjectTests.cs" />
+    <Compile Include="DebugTests.cs" />
     <Compile Include="NodejsBasicProjectTests.cs" />
     <Compile Include="ProjectTests.cs" />
     <Compile Include="RequireIntellisense.cs" />
@@ -140,6 +141,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Build\default.14.0.testsettings">
+      <Link>default.14.0.testsettings</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

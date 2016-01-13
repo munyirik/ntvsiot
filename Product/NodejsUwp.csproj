@@ -296,6 +296,12 @@
       <SubType>Designer</SubType>
     </ZipProject>
     <ZipProject Include="ProjectTemplates\CylonUwp\package.json" />
+    <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\Application_TemporaryKey.pfx" />
+    <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\JohnnyFiveUwp.njsproj" />
+    <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </ZipProject>
+    <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\package.json" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
@@ -339,6 +345,15 @@
     <ZipProject Include="ProjectTemplates\WebServerUwp\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <ZipProject Include="ProjectTemplates\WebServerUwp\StoreLogo.png" />
     <ZipProject Include="ProjectTemplates\WebServerUwp\Wide310x150Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\app.js" />
+    <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\JohnnyFiveUwp.vstemplate" />
+    <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\LockScreenLogo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\SplashScreen.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\Square150x150Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\Square44x44Logo.scale-200.png" />
+    <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\StoreLogo.png" />
+    <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\Wide310x150Logo.scale-200.png" />
     <Content Include="VSTemplateStore.pkgdef" />
     <VSCTCompile Include="NodejsUwp.vsct">
       <ResourceName>1000</ResourceName>
