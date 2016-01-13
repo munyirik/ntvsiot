@@ -40,32 +40,9 @@ namespace NodejsUwp.Tests
 {
     class TargetInfo
     {
-        string _IP;
-        string _Plat;
+        public string IP { get; set; }
 
-        public string IP
-        {
-            get
-            {
-                return _IP;
-            }
-            set
-            {
-                _IP = value;
-            }
-        }
-
-        public string Plat
-        {
-            get
-            {
-                return _Plat;
-            }
-            set
-            {
-                _Plat = value;
-            }
-        }
+        public string Plat { get; set; }
     }
 
     [TestClass]
@@ -93,6 +70,8 @@ namespace NodejsUwp.Tests
                 {
                     System.Threading.Thread.Sleep(250);
                 }
+
+                Assert.IsFalse(0 == app.Dte.Solution.Projects.Count);
 
                 // Set platform
                 foreach (SolutionConfiguration2 solConfiguration2 in app.Dte.Solution.SolutionBuild.SolutionConfigurations)
