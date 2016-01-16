@@ -13,8 +13,8 @@
     </BootstrapperApplicationRef>	
 	
     <Chain>
-      <MsiPackage Id="NodejsChakraInstaller" InstallCondition='NOT VersionNT64' SourceFile="$(env.NodejsToolsBundleRelDir)\node-chakracore-x86.msi" Vital="yes" DisplayInternalUI="yes" Visible="yes" ForcePerMachine="yes"/>
-      <MsiPackage Id="NodejsChakraInstaller" InstallCondition='VersionNT64' SourceFile="$(env.NodejsToolsBundleRelDir)\node-chakracore-x64.msi" Vital="yes" DisplayInternalUI="yes" Visible="yes" ForcePerMachine="yes"/>
+      <MsiPackage Id="NodejsChakraCoreInstallerx86" InstallCondition='NOT VersionNT64' SourceFile="$(env.NodejsToolsBundleRelDir)\node-chakracore-x86.msi" Vital="yes" DisplayInternalUI="yes" Visible="yes" ForcePerMachine="yes"/>
+      <MsiPackage Id="NodejsChakraCoreInstallerx64" InstallCondition='VersionNT64' SourceFile="$(env.NodejsToolsBundleRelDir)\node-chakracore-x64.msi" Vital="yes" DisplayInternalUI="yes" Visible="yes" ForcePerMachine="yes"/>
       <RollbackBoundary />
 	  <MsiPackage Id="NTVSBaseInstaller" SourceFile="$(env.NodejsToolsBundleRelDir)\NTVS.msi" Vital="yes" DisplayInternalUI="no" Visible="yes"/>
       <RollbackBoundary />
