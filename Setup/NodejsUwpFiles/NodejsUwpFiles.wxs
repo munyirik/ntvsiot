@@ -76,11 +76,6 @@
         <File Id="uwp_x64" Source="$(var.Release_Path)x64\uwp.node" KeyPath='yes' />
       </Component>
       
-      <!--Script to copy console Node.js to IoT device-->
-      <Component Guid="{9C0C3C53-EFD5-480F-A25A-69F741189AFB}" Directory="Console">
-        <File Id="copyNodeScript" Source="..\CopyNodeChakra.ps1" KeyPath='yes' />
-      </Component>
-      
       <ComponentGroupRef Id="CGroup_NodejsUwpFiles"/>
     </Module>
 </Wix>
