@@ -22,13 +22,14 @@
     THE SOFTWARE.
 */
 
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.OLE.Interop;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Flavor;
+using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.OLE.Interop;
-using Microsoft.VisualStudio.Shell.Flavor;
-using Microsoft.VisualStudio.Shell.Interop;
 
 namespace Microsoft.NodejsUwp
 {
@@ -140,6 +141,39 @@ namespace Microsoft.NodejsUwp
                 }
             }
             return propertyPagesList;
+        }
+
+        protected override int QueryStatusCommand(uint itemid, ref Guid pguidCmdGroup, uint cCmds, OLECMD[] prgCmds, IntPtr pCmdText)
+        {
+            // If we detect an npm update command from the base project (NTVS), we will:
+            // 1. Run "npm dedupe" to reduce chances of deploying packages with
+            //    paths that are too long.
+            // 2. Patch native addons with UWP versions of the addons if they exist.
+            // For #2, eventually a better solution may be to have npm and the base project 
+            // handle this. i.e. get to the point where "npm install serialport --winplat=uwp" 
+            // is supported.
+            // For now this solution works well since we do not need to modify the base project.
+
+            if (pguidCmdGroup == GuidList.NodejsNpmCmdSet && 
+                prgCmds[0].cmdID == 0x302) // 0x302 is the value of cmdidNpmUpdateModules in https://github.com/Microsoft/nodejstools/blob/master/Nodejs/Product/Nodejs/PkgCmdId.cs
+            {              
+                EnvDTE.DTE dte = (EnvDTE.DTE)Package.GetGlobalService(typeof(EnvDTE.DTE));
+                Array projs = (Array)dte.ActiveSolutionProjects;
+                if(projs.Length > 0)
+                {
+                    EnvDTE.Project activeProj = (EnvDTE.Project)projs.GetValue(0);
+                    string projectPath = activeProj.FullName.Substring(0, activeProj.FullName.LastIndexOf('\\'));
+                    NodejsUwpNpmHandler npmHandler = new NodejsUwpNpmHandler();
+
+                    // Run npm dedupe
+                    npmHandler.RunNpmDedupe(projectPath);
+
+                    // Patch packages
+                    npmHandler.UpdateNpmPackages(projectPath, activeProj.ConfigurationManager.ActiveConfiguration.PlatformName);
+                }
+            }
+
+            return base.QueryStatusCommand(itemid, ref pguidCmdGroup, cCmds, prgCmds, pCmdText);
         }
     }
 }
