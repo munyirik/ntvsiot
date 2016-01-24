@@ -66,16 +66,6 @@ namespace Microsoft.NodejsUwp
                 
                 this.propertyPageUI.SetControlValue(
                     controlFromPropertyName, valueForProperty);
-
-                // TODO: This if statement is temporary. --no - console is required since there isn't a way to redirect stdout/err from
-                // node.js to UWP. --debug is required until something like IsDebuggerPresent can work in the UWP app or VS F5 can
-                // automatically pass the flag to the UWP app.
-                if (0 == string.Compare(valueForProperty, "") && 0 == string.Compare(controlFromPropertyName.Name, "_nodeArguments"))
-                {
-                    this.propertyPageUI.SetControlValue(
-                        controlFromPropertyName, "--debug");
-                    propertyPageUI_UserEditComplete(controlFromPropertyName, "--debug");
-                }
             }
             this.propertyPageUI.UserEditComplete +=                
                 new UserEditCompleteHandler(this.propertyPageUI_UserEditComplete);

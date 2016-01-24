@@ -70,12 +70,14 @@ namespace Microsoft.NodejsUwp
         private string deployAppUserModelID;
         private IVsHierarchy project;
         private const string RemoteTarget = "Remote Machine";
+        private const string LocalTarget = "Local Machine";
         private static readonly Guid NativePortSupplier = new Guid("3b476d38-a401-11d2-aad4-00c04f990171"); // NativePortSupplier corespond to connection with No-Authentication mode
         private bool isDirty;
         private Dictionary<string, string> propertiesList = new Dictionary<string, string>();
         static Dictionary<IVsCfg, NodejsUwpProjectFlavorCfg> mapIVsCfgToNodejsUwpProjectFlavorCfg = new Dictionary<IVsCfg, NodejsUwpProjectFlavorCfg>();
         private readonly System.IServiceProvider serviceProvider;
         private IVsDebuggerDeployConnection debuggerDeployConnection;
+        private bool isLocalTarget = false;
 
         #region properties
 
@@ -387,8 +389,15 @@ namespace Microsoft.NodejsUwp
             int targetLength = (int)Marshal.SizeOf(typeof(VsDebugTargetInfo4));
 
             this.CopyDebugTargetInfo(ref targets[0], ref appPackageDebugTarget[0], flags);
-            IVsAppContainerBootstrapperResult result = this.BootstrapForDebuggingSync(targets[0].bstrRemoteMachine);
-            appPackageDebugTarget[0].bstrRemoteMachine = result.Address;
+            if (!isLocalTarget)
+            {
+                IVsAppContainerBootstrapperResult result = this.BootstrapForDebuggingSync(targets[0].bstrRemoteMachine);
+                appPackageDebugTarget[0].bstrRemoteMachine = result.Address;
+            }
+            else
+            {
+                appPackageDebugTarget[0].bstrRemoteMachine = targets[0].bstrRemoteMachine;
+            }
 
             // Pass the debug launch targets to the debugger
             IVsDebugger4 debugger4 = (IVsDebugger4)serviceProvider.GetService(typeof(SVsShellDebugger));
@@ -527,6 +536,12 @@ namespace Microsoft.NodejsUwp
                 return VSConstants.E_ABORT;
             }
 
+            if(isLocalTarget)
+            {
+                LocalDeploy();
+                return VSConstants.S_OK;
+            }
+
             IVsAppContainerBootstrapper4 bootstrapper = (IVsAppContainerBootstrapper4)ServiceProvider.GlobalProvider.GetService(typeof(SVsAppContainerProjectDeploy));
 
             VsBootstrapperPackageInfo[] packagesToDeployList = new VsBootstrapperPackageInfo[] {
@@ -615,6 +630,29 @@ namespace Microsoft.NodejsUwp
             }
         }
 
+        private void LocalDeploy()
+        {
+            IVsAppContainerProjectDeploy2 deployHelper = (IVsAppContainerProjectDeploy2)this.serviceProvider.GetService(typeof(SVsAppContainerProjectDeploy));
+
+            uint deployFlags = (uint)(_AppContainerDeployOptions.ACDO_NetworkLoopbackEnable | _AppContainerDeployOptions.ACDO_SetNetworkLoopback);
+
+            if (!PrepareNodeStartupInfo(GetProjectUniqueName()))
+            {
+                this.NotifyEndDeploy(0);
+                return;
+            }
+
+            string layoutDir = null;
+            IVsBuildPropertyStorage bps = GetBuildPropertyStorage();
+            bps.GetPropertyValue("LayoutDir", this.GetBaseCfgCanonicalName(), (uint)_PersistStorageType.PST_PROJECT_FILE, out layoutDir);
+
+            IVsAppContainerProjectDeployOperation localAppContainerDeployOperation = deployHelper.StartDeployAsync(deployFlags, this.GetRecipeFile(), layoutDir, this.GetProjectUniqueName(), this);
+            lock (syncObject)
+            {
+                this.appContainerDeployOperation = localAppContainerDeployOperation;
+            }
+        }
+
         private IVsAppContainerBootstrapperResult BootstrapForDebuggingSync(string targetDevice)
         {
             IVsAppContainerBootstrapper4 bootstrapper = (IVsAppContainerBootstrapper4)ServiceProvider.GlobalProvider.GetService(typeof(SVsAppContainerProjectDeploy));
@@ -653,11 +691,7 @@ namespace Microsoft.NodejsUwp
 
         private string GetStringPropertyValue(string propertyName)
         {
-            IVsSolution solution = (IVsSolution)Package.GetGlobalService(typeof(SVsSolution));
-            IVsHierarchy hierarchy;
-            solution.GetProjectOfUniqueName(GetProjectUniqueName(), out hierarchy);
-            IVsBuildPropertyStorage bps = hierarchy as IVsBuildPropertyStorage;
-
+            IVsBuildPropertyStorage bps = GetBuildPropertyStorage();
             string property = null;
             bps.GetPropertyValue(propertyName, this.GetBaseCfgCanonicalName(), (uint)_PersistStorageType.PST_PROJECT_FILE, out property);
             return property;
@@ -761,11 +795,24 @@ namespace Microsoft.NodejsUwp
         #region IVsProjectCfgDebugTargetSelection Members
         void IVsProjectCfgDebugTargetSelection.GetCurrentDebugTarget(out Guid pguidDebugTargetType, out uint pDebugTargetTypeId, out string pbstrCurrentDebugTarget)
         {
-            IVsBuildPropertyStorage bps = this;
-
+            IVsBuildPropertyStorage bps = GetBuildPropertyStorage();
+            string property = null;
             pguidDebugTargetType = VSConstants.AppPackageDebugTargets.guidAppPackageDebugTargetCmdSet;
-            pDebugTargetTypeId = VSConstants.AppPackageDebugTargets.cmdidAppPackage_RemoteMachine;
-            pbstrCurrentDebugTarget = RemoteTarget;
+
+            bps.GetPropertyValue("RemoteDebugEnabled", this.GetBaseCfgCanonicalName(), (uint)_PersistStorageType.PST_PROJECT_FILE, out property);
+
+            if (null != property && 0 == string.Compare("true", property.ToLower()))
+            {
+                pDebugTargetTypeId = VSConstants.AppPackageDebugTargets.cmdidAppPackage_RemoteMachine;
+                pbstrCurrentDebugTarget = RemoteTarget;
+                isLocalTarget = false;
+            }
+            else
+            {
+                pDebugTargetTypeId = VSConstants.AppPackageDebugTargets.cmdidAppPackage_LocalMachine;
+                pbstrCurrentDebugTarget = LocalTarget;
+                isLocalTarget = true;
+            }
         }
 
         Array IVsProjectCfgDebugTargetSelection.GetDebugTargetListOfType(Guid guidDebugTargetType, uint debugTargetTypeId)
@@ -780,6 +827,9 @@ namespace Microsoft.NodejsUwp
             {
                 case VSConstants.AppPackageDebugTargets.cmdidAppPackage_RemoteMachine:
                     result[0] = RemoteTarget;
+                    break;
+                case VSConstants.AppPackageDebugTargets.cmdidAppPackage_LocalMachine:
+                    result[0] = LocalTarget;
                     break;
                 default:
                     return new string[0];
@@ -800,7 +850,19 @@ namespace Microsoft.NodejsUwp
 
         void IVsProjectCfgDebugTargetSelection.SetCurrentDebugTarget(Guid guidDebugTargetType, uint debugTargetTypeId, string bstrCurrentDebugTarget)
         {
+            IVsBuildPropertyStorage bps = GetBuildPropertyStorage();
 
+            switch (debugTargetTypeId)
+            {
+                case VSConstants.AppPackageDebugTargets.cmdidAppPackage_RemoteMachine:
+                    bps.SetPropertyValue("RemoteDebugEnabled", this.GetBaseCfgCanonicalName(), (uint)_PersistStorageType.PST_PROJECT_FILE, "true");
+                    break;
+                case VSConstants.AppPackageDebugTargets.cmdidAppPackage_LocalMachine:
+                    bps.SetPropertyValue("RemoteDebugEnabled", this.GetBaseCfgCanonicalName(), (uint)_PersistStorageType.PST_PROJECT_FILE, "false");
+                    break;
+                default:
+                    return;
+            }
         }
 
         #endregion
@@ -933,12 +995,17 @@ namespace Microsoft.NodejsUwp
                 IList<Guid> debugEngineGuids = new Guid[] { VSConstants.DebugEnginesGuids.Script_guid };
 
                 rgDebugTargetInfo[0] = new VsDebugTargetInfo2();
-
-
-                IVsBuildPropertyStorage bps = this;//.project as IVsBuildPropertyStorage;      
+  
                 rgDebugTargetInfo[0].bstrExe = "nodeuwp.exe";
                 propertiesList.TryGetValue(NodejsUwpConstants.DebuggerMachineName, out debuggerMachineName);
-                rgDebugTargetInfo[0].bstrRemoteMachine = debuggerMachineName;
+                if (!isLocalTarget)
+                {
+                    rgDebugTargetInfo[0].bstrRemoteMachine = debuggerMachineName;
+                }
+                else
+                {
+                    rgDebugTargetInfo[0].bstrRemoteMachine = Environment.MachineName;
+                }
                 rgDebugTargetInfo[0].guidLaunchDebugEngine = debugEngineGuids[0];
                 rgDebugTargetInfo[0].guidPortSupplier = NativePortSupplier;
                 rgDebugTargetInfo[0].fSendToOutputWindow = 1;
@@ -1204,11 +1271,7 @@ namespace Microsoft.NodejsUwp
             string scriptArguments;
             propertiesList.TryGetValue(NodejsUwpConstants.ScriptArguments, out scriptArguments);
             string canonicalName = null;
-            EnvDTE.DTE dte = (EnvDTE.DTE)Package.GetGlobalService(typeof(EnvDTE.DTE));
-            IVsSolution solution = (IVsSolution)Package.GetGlobalService(typeof(SVsSolution));
-            IVsHierarchy hierarchy;
-            solution.GetProjectOfUniqueName(uniqueName, out hierarchy);
-            IVsBuildPropertyStorage bps = hierarchy as IVsBuildPropertyStorage;
+            IVsBuildPropertyStorage bps = GetBuildPropertyStorage();
 
             get_CanonicalName(out canonicalName);
             bps.GetPropertyValue("TargetDir", canonicalName, (uint)_PersistStorageType.PST_PROJECT_FILE, out targetDir);
@@ -1279,6 +1342,15 @@ namespace Microsoft.NodejsUwp
             {
                 throw new ArgumentOutOfRangeException("Cannot find configuration in mapIVsCfgToSpecializedCfg.");
             }
+        }
+
+        private IVsBuildPropertyStorage GetBuildPropertyStorage()
+        {
+            IVsSolution solution = (IVsSolution)Package.GetGlobalService(typeof(SVsSolution));
+            IVsHierarchy hierarchy;
+            solution.GetProjectOfUniqueName(GetProjectUniqueName(), out hierarchy);
+            IVsBuildPropertyStorage bps = hierarchy as IVsBuildPropertyStorage;
+            return bps;
         }
     }
 }
