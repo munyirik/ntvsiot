@@ -163,7 +163,7 @@ namespace Microsoft.NodejsUwp
                 {
                     EnvDTE.Project activeProj = (EnvDTE.Project)projs.GetValue(0);
                     string projectPath = activeProj.FullName.Substring(0, activeProj.FullName.LastIndexOf('\\'));
-                    NodejsUwpNpmHandler npmHandler = new NodejsUwpNpmHandler();
+                    NpmHandler npmHandler = new NpmHandler();
 
                     // Run npm dedupe
                     npmHandler.RunNpmDedupe(projectPath);

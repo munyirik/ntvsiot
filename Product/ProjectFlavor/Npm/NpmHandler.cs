@@ -37,9 +37,9 @@ namespace Microsoft.NodejsUwp
     /// Attribute to identify classes that are npm handlers
     /// </summary>
     [System.AttributeUsage(System.AttributeTargets.Class)]
-    public class NpmHandler : System.Attribute{ }
+    public class NpmPatcherAttribute : System.Attribute{ }
 
-    public class NodejsUwpNpmHandler
+    public class NpmHandler
     {
         /// <summary>
         /// Package manager window pane GUID that ships with VS2015
@@ -54,7 +54,7 @@ namespace Microsoft.NodejsUwp
         /// <summary>
         /// Timeout for npm command completion in ms
         /// </summary>
-        const int TIMEOUT = 20000;
+        const int TIMEOUT = 30000;
 
         /// <summary>
         /// Prints messages to the package manager output window
@@ -72,7 +72,7 @@ namespace Microsoft.NodejsUwp
         /// <summary>
         /// Ctor
         /// </summary>
-        public NodejsUwpNpmHandler()
+        public NpmHandler()
         {
             IVsOutputWindow output = Package.GetGlobalService(typeof(SVsOutputWindow)) as IVsOutputWindow;
             if (output != null)
@@ -115,7 +115,7 @@ namespace Microsoft.NodejsUwp
             IEnumerable<Type> handlers = GetNpmHandlers();
             foreach(Type h in handlers)
             {
-                INpmHandler npmHandler = (INpmHandler)Activator.CreateInstance(h);
+                INpmPatcher npmHandler = (INpmPatcher)Activator.CreateInstance(h);
                 npmHandler.UpdatePackage(projPath, this.NpmOutputPane, platform);
             }
         }
@@ -128,7 +128,7 @@ namespace Microsoft.NodejsUwp
         {
             foreach (Type type in Assembly.GetExecutingAssembly().GetTypes())
             {
-                if (type.GetCustomAttributes(typeof(NpmHandler), true).Length > 0)
+                if (type.GetCustomAttributes(typeof(NpmPatcherAttribute), true).Length > 0)
                 {
                     yield return type;
                 }

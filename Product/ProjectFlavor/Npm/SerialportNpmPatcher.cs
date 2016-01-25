@@ -24,28 +24,31 @@
 
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace Microsoft.NodejsUwp
 {
     /// <summary>
-    /// Interface for classes that are responsible for applying
-    /// UWP patches to installed npm packages.
+    /// Enables serialport (https://www.npmjs.com/package/serialport) to be used with a Node.js UWP application.
+    /// Source code from: https://github.com/ms-iot/node-serialport/tree/uwp
     /// </summary>
-    interface INpmHandler
+    [NpmPatcherAttribute]
+    class SerialportNpmPatcher : INpmPatcher
     {
-        /// <summary>
-        /// Gets the patch (zipe file).
-        /// </summary>
-        /// <returns></returns>
-        Uri GetPatchUri();
+        private const string NODE_MODULE_VERSION = "v47";
+        private const string Name = "serialport";
+        private const string PatchUri = "http://aka.ms/spc_zip";
 
-        /// <summary>
-        /// Replaces and/or adds files to existing npm package to enable it
-        /// to work in Node.js UWP application.
-        /// </summary>
-        /// <param name="projPath">Path of the project with the node_modules folder</param>
-        /// <param name="pane">Visual Studio output window</param>
-        /// <param name="platform">x86, x64, or ARM</param>
-        void UpdatePackage(string projPath, IVsOutputWindowPane pane, string platform);
+        public void UpdatePackage(string projPath, IVsOutputWindowPane pane, string platform)
+        {
+            Dictionary<string, string> patchMap = new Dictionary<string, string>();
+            patchMap.Add(string.Format(CultureInfo.CurrentCulture, "\\uwp\\{0}\\serialport.node", platform), string.Format(CultureInfo.CurrentCulture,
+                "\\node_modules\\serialport\\build\\Release\\node-{0}-win32-{1}\\serialport.node", NODE_MODULE_VERSION, platform));
+            patchMap.Add("\\uwp\\serialport.js", "\\node_modules\\serialport\\serialport.js");
+
+            NpmPatcher npmPatcher = new NpmPatcher();
+            npmPatcher.UpdatePackage(new Uri(PatchUri), projPath, pane, platform, Name, patchMap);
+        }
     }
 }

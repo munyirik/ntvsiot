@@ -231,12 +231,13 @@
   <ItemGroup>
     <Compile Include="NodejsUwpConstants.cs" />
     <Compile Include="Guids.cs" />
-    <Compile Include="ProjectFlavor\Npm\INpmHandler.cs" />
-    <Compile Include="ProjectFlavor\Npm\NodejsUwpNpmHandler.cs" />
+    <Compile Include="ProjectFlavor\Npm\INpmPatcher.cs" />
+    <Compile Include="ProjectFlavor\Npm\NpmHandler.cs" />
     <Compile Include="ProjectFlavor\NodejsUwpProjectFactory.cs" />
     <Compile Include="ProjectFlavor\NodejsUwpProjectFlavor.cs" />
     <Compile Include="ProjectFlavor\NodejsUwpProjectFlavorCfg.cs" />
-    <Compile Include="ProjectFlavor\Npm\SerialportNpmHandler.cs" />
+    <Compile Include="ProjectFlavor\Npm\NpmPatcher.cs" />
+    <Compile Include="ProjectFlavor\Npm\SerialportNpmPatcher.cs" />
     <Compile Include="PropertyPage\Constants.cs" />
     <Compile Include="PropertyPage\IPageView.cs" />
     <Compile Include="PropertyPage\IPageViewSite.cs" />
