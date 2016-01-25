@@ -122,15 +122,7 @@ namespace Microsoft.NodejsUwp
             // Clean existing extracted path
             if (Directory.Exists(ZipFileExtractPath))
             {
-                DirectoryInfo di = new DirectoryInfo(ZipFileExtractPath);
-                foreach (FileInfo file in di.GetFiles())
-                {
-                    file.Delete();
-                }
-                foreach (DirectoryInfo dir in di.GetDirectories())
-                {
-                    dir.Delete(true);
-                }
+                Directory.Delete(ZipFileExtractPath, true);
             }
 
             try
