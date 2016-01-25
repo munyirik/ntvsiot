@@ -119,14 +119,13 @@ namespace Microsoft.NodejsUwp
 
             string ZipFileExtractPath = string.Format(CultureInfo.CurrentCulture, "{0}{1}patch", ProjectPath, PackageName);
 
-            // Clean existing extracted path
-            if (Directory.Exists(ZipFileExtractPath))
-            {
-                Directory.Delete(ZipFileExtractPath, true);
-            }
-
             try
             {
+                // Clean existing extracted path
+                if (Directory.Exists(ZipFileExtractPath))
+                {
+                    Directory.Delete(ZipFileExtractPath, true);
+                }
                 ZipFile.ExtractToDirectory(ZipFilePath, ZipFileExtractPath);
             }
             catch (Exception ex)
