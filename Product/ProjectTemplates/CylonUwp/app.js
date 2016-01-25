@@ -1,20 +1,6 @@
-// !!BEFORE YOU RUN THIS CODE!!
-
-// 1. Follow the steps in the "Get Serialport" section in the link below:
-// http://ms-iot.github.io/content/en-US/win10/samples/NodejsWUCylon.htm
-// Even though serialport (a Cylon dependency) is installed when a new 
-// Cylon project is created, you still need a version that:
-//   - Matches the processor architecture of the device you are targeting.
-//   - Is UWP (Universal Windows Platform) compatible.
-// The link above also has a sample code and steps to use Cylon on a Raspberry Pi 2 
-// to control a servo connected to an Arduino.
-// Go to http://cylonjs.com/documentation for Cylon.js documentation and more samples.
-
-// 2. Run 'npm dedupe' (in a cmd window) in the project node_modules folder. This is only
-// required if Visual Studio doesn't prompt to do it automatically. 
-// Using 'npm dedupe' (and npm v3+) is required to avoid deployment errors caused 
-// by node module paths that are too long for the target device.
-
+// Before running this code, update serialport by right-clicking on the npm node 
+// (in the Solution Explorer) and selecting 'Update npm Packages'
+// Doing this will enable serialport to work with this application.
 
 var Cylon = require('cylon');
 

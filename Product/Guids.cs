@@ -36,11 +36,17 @@ namespace Microsoft.NodejsUwp
         public const string NodejsUwpPropertyPageControlString = "1BCA76F2-CEA7-4FCD-8219-BFEB1CB7D6B9";
         public const string NodejsUwpPropertyPageViewString = "05BB0C3B-BC95-4923-84ED-3A89C0DA882F";
 
-        // This string is the GUID for the "NodejsProjectNodeProperties" class in the base project
+        // GUID string for the "NodejsProjectNodeProperties" class in the base project.
+        // Source: https://github.com/Microsoft/nodejstools/blob/master/Nodejs/Product/Nodejs/Project/NodejsProjectNodeProperties.cs
         public const string PropertyExtenderCATIDString = "04726c27-8125-471a-bac0-2301d273db5e";
+
+        // GUID string to identify when a npm command is made by the base project.
+        // Source: https://github.com/Microsoft/nodejstools/blob/master/Nodejs/Product/Nodejs/Guids.cs
+        public const string NodejsNpmCmdSetString = "9F4B31B4-09AC-4937-A2E7-F4BC02BB7DBA";
 
         public static readonly Guid guidNodejsUwpCmdSet = new Guid(NodejsUwpCmdSetString);
         public static readonly Guid guidNodejsUwpProjectFactory = new Guid(NodejsUwpProjectFactoryString);
         public static readonly Guid guidPropertyExtenderCATID = new Guid(PropertyExtenderCATIDString);
+        public static readonly Guid NodejsNpmCmdSet = new Guid(NodejsNpmCmdSetString);
     };
 }
