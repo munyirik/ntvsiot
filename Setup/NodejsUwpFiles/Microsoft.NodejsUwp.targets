@@ -22,7 +22,7 @@
   <!-- Normal install environment, use the current version -->
   <PropertyGroup>
     <ProjectHome Condition="'$(ProjectHome)' == ''">.</ProjectHome>
-    <OutputPath>bin\</OutputPath>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
   </PropertyGroup>
   
   <UsingTask TaskName="CreateStartupInfoFileTask" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" >
