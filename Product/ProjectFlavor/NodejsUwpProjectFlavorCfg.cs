@@ -536,12 +536,18 @@ namespace Microsoft.NodejsUwp
                 return VSConstants.E_ABORT;
             }
 
-            if(isLocalTarget)
+            if (isLocalTarget)
             {
-                LocalDeploy();
-                return VSConstants.S_OK;
+                return LocalDeploy();
             }
+            else
+            {
+                return RemoteDeploy();
+            }
+        }
 
+        private int RemoteDeploy()
+        {
             IVsAppContainerBootstrapper4 bootstrapper = (IVsAppContainerBootstrapper4)ServiceProvider.GlobalProvider.GetService(typeof(SVsAppContainerProjectDeploy));
 
             VsBootstrapperPackageInfo[] packagesToDeployList = new VsBootstrapperPackageInfo[] {
@@ -617,7 +623,7 @@ namespace Microsoft.NodejsUwp
 
             uint deployFlags = (uint)(_AppContainerDeployOptions.ACDO_NetworkLoopbackEnable | _AppContainerDeployOptions.ACDO_SetNetworkLoopback);
 
-            if(!PrepareNodeStartupInfo(GetProjectUniqueName()))
+            if (!PrepareNodeStartupInfo(GetProjectUniqueName()))
             {
                 this.NotifyEndDeploy(0);
                 return;
@@ -630,7 +636,7 @@ namespace Microsoft.NodejsUwp
             }
         }
 
-        private void LocalDeploy()
+        private int LocalDeploy()
         {
             IVsAppContainerProjectDeploy2 deployHelper = (IVsAppContainerProjectDeploy2)this.serviceProvider.GetService(typeof(SVsAppContainerProjectDeploy));
 
@@ -639,7 +645,7 @@ namespace Microsoft.NodejsUwp
             if (!PrepareNodeStartupInfo(GetProjectUniqueName()))
             {
                 this.NotifyEndDeploy(0);
-                return;
+                return VSConstants.E_ABORT;
             }
 
             string layoutDir = null;
@@ -651,6 +657,8 @@ namespace Microsoft.NodejsUwp
             {
                 this.appContainerDeployOperation = localAppContainerDeployOperation;
             }
+
+            return VSConstants.S_OK;
         }
 
         private IVsAppContainerBootstrapperResult BootstrapForDebuggingSync(string targetDevice)
