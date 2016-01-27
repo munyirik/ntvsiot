@@ -22,19 +22,21 @@
     THE SOFTWARE.
 */
 
-using System;
-using System.Runtime.InteropServices;
+using Microsoft.SmartDevice.Connectivity;
+using Microsoft.SmartDevice.Connectivity.Wrapper;
 using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.OLE.Interop;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Debugger.Interop;
-using System.Windows.Forms;
+using Microsoft.VisualStudio.OLE.Interop;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
-using System.IO;
-using System.Globalization;
 
 namespace Microsoft.NodejsUwp
 {
@@ -71,13 +73,18 @@ namespace Microsoft.NodejsUwp
         private IVsHierarchy project;
         private const string RemoteTarget = "Remote Machine";
         private const string LocalTarget = "Local Machine";
+        private const string PhoneTarget = "Device";
         private static readonly Guid NativePortSupplier = new Guid("3b476d38-a401-11d2-aad4-00c04f990171"); // NativePortSupplier corespond to connection with No-Authentication mode
         private bool isDirty;
         private Dictionary<string, string> propertiesList = new Dictionary<string, string>();
         static Dictionary<IVsCfg, NodejsUwpProjectFlavorCfg> mapIVsCfgToNodejsUwpProjectFlavorCfg = new Dictionary<IVsCfg, NodejsUwpProjectFlavorCfg>();
         private readonly System.IServiceProvider serviceProvider;
         private IVsDebuggerDeployConnection debuggerDeployConnection;
-        private bool isLocalTarget = false;
+        private enum TargetType { Remote, Local, Phone }
+        private TargetType ActiveTargetType;
+        public const string DeviceIdString = "30f105c9-681e-420b-a277-7c086ead8a4e"; // ID for Windows Phone device
+        VsBootstrapperPackageInfo[] packagesToDeployList;
+        VsBootstrapperPackageInfo[] optionalPackagesToDeploy;
 
         #region properties
 
@@ -99,6 +106,17 @@ namespace Microsoft.NodejsUwp
             project = baseProjectNode;
             mapIVsCfgToNodejsUwpProjectFlavorCfg.Add(baseConfiguration, this);
             serviceProvider = this.project as System.IServiceProvider;
+
+            packagesToDeployList = new VsBootstrapperPackageInfo[] {
+                new VsBootstrapperPackageInfo { PackageName = "D8B19935-BDBF-4D5B-9619-A6693AFD4554" }, // ScriptMsVsMon
+                new VsBootstrapperPackageInfo { PackageName = "EB22551A-7F66-465F-B53F-E5ABA0C0574E" }, // NativeMsVsMon  
+                new VsBootstrapperPackageInfo { PackageName = "62B807E2-6539-46FB-8D67-A73DC9499940" } // ManagedMsVsMon  
+            };
+            optionalPackagesToDeploy = new VsBootstrapperPackageInfo[] {
+                new VsBootstrapperPackageInfo { PackageName = "FEC73B34-86DE-4EA8-BFF4-3600A0443E9C" }, // NativeMsVsMonDependency  
+                new VsBootstrapperPackageInfo { PackageName = "B968CC6A-D2C8-4197-88E3-11662042C291" }, // XamlUIDebugging  
+                new VsBootstrapperPackageInfo { PackageName = "8CDEABEF-33E1-4A23-A13F-94A49FF36E84" }  // XamlUIDebuggingDependency  
+            };
         }
 
         internal IVsHierarchy NodeConfig
@@ -389,12 +407,12 @@ namespace Microsoft.NodejsUwp
             int targetLength = (int)Marshal.SizeOf(typeof(VsDebugTargetInfo4));
 
             this.CopyDebugTargetInfo(ref targets[0], ref appPackageDebugTarget[0], flags);
-            if (!isLocalTarget)
+            if (TargetType.Phone == ActiveTargetType || TargetType.Remote == ActiveTargetType)
             {
                 IVsAppContainerBootstrapperResult result = this.BootstrapForDebuggingSync(targets[0].bstrRemoteMachine);
                 appPackageDebugTarget[0].bstrRemoteMachine = result.Address;
             }
-            else
+            else if (TargetType.Local == ActiveTargetType)
             {
                 appPackageDebugTarget[0].bstrRemoteMachine = targets[0].bstrRemoteMachine;
             }
@@ -536,31 +554,55 @@ namespace Microsoft.NodejsUwp
                 return VSConstants.E_ABORT;
             }
 
-            if (isLocalTarget)
+            switch(ActiveTargetType)
             {
-                return LocalDeploy();
+                case TargetType.Remote:
+                    return RemoteDeploy();
+                case TargetType.Local:
+                    return LocalDeploy();
+                case TargetType.Phone:
+                    return PhoneDeploy();
+                default:
+                    return VSConstants.E_ABORT;            
             }
-            else
-            {
-                return RemoteDeploy();
-            }
+
         }
 
+        private void OnBootstrapEnd(string remoteMachine, IVsAppContainerBootstrapperResult result)
+        {
+            if (result == null || !result.Succeeded)
+            {
+                this.NotifyEndDeploy(0);
+                return;
+            }
+
+            IVsDebuggerDeploy deploy = (IVsDebuggerDeploy)this.serviceProvider.GetService(typeof(SVsShellDebugger));
+            int hr = deploy.ConnectToTargetComputer(result.Address, VsDebugRemoteAuthenticationMode.VSAUTHMODE_None, out this.debuggerDeployConnection);
+            if (ErrorHandler.Failed(hr))
+            {
+                this.NotifyEndDeploy(0);
+                return;
+            }
+
+            IVsAppContainerProjectDeploy2 deployHelper = (IVsAppContainerProjectDeploy2)this.serviceProvider.GetService(typeof(SVsAppContainerProjectDeploy));
+
+            uint deployFlags = (uint)(_AppContainerDeployOptions.ACDO_NetworkLoopbackEnable | _AppContainerDeployOptions.ACDO_SetNetworkLoopback);
+
+            if (!PrepareNodeStartupInfo(GetProjectUniqueName()))
+            {
+                this.NotifyEndDeploy(0);
+                return;
+            }
+
+            IVsAppContainerProjectDeployOperation localAppContainerDeployOperation = deployHelper.StartRemoteDeployAsync(deployFlags, this.debuggerDeployConnection, remoteMachine, this.GetRecipeFile(), this.GetProjectUniqueName(), this);
+            lock (syncObject)
+            {
+                this.appContainerDeployOperation = localAppContainerDeployOperation;
+            }
+        }
         private int RemoteDeploy()
         {
             IVsAppContainerBootstrapper4 bootstrapper = (IVsAppContainerBootstrapper4)ServiceProvider.GlobalProvider.GetService(typeof(SVsAppContainerProjectDeploy));
-
-            VsBootstrapperPackageInfo[] packagesToDeployList = new VsBootstrapperPackageInfo[] {
-                new VsBootstrapperPackageInfo { PackageName = "D8B19935-BDBF-4D5B-9619-A6693AFD4554" }, // ScriptMsVsMon
-                new VsBootstrapperPackageInfo { PackageName = "EB22551A-7F66-465F-B53F-E5ABA0C0574E" }, // NativeMsVsMon  
-                new VsBootstrapperPackageInfo { PackageName = "62B807E2-6539-46FB-8D67-A73DC9499940" } // ManagedMsVsMon  
-            };
-            VsBootstrapperPackageInfo[] optionalPackagesToDeploy = new VsBootstrapperPackageInfo[] {
-                new VsBootstrapperPackageInfo { PackageName = "FEC73B34-86DE-4EA8-BFF4-3600A0443E9C" }, // NativeMsVsMonDependency  
-                new VsBootstrapperPackageInfo { PackageName = "B968CC6A-D2C8-4197-88E3-11662042C291" }, // XamlUIDebugging  
-                new VsBootstrapperPackageInfo { PackageName = "8CDEABEF-33E1-4A23-A13F-94A49FF36E84" }  // XamlUIDebuggingDependency  
-            };
-
             BootstrapMode bootStrapMode = BootstrapMode.UniversalBootstrapMode;
 
             VsDebugTargetInfo2[] targets;
@@ -596,44 +638,11 @@ namespace Microsoft.NodejsUwp
                 }
                 finally
                 {
-                    this.OnBootstrapEnd(targets[0].bstrRemoteMachine, projectUniqueName, result);
+                    this.OnBootstrapEnd(targets[0].bstrRemoteMachine, result);
                 }
             });
 
             return VSConstants.S_OK;
-        }
-
-        private void OnBootstrapEnd(string remoteMachine, string projectUniqueName, IVsAppContainerBootstrapperResult result)
-        {
-            if (result == null || !result.Succeeded)
-            {
-                this.NotifyEndDeploy(0);
-                return;
-            }
-
-            IVsDebuggerDeploy deploy = (IVsDebuggerDeploy)this.serviceProvider.GetService(typeof(SVsShellDebugger));
-            int hr = deploy.ConnectToTargetComputer(result.Address, VsDebugRemoteAuthenticationMode.VSAUTHMODE_None, out this.debuggerDeployConnection);
-            if (ErrorHandler.Failed(hr))
-            {
-                this.NotifyEndDeploy(0);
-                return;
-            }
-
-            IVsAppContainerProjectDeploy2 deployHelper = (IVsAppContainerProjectDeploy2)this.serviceProvider.GetService(typeof(SVsAppContainerProjectDeploy));
-
-            uint deployFlags = (uint)(_AppContainerDeployOptions.ACDO_NetworkLoopbackEnable | _AppContainerDeployOptions.ACDO_SetNetworkLoopback);
-
-            if (!PrepareNodeStartupInfo(GetProjectUniqueName()))
-            {
-                this.NotifyEndDeploy(0);
-                return;
-            }
-
-            IVsAppContainerProjectDeployOperation localAppContainerDeployOperation = deployHelper.StartRemoteDeployAsync(deployFlags, this.debuggerDeployConnection, remoteMachine, this.GetRecipeFile(), this.GetProjectUniqueName(), this);
-            lock (syncObject)
-            {
-                this.appContainerDeployOperation = localAppContainerDeployOperation;
-            }
         }
 
         private int LocalDeploy()
@@ -661,10 +670,58 @@ namespace Microsoft.NodejsUwp
             return VSConstants.S_OK;
         }
 
+        private int PhoneDeploy()
+        {
+            IVsAppContainerBootstrapper3 bootstrapper = (IVsAppContainerBootstrapper3)ServiceProvider.GlobalProvider.GetService(typeof(SVsAppContainerProjectDeploy));
+
+            string projectUniqueName = GetProjectUniqueName(); 
+             IVsTask localAppContainerBootstrapperOperation = bootstrapper.BootstrapAsync(projectUniqueName,
+                                                                                            DeviceIdString,
+                                                                                            packagesToDeployList.Length,
+                                                                                            packagesToDeployList,
+                                                                                            optionalPackagesToDeploy.Length,
+                                                                                            optionalPackagesToDeploy,
+                                                                                            this);
+
+            lock (syncObject)
+            {
+                this.appContainerBootstrapperOperation = localAppContainerBootstrapperOperation;
+            }
+
+            ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+            {
+                IVsAppContainerBootstrapperResult result = null;
+                try
+                {
+                    object taskResult = await localAppContainerBootstrapperOperation;
+                    result = (IVsAppContainerBootstrapperResult)taskResult;
+                }
+                finally
+                {
+                    this.OnBootstrapEnd(DeviceIdString, result);
+                }
+            });
+
+            return VSConstants.S_OK;
+        }
+
         private IVsAppContainerBootstrapperResult BootstrapForDebuggingSync(string targetDevice)
         {
-            IVsAppContainerBootstrapper4 bootstrapper = (IVsAppContainerBootstrapper4)ServiceProvider.GlobalProvider.GetService(typeof(SVsAppContainerProjectDeploy));
-            return (IVsAppContainerBootstrapperResult)bootstrapper.BootstrapForDebuggingAsync(this.GetProjectUniqueName(), targetDevice, BootstrapMode.UniversalBootstrapMode, this.GetRecipeFile(), logger: null).GetResult();
+            if (TargetType.Phone == ActiveTargetType)
+            {
+                Device device = ConnectivityWrapper12.GetDevice(1033, DeviceIdString);
+                PlatformInfo platform = ConnectivityWrapper12.GetPlatformInfo(device);
+
+                ConnectivityWrapper12.CreateConnectedDeviceInstance(device);
+                targetDevice = device.Id.ToString();
+
+                IVsAppContainerBootstrapper bootstrapper = (IVsAppContainerBootstrapper)ServiceProvider.GlobalProvider.GetService(typeof(SVsAppContainerProjectDeploy));
+                return (IVsAppContainerBootstrapperResult)bootstrapper.BootstrapForDebuggingAsync(GetProjectUniqueName(), targetDevice, this.GetRecipeFile(), logger: null).GetResult();
+            }
+
+
+            IVsAppContainerBootstrapper4 bootstrapper4 = (IVsAppContainerBootstrapper4)ServiceProvider.GlobalProvider.GetService(typeof(SVsAppContainerProjectDeploy));
+            return (IVsAppContainerBootstrapperResult)bootstrapper4.BootstrapForDebuggingAsync(this.GetProjectUniqueName(), targetDevice, BootstrapMode.UniversalBootstrapMode, this.GetRecipeFile(), logger: null).GetResult();
         }
 
         private string GetProjectUniqueName()
@@ -806,20 +863,34 @@ namespace Microsoft.NodejsUwp
             IVsBuildPropertyStorage bps = GetBuildPropertyStorage();
             string property = null;
             pguidDebugTargetType = VSConstants.AppPackageDebugTargets.guidAppPackageDebugTargetCmdSet;
+            pbstrCurrentDebugTarget = "";
+            pDebugTargetTypeId = 0;
 
-            bps.GetPropertyValue("RemoteDebugEnabled", this.GetBaseCfgCanonicalName(), (uint)_PersistStorageType.PST_PROJECT_FILE, out property);
+            bps.GetPropertyValue("DeployTarget", this.GetBaseCfgCanonicalName(), (uint)_PersistStorageType.PST_PROJECT_FILE, out property);
 
-            if (null != property && 0 == string.Compare("true", property.ToLower()))
+            if(null == property)
+            {
+                return;
+            }
+            
+            if (0 == string.Compare("remote", property.ToLower()))
             {
                 pDebugTargetTypeId = VSConstants.AppPackageDebugTargets.cmdidAppPackage_RemoteMachine;
                 pbstrCurrentDebugTarget = RemoteTarget;
-                isLocalTarget = false;
+                ActiveTargetType = TargetType.Remote;
+
             }
-            else
+            else if (0 == string.Compare("local", property.ToLower()))
             {
                 pDebugTargetTypeId = VSConstants.AppPackageDebugTargets.cmdidAppPackage_LocalMachine;
                 pbstrCurrentDebugTarget = LocalTarget;
-                isLocalTarget = true;
+                ActiveTargetType = TargetType.Local;
+            }
+            else if (0 == string.Compare("phone", property.ToLower()))
+            {
+                pDebugTargetTypeId = VSConstants.AppPackageDebugTargets.cmdidAppPackage_Emulator;
+                pbstrCurrentDebugTarget = PhoneTarget;
+                ActiveTargetType = TargetType.Phone;
             }
         }
 
@@ -839,6 +910,9 @@ namespace Microsoft.NodejsUwp
                 case VSConstants.AppPackageDebugTargets.cmdidAppPackage_LocalMachine:
                     result[0] = LocalTarget;
                     break;
+                case VSConstants.AppPackageDebugTargets.cmdidAppPackage_Emulator:
+                    result[0] = PhoneTarget;
+                    break;
                 default:
                     return new string[0];
             }
@@ -850,7 +924,8 @@ namespace Microsoft.NodejsUwp
         {
             pbstrSupportedTargetCommandIDs = new string[] {
                 String.Join(":", VSConstants.AppPackageDebugTargets.guidAppPackageDebugTargetCmdSet, VSConstants.AppPackageDebugTargets.cmdidAppPackage_LocalMachine),
-                String.Join(":", VSConstants.AppPackageDebugTargets.guidAppPackageDebugTargetCmdSet, VSConstants.AppPackageDebugTargets.cmdidAppPackage_RemoteMachine)
+                String.Join(":", VSConstants.AppPackageDebugTargets.guidAppPackageDebugTargetCmdSet, VSConstants.AppPackageDebugTargets.cmdidAppPackage_RemoteMachine),
+                String.Join(":", VSConstants.AppPackageDebugTargets.guidAppPackageDebugTargetCmdSet, VSConstants.AppPackageDebugTargets.cmdidAppPackage_Emulator)
             };
 
             return true;
@@ -863,10 +938,13 @@ namespace Microsoft.NodejsUwp
             switch (debugTargetTypeId)
             {
                 case VSConstants.AppPackageDebugTargets.cmdidAppPackage_RemoteMachine:
-                    bps.SetPropertyValue("RemoteDebugEnabled", this.GetBaseCfgCanonicalName(), (uint)_PersistStorageType.PST_PROJECT_FILE, "true");
+                    bps.SetPropertyValue("DeployTarget", this.GetBaseCfgCanonicalName(), (uint)_PersistStorageType.PST_PROJECT_FILE, "remote");
                     break;
                 case VSConstants.AppPackageDebugTargets.cmdidAppPackage_LocalMachine:
-                    bps.SetPropertyValue("RemoteDebugEnabled", this.GetBaseCfgCanonicalName(), (uint)_PersistStorageType.PST_PROJECT_FILE, "false");
+                    bps.SetPropertyValue("DeployTarget", this.GetBaseCfgCanonicalName(), (uint)_PersistStorageType.PST_PROJECT_FILE, "local");
+                    break;
+                case VSConstants.AppPackageDebugTargets.cmdidAppPackage_Emulator:
+                    bps.SetPropertyValue("DeployTarget", this.GetBaseCfgCanonicalName(), (uint)_PersistStorageType.PST_PROJECT_FILE, "phone");
                     break;
                 default:
                     return;
@@ -1006,13 +1084,17 @@ namespace Microsoft.NodejsUwp
   
                 rgDebugTargetInfo[0].bstrExe = "nodeuwp.exe";
                 propertiesList.TryGetValue(NodejsUwpConstants.DebuggerMachineName, out debuggerMachineName);
-                if (!isLocalTarget)
+                if (TargetType.Remote == ActiveTargetType)
                 {
                     rgDebugTargetInfo[0].bstrRemoteMachine = debuggerMachineName;
                 }
-                else
+                else if (TargetType.Local == ActiveTargetType)
                 {
                     rgDebugTargetInfo[0].bstrRemoteMachine = Environment.MachineName;
+                }
+                else if (TargetType.Phone == ActiveTargetType)
+                {
+                    rgDebugTargetInfo[0].bstrRemoteMachine = DeviceIdString;
                 }
                 rgDebugTargetInfo[0].guidLaunchDebugEngine = debugEngineGuids[0];
                 rgDebugTargetInfo[0].guidPortSupplier = NativePortSupplier;
