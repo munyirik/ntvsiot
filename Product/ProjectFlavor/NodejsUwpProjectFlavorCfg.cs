@@ -82,9 +82,9 @@ namespace Microsoft.NodejsUwp
         private IVsDebuggerDeployConnection debuggerDeployConnection;
         private enum TargetType { Remote, Local, Phone }
         private TargetType ActiveTargetType;
-        public const string DeviceIdString = "30f105c9-681e-420b-a277-7c086ead8a4e"; // ID for Windows Phone device
-        VsBootstrapperPackageInfo[] packagesToDeployList;
-        VsBootstrapperPackageInfo[] optionalPackagesToDeploy;
+        private const string DeviceIdString = "30f105c9-681e-420b-a277-7c086ead8a4e"; // ID for Windows Phone device
+        private readonly VsBootstrapperPackageInfo[] packagesToDeployList;
+        private readonly VsBootstrapperPackageInfo[] optionalPackagesToDeploy;
 
         #region properties
 
@@ -709,7 +709,7 @@ namespace Microsoft.NodejsUwp
         {
             if (TargetType.Phone == ActiveTargetType)
             {
-                Device device = ConnectivityWrapper12.GetDevice(1033, DeviceIdString);
+                Device device = ConnectivityWrapper12.GetDevice(CultureInfo.CurrentCulture.LCID, DeviceIdString);
                 PlatformInfo platform = ConnectivityWrapper12.GetPlatformInfo(device);
 
                 ConnectivityWrapper12.CreateConnectedDeviceInstance(device);
@@ -863,7 +863,7 @@ namespace Microsoft.NodejsUwp
             IVsBuildPropertyStorage bps = GetBuildPropertyStorage();
             string property = null;
             pguidDebugTargetType = VSConstants.AppPackageDebugTargets.guidAppPackageDebugTargetCmdSet;
-            pbstrCurrentDebugTarget = "";
+            pbstrCurrentDebugTarget = string.Empty;
             pDebugTargetTypeId = 0;
 
             bps.GetPropertyValue("DeployTarget", this.GetBaseCfgCanonicalName(), (uint)_PersistStorageType.PST_PROJECT_FILE, out property);
