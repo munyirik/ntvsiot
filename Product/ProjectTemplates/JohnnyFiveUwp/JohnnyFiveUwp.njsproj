@@ -29,7 +29,7 @@
     <WindowsTargetPlatformMinVersion>$winsdkminversion$</WindowsTargetPlatformMinVersion>
     <AppxPackage>true</AppxPackage>
     <WindowsAppContainer>true</WindowsAppContainer>
-    <RemoteDebugEnabled>true</RemoteDebugEnabled>
+    <DeployTarget>remote</DeployTarget>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
