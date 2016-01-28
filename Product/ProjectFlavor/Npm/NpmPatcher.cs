@@ -99,7 +99,8 @@ namespace Microsoft.NodejsUwp
         {
             if (e.Error != null)
             {
-                NpmHandler.PrintOutput(e.Error.Message, NpmOutputPane);
+                NpmHandler.PrintOutput(string.Format(CultureInfo.CurrentCulture, "Download failed: {0}",
+                    e.Error.Message), NpmOutputPane);
                 return;
             }
 

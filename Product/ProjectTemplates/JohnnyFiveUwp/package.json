@@ -9,7 +9,6 @@
     "email": ""
   },
   "dependencies": {
-    "request": "*",
     "johnny-five": "^0.9.14"
   }
 }
