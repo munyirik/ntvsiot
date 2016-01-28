@@ -30,11 +30,6 @@ namespace Microsoft.NodejsUwp
         private IVsOutputWindowPane NpmOutputPane { get; set; }
 
         /// <summary>
-        /// Platform architecture of target where package will be deployed to.
-        /// </summary>
-        private string Platform { get; set; }
-
-        /// <summary>
         /// Name of the npm package.
         /// </summary>
         private string PackageName { get; set; }
@@ -55,10 +50,9 @@ namespace Microsoft.NodejsUwp
         /// <param name="uri">Uri of zip file with patch</param>
         /// <param name="destPath">Patch download destination</param>
         /// <param name="pane">Visual Studio output pane to display messages</param>
-        /// <param name="platform">Platform architecture of target where package will be deployed to</param>
         /// <param name="packageName">Name of the npm package</param>
         /// <param name="patchMap">Maps the files in in patch to their destinations</param>
-        internal void UpdatePackage(Uri uri, string destPath, IVsOutputWindowPane pane, string platform, string packageName, Dictionary<string, string> patchMap)
+        internal void UpdatePackage(Uri uri, string destPath, IVsOutputWindowPane pane, string packageName, Dictionary<string, string> patchMap)
         {
             ProjectPath = string.Format(CultureInfo.CurrentCulture, "{0}\\", destPath);
 
@@ -69,7 +63,6 @@ namespace Microsoft.NodejsUwp
             }
 
             NpmOutputPane = pane;
-            Platform = platform;
             PackageName = packageName;
             PatchMap = patchMap;
             PatchUri = uri;
@@ -160,6 +153,8 @@ namespace Microsoft.NodejsUwp
                     {
                         Directory.CreateDirectory(dest.DirectoryName);
                     }
+                    NpmHandler.PrintOutput(string.Format(CultureInfo.CurrentCulture, "Copying {0} to {1}",
+                        src.FullName, dest.FullName), NpmOutputPane);
                     File.Copy(src.FullName, dest.FullName, true);
                 }
                 catch (Exception ex)
