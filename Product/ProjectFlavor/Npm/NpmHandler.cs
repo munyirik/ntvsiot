@@ -109,14 +109,13 @@ namespace Microsoft.NodejsUwp
         /// and use them to apply UWP patches to installed npm packages as required.
         /// </summary>
         /// <param name="projPath">Path of the Node.js UWP project</param>
-        /// <param name="platform">x86, x64, or ARM</param>
-        public void UpdateNpmPackages(string projPath, string platform)
+        public void UpdateNpmPackages(string projPath)
         {
             IEnumerable<Type> handlers = GetNpmHandlers();
             foreach(Type h in handlers)
             {
                 INpmPatcher npmHandler = (INpmPatcher)Activator.CreateInstance(h);
-                npmHandler.UpdatePackage(projPath, this.NpmOutputPane, platform);
+                npmHandler.UpdatePackage(projPath, this.NpmOutputPane);
             }
         }
 
