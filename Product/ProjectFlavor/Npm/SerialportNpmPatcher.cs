@@ -39,23 +39,18 @@ namespace Microsoft.NodejsUwp
         private const string NODE_MODULE_VERSION = "v47";
         private const string Name = "serialport";
         private const string PatchUri = "http://aka.ms/spc_zip";
-        private enum Platforms { arm, x86, x64 }
+        private enum Platform { arm, x86, x64 }
 
         public void UpdatePackage(string projPath, IVsOutputWindowPane pane)
         {
             Dictionary<string, string> patchMap = new Dictionary<string, string>();
-            string altPlatName = string.Empty;
 
             patchMap.Add("\\uwp\\serialport.js", "\\node_modules\\serialport\\serialport.js");
-            foreach (string plat in Enum.GetNames(typeof(Platforms)))
+            foreach (Platform platform in Enum.GetValues(typeof(Platform)))
             {
-                altPlatName = plat;
-                if (0 == string.Compare(plat, Platforms.x86.ToString("g")))
-                {
-                    altPlatName = "ia32";
-                }
-                patchMap.Add(string.Format(CultureInfo.CurrentCulture, "\\uwp\\{0}\\serialport.node", plat), string.Format(CultureInfo.CurrentCulture,
-                    "\\node_modules\\serialport\\build\\Release\\node-{0}-win32-{1}\\serialport.node", NODE_MODULE_VERSION, altPlatName));      
+                string platformStr = platform.ToString();
+                patchMap.Add(string.Format(CultureInfo.CurrentCulture, "\\uwp\\{0}\\serialport.node", platformStr), string.Format(CultureInfo.CurrentCulture,
+                    "\\node_modules\\serialport\\build\\Release\\node-{0}-win32-{1}\\serialport.node", NODE_MODULE_VERSION, (platform == Platform.x86) ? "ia32" : platformStr));      
             }
 
             NpmPatcher npmPatcher = new NpmPatcher();
