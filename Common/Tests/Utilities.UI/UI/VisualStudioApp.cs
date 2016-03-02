@@ -739,6 +739,19 @@ namespace TestUtilities.UI {
             Assert.AreEqual(mode, VSTestContext.DTE.Debugger.CurrentMode);
         }
 
+        /// <summary>
+        /// Waits for debugger to get into a specified mode
+        /// </summary>
+        /// <param name="mode">Debugger mode to wait for</param>
+        /// <param name="timeout">Timeout in seconds</param>
+        public void WaitForMode(dbgDebugMode mode, int timeout) {
+            for (int i = 0; i < timeout && Dte.Debugger.CurrentMode != mode; i++) {
+                System.Threading.Thread.Sleep(1000);
+            }
+
+            Assert.AreEqual(mode, VSTestContext.DTE.Debugger.CurrentMode);
+        }
+
         public virtual Project CreateProject(
             string languageName,
             string templateName,
