@@ -18,7 +18,7 @@
       <RollbackBoundary />
 	  <MsiPackage Id="NTVSBaseInstaller" SourceFile="$(env.NodejsToolsBundleRelDir)\NTVS.msi" Vital="yes" DisplayInternalUI="no" Visible="yes"/>
       <RollbackBoundary />
-      <MsiPackage Id="NTVSIoTExtensionInstaller" SourceFile="$(env.NodejsToolsBundleRelDir)\NTVSIoTExtension.msi" Vital="yes" DisplayInternalUI="no" Visible="yes"/>
+      <MsiPackage Id="NTVSIoTExtensionInstaller" SourceFile="$(env.NodejsToolsBundleRelDir)\NTVSUWPExtension.msi" Vital="yes" DisplayInternalUI="no" Visible="yes"/>
     </Chain>
 	
     <WixVariable Id="WixStdbaThemeWxl" Value="Theme.wxl" />
