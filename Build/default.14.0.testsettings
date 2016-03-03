@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<TestSettings name="default" id="FBA3FF0E-57FA-403D-BD46-7A1DC123D369" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <Description>Local test runs with the VS 2015 Experimental Hive</Description>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestSettings name="default" id="fba3ff0e-57fa-403d-bd46-7a1dc123d369" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Description>Local test runs with the VS 2015</Description>
   <Execution>
-    <Timeouts runTimeout="7200000" testTimeout="300000" />
+    <Timeouts runTimeout="7200000" testTimeout="600000" />
     <TestTypeSpecific>
       <UnitTestRunConfig testTypeId="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b">
         <AssemblyResolution>
@@ -19,16 +19,25 @@
           </DiscoveryResolution>
         </AssemblyResolution>
       </UnitTestRunConfig>
+      <WebTestRunConfiguration testTypeId="4e7599fa-5ecb-43e9-a887-cd63cf72d207">
+        <Browser name="Internet Explorer 9.0" MaxConnections="6">
+          <Headers>
+            <Header name="User-Agent" value="Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)" />
+            <Header name="Accept" value="*/*" />
+            <Header name="Accept-Language" value="{{$IEAcceptLanguage}}" />
+            <Header name="Accept-Encoding" value="GZIP" />
+          </Headers>
+        </Browser>
+      </WebTestRunConfiguration>
     </TestTypeSpecific>
     <AgentRule name="LocalMachineDefaultRole">
     </AgentRule>
   </Execution>
   <Properties>
-    <Property name="VSApplication" value="VisualStudio"/>
-    <Property name="VSExecutable" value="devenv"/>
-    <Property name="VSVersion" value="14.0"/>
-    <Property name="VSHive" value=""/>
-    <Property name="VSDebugMixedMode" value="false"/>
-    <Property name="VSLaunchTimeoutInSeconds" value="120"/>
+    <Property name="VSApplication" value="VisualStudio" />
+    <Property name="VSExecutable" value="devenv" />
+    <Property name="VSVersion" value="14.0" />
+    <Property name="VSDebugMixedMode" value="false" />
+    <Property name="VSLaunchTimeoutInSeconds" value="120" />
   </Properties>
 </TestSettings>

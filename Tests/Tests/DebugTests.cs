@@ -95,6 +95,11 @@ namespace NodejsUwp.Tests
                 AutomationElement doc = null;
                 for (int i = 0; i < 10; i++)
                 {
+                    doc = app.GetDocumentTab("HelloWorld");
+                    if (doc != null)
+                    {
+                        break;
+                    }
                     doc = app.GetDocumentTab("HelloWorld.njsproj");
                     if (doc != null)
                     {
@@ -127,7 +132,7 @@ namespace NodejsUwp.Tests
                 app.Dte.ExecuteCommand("Debug.Start");
 
                 // Check that breakpoint is hit
-                app.WaitForMode(dbgDebugMode.dbgBreakMode);
+                app.WaitForMode(dbgDebugMode.dbgBreakMode, 120);
                 Assert.IsTrue(app.Dte.ActiveDocument.Name.Contains("server.js"));
                 Assert.IsTrue((app.Dte.ActiveDocument.Object("TextDocument") as TextDocument).Selection.ActivePoint.Line == 3);
             }
