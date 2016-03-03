@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
-    <String Id="ProductName">NTVS IoT Extension</String>
+    <String Id="ProductName">NTVS UWP Extension</String>
     <String Id="ForVisualStudio">for Visual Studio 2015</String>
     <String Id="VSProductName">Visual Studio 2015</String>
     <String Id="WDProductName">Visual Studio Express 2015 for Desktop</String>
