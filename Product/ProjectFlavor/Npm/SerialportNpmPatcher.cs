@@ -39,7 +39,6 @@ namespace Microsoft.NodejsUwp
         private const string NODE_MODULE_VERSION = "v47";
         private const string Name = "serialport";
         private const string PatchUri = "http://aka.ms/spc_zip";
-        private enum Platform { arm, x86, x64 }
 
         public void UpdatePackage(string projPath, IVsOutputWindowPane pane, string platform)
         {
