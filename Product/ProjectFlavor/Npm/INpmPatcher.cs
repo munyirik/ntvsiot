@@ -38,6 +38,7 @@ namespace Microsoft.NodejsUwp
         /// </summary>
         /// <param name="projPath">Path of the project with the node_modules folder</param>
         /// <param name="pane">Visual Studio output window</param>
-        void UpdatePackage(string projPath, IVsOutputWindowPane pane);
+        /// <param name="platform">Target platform architecture</param>
+        void UpdatePackage(string projPath, IVsOutputWindowPane pane, string platform);
     }
 }
