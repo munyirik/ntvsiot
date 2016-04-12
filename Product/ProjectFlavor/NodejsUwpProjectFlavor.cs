@@ -169,7 +169,7 @@ namespace Microsoft.NodejsUwp
                     npmHandler.RunNpmDedupe(projectPath);
 
                     // Patch packages
-                    npmHandler.UpdateNpmPackages(projectPath);
+                    npmHandler.UpdateNpmPackages(projectPath, activeProj.ConfigurationManager.ActiveConfiguration.PlatformName);
                 }
             }
 
