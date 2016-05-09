@@ -44,9 +44,8 @@ namespace Microsoft.NodejsUwp
         {
             Dictionary<string, string> patchMap = new Dictionary<string, string>();
 
-            patchMap.Add("\\uwp\\serialport.js", "\\node_modules\\serialport\\serialport.js");
             patchMap.Add(string.Format(CultureInfo.CurrentCulture, "\\uwp\\{0}\\serialport.node", platform),
-                "\\node_modules\\serialport\\build\\Release\\serialport.node");
+                "\\node_modules\\serialport\\build\\serialport.node");
 
             NpmPatcher npmPatcher = new NpmPatcher();
             npmPatcher.UpdatePackage(new Uri(PatchUri), projPath, pane, Name, patchMap);
