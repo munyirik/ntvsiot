@@ -61,3 +61,7 @@ As a contributor, you can use the steps below to set up your PC to build and deb
 * Run [Repo root]\Tests\PrepUwpEnv.ps1 (as Administrator) to copy files required by the Node.js UWP project system. You may specify "-clean true" as an argument to delete existing files.
 * Open [Repo root]\NodejsUwp.sln.
 * Hit F5 (or Debug Menu -> Start Debugging) to build and start debugging.
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). 
+For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) 
+or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
