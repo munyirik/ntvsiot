@@ -37,6 +37,8 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.NodejsUwp
 {
@@ -588,7 +590,7 @@ namespace Microsoft.NodejsUwp
 
             uint deployFlags = (uint)(_AppContainerDeployOptions.ACDO_NetworkLoopbackEnable | _AppContainerDeployOptions.ACDO_SetNetworkLoopback);
 
-            if (!PrepareNodeStartupInfo(GetProjectUniqueName()))
+            if (!UpdatePackageJson())
             {
                 this.NotifyEndDeploy(0);
                 return;
@@ -651,7 +653,7 @@ namespace Microsoft.NodejsUwp
 
             uint deployFlags = (uint)(_AppContainerDeployOptions.ACDO_NetworkLoopbackEnable | _AppContainerDeployOptions.ACDO_SetNetworkLoopback);
 
-            if (!PrepareNodeStartupInfo(GetProjectUniqueName()))
+            if (!UpdatePackageJson())
             {
                 this.NotifyEndDeploy(0);
                 return VSConstants.E_ABORT;
@@ -1351,47 +1353,59 @@ namespace Microsoft.NodejsUwp
             return toNotify;
         }
 
-        private bool PrepareNodeStartupInfo(string uniqueName)
+        private bool UpdatePackageJson()
         {
-            string targetDir = null;
-            string startupInfoFile = "startupinfo.xml";
-            string startupFile = null;
-            string nodeExeArguments;
-            propertiesList.TryGetValue(NodejsUwpConstants.NodeExeArguments, out nodeExeArguments);
-            string scriptArguments;
-            propertiesList.TryGetValue(NodejsUwpConstants.ScriptArguments, out scriptArguments);
-            string canonicalName = null;
-            IVsBuildPropertyStorage bps = GetBuildPropertyStorage();
-
+            // Get project directory
+            string projectDir;
+            string canonicalName;
             get_CanonicalName(out canonicalName);
-            bps.GetPropertyValue("TargetDir", canonicalName, (uint)_PersistStorageType.PST_PROJECT_FILE, out targetDir);
+            IVsBuildPropertyStorage bps = GetBuildPropertyStorage();
+            bps.GetPropertyValue("ProjectDir", canonicalName, (uint)_PersistStorageType.PST_PROJECT_FILE, out projectDir);
 
-            string nodeStartupInfoFilePath = string.Format(CultureInfo.InvariantCulture, "{0}{1}", targetDir, startupInfoFile);
+            // Get package.json text
+            string packageJsonFilePath = string.Format(CultureInfo.InvariantCulture, "{0}package.json", projectDir);
+            string jsonStr = File.ReadAllText(packageJsonFilePath);
 
-            // Get values to put into startupinfo.xml
+            JObject json;
+            try
+            {
+                json = JObject.Parse(jsonStr);
+            }
+            catch (JsonReaderException e)
+            {
+                MessageBox.Show(e.Message, "NTVS IoT Extension", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            // Get startup values to add to package.json
+            string nodeArgs;
+            string scriptArgs;
+            string startupFile;
+            propertiesList.TryGetValue(NodejsUwpConstants.NodeExeArguments, out nodeArgs);
+            propertiesList.TryGetValue(NodejsUwpConstants.ScriptArguments, out scriptArgs);
             bps.GetPropertyValue("StartupFile", canonicalName, (uint)_PersistStorageType.PST_PROJECT_FILE, out startupFile);
 
-            if(string.IsNullOrEmpty(startupFile))
+            if (string.IsNullOrEmpty(startupFile))
             {
-                MessageBox.Show("A startup file for the project has not been selected.", "NTVS IoT Extension", 
+                MessageBox.Show("A startup file for the project has not been selected.", "NTVS IoT Extension",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            XDocument xdoc = new XDocument();
+            string startArgs = string.Format(CultureInfo.InvariantCulture, "{0} {1} {2}", nodeArgs, startupFile, scriptArgs);
+            startArgs = startArgs.Trim();
 
-            XElement srcTree = new XElement("StartupInfo",
-                new XElement("Script", startupFile),
-                new XElement("NodeOptions", nodeExeArguments),
-                new XElement("ScriptArgs", scriptArguments)
-            );
+            // Add startup values to package.json
+            if (null != json["scripts"])
+            {
+                json.Property("scripts").Remove();
+            }
 
-            xdoc.Add(srcTree);
+            string scriptsStr = string.Format(CultureInfo.InvariantCulture, @"{{""start"":""{0}""}}", startArgs);
+            json.Add("scripts", JObject.Parse(scriptsStr));
 
-            // Make sure file is writable
-            File.SetAttributes(nodeStartupInfoFilePath, FileAttributes.Normal);
-
-            xdoc.Save(nodeStartupInfoFilePath);
+            // Save changes
+            File.WriteAllText(packageJsonFilePath, json.ToString());
             return true;
         }
 
