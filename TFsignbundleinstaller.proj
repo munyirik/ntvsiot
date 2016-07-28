@@ -1,0 +1,34 @@
+<!-- This project is used by Team Foundation build. It signs the Node.js Tools for UWP Apps (Bundle) installer -->
+<!-- TFinstallers.proj must be built before this project in the build definition** -->
+<!-- Node.js Tools for UWP Apps Team Foundation build sequence:
+    1. TFdevicefiles.proj
+    2. TFvsfiles.proj
+    3. TFinstallers.proj**
+    4. TFsignbundleinstaller.proj
+-->
+
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+	  <OutputPath>bin\</OutputPath>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="TFbuildstub.cs" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<FilesToSign Include="$(OutDir)Installers\Release\Node.js Tools for UWP Apps.exe">
+			<Authenticode>Microsoft400</Authenticode>
+		</FilesToSign>
+	</ItemGroup>
+	
+	<Target Name="BuildInstaller" BeforeTargets="AfterBuild">
+		<PropertyGroup>
+			<ScriptLocation>. .\TFbuild.ps1</ScriptLocation>
+			<Options>-sign_bundle_installer</Options>
+		</PropertyGroup>
+		<Exec Command="PowerShell -command &quot;&amp; { $(ScriptLocation) $(Options)} &quot;" />
+	</Target>
+	
+	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+</Project>
