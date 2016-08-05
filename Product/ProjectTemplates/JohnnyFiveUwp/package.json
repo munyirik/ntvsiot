@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "johnny-five": "^0.9.14"
-  }
+  },
+  "target_arch": "arm",
+  "platform": "uwp"
 }
 
 

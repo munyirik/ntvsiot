@@ -323,7 +323,6 @@
       <SubType>Designer</SubType>
     </ZipProject>
     <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\package.json" />
-    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
@@ -377,6 +376,10 @@
     <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\StoreLogo.png" />
     <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\Wide310x150Logo.scale-200.png" />
+    <Content Include="Newtonsoft.Json.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="VSTemplateStore.pkgdef" />
     <VSCTCompile Include="NodejsUwp.vsct">
       <ResourceName>1000</ResourceName>

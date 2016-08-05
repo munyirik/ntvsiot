@@ -590,7 +590,7 @@ namespace Microsoft.NodejsUwp
 
             uint deployFlags = (uint)(_AppContainerDeployOptions.ACDO_NetworkLoopbackEnable | _AppContainerDeployOptions.ACDO_SetNetworkLoopback);
 
-            if (!UpdatePackageJson())
+            if (!UpdatePackageJson(false))
             {
                 this.NotifyEndDeploy(0);
                 return;
@@ -653,7 +653,7 @@ namespace Microsoft.NodejsUwp
 
             uint deployFlags = (uint)(_AppContainerDeployOptions.ACDO_NetworkLoopbackEnable | _AppContainerDeployOptions.ACDO_SetNetworkLoopback);
 
-            if (!UpdatePackageJson())
+            if (!UpdatePackageJson(false))
             {
                 this.NotifyEndDeploy(0);
                 return VSConstants.E_ABORT;
@@ -894,6 +894,9 @@ namespace Microsoft.NodejsUwp
                 pbstrCurrentDebugTarget = PhoneTarget;
                 ActiveTargetType = TargetType.Phone;
             }
+
+            // GetCurrentDebugTarget will get called whenever the platform is changed so we also update package.json
+            UpdatePackageJson(true);
         }
 
         Array IVsProjectCfgDebugTargetSelection.GetDebugTargetListOfType(Guid guidDebugTargetType, uint debugTargetTypeId)
@@ -1353,7 +1356,7 @@ namespace Microsoft.NodejsUwp
             return toNotify;
         }
 
-        private bool UpdatePackageJson()
+        private bool UpdatePackageJson(bool updatePlatform)
         {
             // Get project directory
             string projectDir;
@@ -1362,47 +1365,54 @@ namespace Microsoft.NodejsUwp
             IVsBuildPropertyStorage bps = GetBuildPropertyStorage();
             bps.GetPropertyValue("ProjectDir", canonicalName, (uint)_PersistStorageType.PST_PROJECT_FILE, out projectDir);
 
-            // Get package.json text
-            string packageJsonFilePath = string.Format(CultureInfo.InvariantCulture, "{0}package.json", projectDir);
-            string jsonStr = File.ReadAllText(packageJsonFilePath);
-
+            // Get package.json text       
+            string packageJsonFilePath = Path.Combine(projectDir, "package.json");
             JObject json;
             try
             {
-                json = JObject.Parse(jsonStr);
+                json = JObject.Parse(File.ReadAllText(packageJsonFilePath));
             }
-            catch (JsonReaderException e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message, "NTVS IoT Extension", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            // Get startup values to add to package.json
-            string nodeArgs;
-            string scriptArgs;
-            string startupFile;
-            propertiesList.TryGetValue(NodejsUwpConstants.NodeExeArguments, out nodeArgs);
-            propertiesList.TryGetValue(NodejsUwpConstants.ScriptArguments, out scriptArgs);
-            bps.GetPropertyValue("StartupFile", canonicalName, (uint)_PersistStorageType.PST_PROJECT_FILE, out startupFile);
-
-            if (string.IsNullOrEmpty(startupFile))
+            if (updatePlatform)
             {
-                MessageBox.Show("A startup file for the project has not been selected.", "NTVS IoT Extension",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                // Add platform to package.json for npm to use
+                json["target_arch"] = GetPlatform();
             }
-
-            string startArgs = string.Format(CultureInfo.InvariantCulture, "{0} {1} {2}", nodeArgs, startupFile, scriptArgs);
-            startArgs = startArgs.Trim();
-
-            // Add startup values to package.json
-            if (null != json["scripts"])
+            else
             {
-                json.Property("scripts").Remove();
-            }
+                // Get startup values to add to package.json
+                string nodeArgs;
+                string scriptArgs;
+                string startupFile;
+                propertiesList.TryGetValue(NodejsUwpConstants.NodeExeArguments, out nodeArgs);
+                propertiesList.TryGetValue(NodejsUwpConstants.ScriptArguments, out scriptArgs);
+                bps.GetPropertyValue("StartupFile", canonicalName, (uint)_PersistStorageType.PST_PROJECT_FILE, out startupFile);
 
-            string scriptsStr = string.Format(CultureInfo.InvariantCulture, @"{{""start"":""{0}""}}", startArgs);
-            json.Add("scripts", JObject.Parse(scriptsStr));
+                if (string.IsNullOrEmpty(startupFile))
+                {
+                    MessageBox.Show("A startup file for the project has not been selected.", "NTVS IoT Extension",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+                string startArgs = string.Format(CultureInfo.InvariantCulture, "{0} {1} {2}", nodeArgs, startupFile, scriptArgs);
+                startArgs = startArgs.Trim();
+
+                // Add startup values to package.json
+                if (null != json["scripts"])
+                {
+                    json.Property("scripts").Remove();
+                }
+
+                JObject scriptsObj = new JObject();
+                scriptsObj.Add("start", startArgs);
+                json.Add("scripts", scriptsObj);
+            }
 
             // Save changes
             File.WriteAllText(packageJsonFilePath, json.ToString());
@@ -1455,6 +1465,15 @@ namespace Microsoft.NodejsUwp
             solution.GetProjectOfUniqueName(GetProjectUniqueName(), out hierarchy);
             IVsBuildPropertyStorage bps = hierarchy as IVsBuildPropertyStorage;
             return bps;
+        }
+
+        private string GetPlatform()
+        {
+            EnvDTE80.DTE2 _applicationObject = Package.GetGlobalService(typeof(EnvDTE.DTE)) as EnvDTE80.DTE2;
+            EnvDTE80.Solution2 solution2 = (EnvDTE80.Solution2)_applicationObject.Solution;
+            EnvDTE80.SolutionBuild2 solutionBuild2 = (EnvDTE80.SolutionBuild2)solution2.SolutionBuild;
+            EnvDTE80.SolutionConfiguration2 solutionConfiguration2 = (EnvDTE80.SolutionConfiguration2)solutionBuild2.ActiveConfiguration;
+            return solutionConfiguration2.PlatformName;
         }
     }
 }

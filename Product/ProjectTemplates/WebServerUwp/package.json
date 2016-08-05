@@ -6,5 +6,7 @@
   "author": {
     "name": "$username$",
     "email": ""
-  }
+  },
+  "target_arch": "arm",
+  "platform": "uwp"
 }
