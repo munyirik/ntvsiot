@@ -22,13 +22,13 @@ uwp.close();
 ```
 
 ##Try it out!
-Follow the instructions [here](http://ms-iot.github.io/content/en-US/win10/samples/NodejsWU.htm) for the steps to install the required software and to build your first 'Hello World' Node.js server.
-You can also try out the [Blinky sample](http://ms-iot.github.io/content/en-US/win10/samples/NodejsWUBlinky.htm) which shows the use of UWP APIs inside a Node.js server to toggle an LED on or off.
+Follow the instructions [here](https://developer.microsoft.com/en-us/windows/iot/samples/nodejswu) for the steps to install the required software and to build your first 'Hello World' Node.js server.
+You can also try out the [Blinky sample](https://developer.microsoft.com/en-us/windows/iot/samples/nodejswublinky) which shows the use of UWP APIs inside a Node.js server to toggle an LED on or off.
 
 Other samples to try out:
-* [Control a servo with Johnny-Five](http://ms-iot.github.io/content/en-US/win10/samples/NodejsWUJ5.htm)
-* [Control a servo with Cylon](http://ms-iot.github.io/content/en-US/win10/samples/NodejsWUCylon.htm)
-* [Send data from a light sensor to Azure](http://ms-iot.github.io/content/en-US/win10/samples/nodejs-wu-azure.htm)
+* [Control a servo with Johnny-Five](https://developer.microsoft.com/en-us/windows/iot/samples/j5servocontroller)
+* [Control a servo with Cylon](https://developer.microsoft.com/en-us/windows/iot/samples/cylonservowu)
+* [Send data from a light sensor to Azure](https://developer.microsoft.com/en-us/windows/iot/samples/azuredatauploader)
 
 
 ##Contributing
