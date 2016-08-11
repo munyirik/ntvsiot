@@ -590,7 +590,7 @@ namespace Microsoft.NodejsUwp
 
             uint deployFlags = (uint)(_AppContainerDeployOptions.ACDO_NetworkLoopbackEnable | _AppContainerDeployOptions.ACDO_SetNetworkLoopback);
 
-            if (!UpdatePackageJson(false))
+            if (!UpdatePackageJsonScript())
             {
                 this.NotifyEndDeploy(0);
                 return;
@@ -653,7 +653,7 @@ namespace Microsoft.NodejsUwp
 
             uint deployFlags = (uint)(_AppContainerDeployOptions.ACDO_NetworkLoopbackEnable | _AppContainerDeployOptions.ACDO_SetNetworkLoopback);
 
-            if (!UpdatePackageJson(false))
+            if (!UpdatePackageJsonScript())
             {
                 this.NotifyEndDeploy(0);
                 return VSConstants.E_ABORT;
@@ -896,7 +896,7 @@ namespace Microsoft.NodejsUwp
             }
 
             // GetCurrentDebugTarget will get called whenever the platform is changed so we also update package.json
-            UpdatePackageJson(true);
+            UpdatePackageJsonPlatform();
         }
 
         Array IVsProjectCfgDebugTargetSelection.GetDebugTargetListOfType(Guid guidDebugTargetType, uint debugTargetTypeId)
@@ -1356,14 +1356,10 @@ namespace Microsoft.NodejsUwp
             return toNotify;
         }
 
-        private bool UpdatePackageJson(bool updatePlatform)
+        private bool UpdatePackageJsonScript()
         {
             // Get project directory
-            string projectDir;
-            string canonicalName;
-            get_CanonicalName(out canonicalName);
-            IVsBuildPropertyStorage bps = GetBuildPropertyStorage();
-            bps.GetPropertyValue("ProjectDir", canonicalName, (uint)_PersistStorageType.PST_PROJECT_FILE, out projectDir);
+            string projectDir = GetStringPropertyValue("ProjectDir");
 
             // Get package.json text       
             string packageJsonFilePath = Path.Combine(projectDir, "package.json");
@@ -1378,41 +1374,58 @@ namespace Microsoft.NodejsUwp
                 return false;
             }
 
-            if (updatePlatform)
+            // Get startup values to add to package.json
+            string nodeArgs;
+            string scriptArgs;
+            propertiesList.TryGetValue(NodejsUwpConstants.NodeExeArguments, out nodeArgs);
+            propertiesList.TryGetValue(NodejsUwpConstants.ScriptArguments, out scriptArgs);
+            string startupFile = GetStringPropertyValue("StartupFile");
+
+            if (string.IsNullOrEmpty(startupFile))
             {
-                // Add platform to package.json for npm to use
-                json["target_arch"] = GetPlatform();
+                MessageBox.Show("A startup file for the project has not been selected.", "NTVS IoT Extension",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
-            else
+
+            string startArgs = string.Format(CultureInfo.InvariantCulture, "{0} {1} {2}", nodeArgs, startupFile, scriptArgs);
+            startArgs = startArgs.Trim();
+
+            // Add startup values to package.json
+            if (null != json["scripts"])
             {
-                // Get startup values to add to package.json
-                string nodeArgs;
-                string scriptArgs;
-                string startupFile;
-                propertiesList.TryGetValue(NodejsUwpConstants.NodeExeArguments, out nodeArgs);
-                propertiesList.TryGetValue(NodejsUwpConstants.ScriptArguments, out scriptArgs);
-                bps.GetPropertyValue("StartupFile", canonicalName, (uint)_PersistStorageType.PST_PROJECT_FILE, out startupFile);
-
-                if (string.IsNullOrEmpty(startupFile))
-                {
-                    MessageBox.Show("A startup file for the project has not been selected.", "NTVS IoT Extension",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-
-                string startArgs = string.Format(CultureInfo.InvariantCulture, "{0} {1} {2}", nodeArgs, startupFile, scriptArgs);
-                startArgs = startArgs.Trim();
-
-                // Add startup values to package.json
-                if (null != json["scripts"])
-                {
-                    json.Property("scripts").Remove();
-                }
-
-                JObject scriptsObj = new JObject();
-                scriptsObj.Add("start", startArgs);
-                json.Add("scripts", scriptsObj);
+                json.Property("scripts").Remove();
             }
+
+            JObject scriptsObj = new JObject();
+            scriptsObj.Add("start", startArgs);
+            json.Add("scripts", scriptsObj);
+
+            // Save changes
+            File.WriteAllText(packageJsonFilePath, json.ToString());
+            return true;
+        }
+
+        private bool UpdatePackageJsonPlatform()
+        {
+            // Get project directory
+            string projectDir = GetStringPropertyValue("ProjectDir");
+
+            // Get package.json text       
+            string packageJsonFilePath = Path.Combine(projectDir, "package.json");
+            JObject json;
+            try
+            {
+                json = JObject.Parse(File.ReadAllText(packageJsonFilePath));
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "NTVS IoT Extension", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            // Add platform to package.json for npm to use
+            json["target_arch"] = GetPlatform();
 
             // Save changes
             File.WriteAllText(packageJsonFilePath, json.ToString());
