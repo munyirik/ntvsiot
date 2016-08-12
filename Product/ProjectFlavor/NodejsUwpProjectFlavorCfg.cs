@@ -37,6 +37,8 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.NodejsUwp
 {
@@ -588,7 +590,7 @@ namespace Microsoft.NodejsUwp
 
             uint deployFlags = (uint)(_AppContainerDeployOptions.ACDO_NetworkLoopbackEnable | _AppContainerDeployOptions.ACDO_SetNetworkLoopback);
 
-            if (!PrepareNodeStartupInfo(GetProjectUniqueName()))
+            if (!UpdatePackageJsonScript())
             {
                 this.NotifyEndDeploy(0);
                 return;
@@ -651,7 +653,7 @@ namespace Microsoft.NodejsUwp
 
             uint deployFlags = (uint)(_AppContainerDeployOptions.ACDO_NetworkLoopbackEnable | _AppContainerDeployOptions.ACDO_SetNetworkLoopback);
 
-            if (!PrepareNodeStartupInfo(GetProjectUniqueName()))
+            if (!UpdatePackageJsonScript())
             {
                 this.NotifyEndDeploy(0);
                 return VSConstants.E_ABORT;
@@ -892,6 +894,9 @@ namespace Microsoft.NodejsUwp
                 pbstrCurrentDebugTarget = PhoneTarget;
                 ActiveTargetType = TargetType.Phone;
             }
+
+            // GetCurrentDebugTarget will get called whenever the platform is changed so we also update package.json
+            UpdatePackageJsonPlatform();
         }
 
         Array IVsProjectCfgDebugTargetSelection.GetDebugTargetListOfType(Guid guidDebugTargetType, uint debugTargetTypeId)
@@ -1351,47 +1356,86 @@ namespace Microsoft.NodejsUwp
             return toNotify;
         }
 
-        private bool PrepareNodeStartupInfo(string uniqueName)
+        private bool UpdatePackageJsonScript()
         {
-            string targetDir = null;
-            string startupInfoFile = "startupinfo.xml";
-            string startupFile = null;
-            string nodeExeArguments;
-            propertiesList.TryGetValue(NodejsUwpConstants.NodeExeArguments, out nodeExeArguments);
-            string scriptArguments;
-            propertiesList.TryGetValue(NodejsUwpConstants.ScriptArguments, out scriptArguments);
-            string canonicalName = null;
-            IVsBuildPropertyStorage bps = GetBuildPropertyStorage();
-
-            get_CanonicalName(out canonicalName);
-            bps.GetPropertyValue("TargetDir", canonicalName, (uint)_PersistStorageType.PST_PROJECT_FILE, out targetDir);
-
-            string nodeStartupInfoFilePath = string.Format(CultureInfo.InvariantCulture, "{0}{1}", targetDir, startupInfoFile);
-
-            // Get values to put into startupinfo.xml
-            bps.GetPropertyValue("StartupFile", canonicalName, (uint)_PersistStorageType.PST_PROJECT_FILE, out startupFile);
-
-            if(string.IsNullOrEmpty(startupFile))
+            string path = Path.Combine(GetStringPropertyValue("ProjectDir"), "package.json");
+            JObject json = LoadPackageJson(path);
+            if(null == json)
             {
-                MessageBox.Show("A startup file for the project has not been selected.", "NTVS IoT Extension", 
+                return false;
+            }
+
+            // Get startup values to add to package.json
+            string nodeArgs;
+            string scriptArgs;
+            propertiesList.TryGetValue(NodejsUwpConstants.NodeExeArguments, out nodeArgs);
+            propertiesList.TryGetValue(NodejsUwpConstants.ScriptArguments, out scriptArgs);
+            string startupFile = GetStringPropertyValue("StartupFile");
+
+            if (string.IsNullOrEmpty(startupFile))
+            {
+                MessageBox.Show("A startup file for the project has not been selected.", "NTVS IoT Extension",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            XDocument xdoc = new XDocument();
+            string startArgs = string.Format(CultureInfo.InvariantCulture, "{0} {1} {2}", nodeArgs, startupFile, scriptArgs);
+            startArgs = startArgs.Trim();
 
-            XElement srcTree = new XElement("StartupInfo",
-                new XElement("Script", startupFile),
-                new XElement("NodeOptions", nodeExeArguments),
-                new XElement("ScriptArgs", scriptArguments)
-            );
+            // Add startup values to package.json
+            if (null != json["scripts"])
+            {
+                json.Property("scripts").Remove();
+            }
 
-            xdoc.Add(srcTree);
+            JObject scriptsObj = new JObject();
+            scriptsObj.Add("start", startArgs);
+            json.Add("scripts", scriptsObj);
 
-            // Make sure file is writable
-            File.SetAttributes(nodeStartupInfoFilePath, FileAttributes.Normal);
+            return SavePackageJson(path, json);
+        }
 
-            xdoc.Save(nodeStartupInfoFilePath);
+        private bool UpdatePackageJsonPlatform()
+        {
+            string path = Path.Combine(GetStringPropertyValue("ProjectDir"), "package.json");
+            JObject json = LoadPackageJson(path);
+            if (null == json)
+            {
+                return false;
+            }
+
+            // Add platform to package.json for npm to use
+            json["target_arch"] = GetPlatform();
+
+            return SavePackageJson(path, json);
+        }
+
+        JObject LoadPackageJson(string path)
+        {          
+            JObject json;
+            try
+            {
+                json = JObject.Parse(File.ReadAllText(path));
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "NTVS IoT Extension", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            return json;
+        }
+
+        bool SavePackageJson(string path, JObject json)
+        {
+            try
+            {
+                File.WriteAllText(path, json.ToString());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "NTVS IoT Extension", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
             return true;
         }
 
@@ -1441,6 +1485,15 @@ namespace Microsoft.NodejsUwp
             solution.GetProjectOfUniqueName(GetProjectUniqueName(), out hierarchy);
             IVsBuildPropertyStorage bps = hierarchy as IVsBuildPropertyStorage;
             return bps;
+        }
+
+        private string GetPlatform()
+        {
+            EnvDTE80.DTE2 _applicationObject = Package.GetGlobalService(typeof(EnvDTE.DTE)) as EnvDTE80.DTE2;
+            EnvDTE80.Solution2 solution2 = (EnvDTE80.Solution2)_applicationObject.Solution;
+            EnvDTE80.SolutionBuild2 solutionBuild2 = (EnvDTE80.SolutionBuild2)solution2.SolutionBuild;
+            EnvDTE80.SolutionConfiguration2 solutionConfiguration2 = (EnvDTE80.SolutionConfiguration2)solutionBuild2.ActiveConfiguration;
+            return solutionConfiguration2.PlatformName;
         }
     }
 }

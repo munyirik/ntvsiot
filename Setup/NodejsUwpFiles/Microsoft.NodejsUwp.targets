@@ -24,67 +24,6 @@
     <ProjectHome Condition="'$(ProjectHome)' == ''">.</ProjectHome>
     <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
   </PropertyGroup>
-  
-  <UsingTask TaskName="CreateStartupInfoFileTask" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" >
-    <ParameterGroup>
-      <Config Required="true"/>
-      <Plat Required="true"/>
-      <StartFile Required="true"/>
-      <ProjFile Required="true"/>
-      <OutPath Required="true"/>
-    </ParameterGroup>
-    <Task>
-      <Reference Include="System.Xml"/>
-      <Reference Include="System.Xml.Linq"/>
-      <Using Namespace="System.Xml"/>
-      <Using Namespace="System.Xml.Linq"/>
-      <Using Namespace="System.IO"/>
-      <Using Namespace="System.Globalization"/>
-      <Code Type="Fragment" Language="cs">
-        <![CDATA[
-          XmlDocument doc = new XmlDocument();
-          doc.Load(ProjFile);
-          XmlNode VSNode = doc.DocumentElement["ProjectExtensions"].FirstChild;
-          string nodeExeArguments = string.Empty;
-          string scriptArguments = string.Empty;
-
-          if(null != VSNode) {
-            foreach (XmlNode FPNode in VSNode) {
-              if (0 == String.Compare(FPNode.Attributes["Configuration"].InnerText, Config) && 
-                  0 == String.Compare(FPNode.Attributes["Platform"].InnerText, Plat)) {
-                 if(null != FPNode.FirstChild) {
-                   foreach (XmlNode PropNode in FPNode.FirstChild) {
-                      if(0 == String.Compare(PropNode.Name, "NodeExeArguments")) {
-                        nodeExeArguments = PropNode.InnerText;
-                      }
-                      if (0 == String.Compare(PropNode.Name, "ScriptArguments")) {
-                        scriptArguments = PropNode.InnerText;
-                      }
-                   }
-                 }
-              }
-            }
-          }
-
-          XDocument xdoc = new XDocument();
-
-          XElement srcTree = new XElement("StartupInfo",
-            new XElement("Script", StartFile),
-            new XElement("NodeOptions", nodeExeArguments),
-            new XElement("ScriptArgs", scriptArguments)
-          );
-
-          xdoc.Add(srcTree);
-          string startupInfoFilePath = string.Format(CultureInfo.InvariantCulture, "{0}{1}", OutPath, "startupinfo.xml");
-          xdoc.Save(startupInfoFilePath);
-        ]]>
-      </Code>
-    </Task>
-  </UsingTask>
-
-  <Target Name="CreateStartupInfoFileTarget"  BeforeTargets="CoreCompile">      
-      <CreateStartupInfoFileTask Config="$(Configuration)" Plat="$(Platform)" StartFile="$(StartupFile)" ProjFile="$(MSBuildProjectFullPath)" OutPath="$(OutputPath)"/>
-  </Target>
 
   <!-- Include uwp.node to project when building to allow access to UWP namespaces -->
   <Target Name="CopyUWPAddon" BeforeTargets="CoreCompile">
@@ -104,9 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <NodeHostFiles Include="$(NodechUWPSDKPath)\$(Platform)\*.dll"/>
-  </ItemGroup>
-  <ItemGroup>
-    <NodeHostFiles Include="$(OutputPath)startupinfo.xml"/>
   </ItemGroup>
 
   <PropertyGroup>
