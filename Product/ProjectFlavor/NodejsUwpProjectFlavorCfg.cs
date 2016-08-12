@@ -1358,19 +1358,10 @@ namespace Microsoft.NodejsUwp
 
         private bool UpdatePackageJsonScript()
         {
-            // Get project directory
-            string projectDir = GetStringPropertyValue("ProjectDir");
-
-            // Get package.json text       
-            string packageJsonFilePath = Path.Combine(projectDir, "package.json");
-            JObject json;
-            try
+            string path = Path.Combine(GetStringPropertyValue("ProjectDir"), "package.json");
+            JObject json = LoadPackageJson(path);
+            if(null == json)
             {
-                json = JObject.Parse(File.ReadAllText(packageJsonFilePath));
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "NTVS IoT Extension", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -1401,34 +1392,50 @@ namespace Microsoft.NodejsUwp
             scriptsObj.Add("start", startArgs);
             json.Add("scripts", scriptsObj);
 
-            // Save changes
-            File.WriteAllText(packageJsonFilePath, json.ToString());
-            return true;
+            return SavePackageJson(path, json);
         }
 
         private bool UpdatePackageJsonPlatform()
         {
-            // Get project directory
-            string projectDir = GetStringPropertyValue("ProjectDir");
-
-            // Get package.json text       
-            string packageJsonFilePath = Path.Combine(projectDir, "package.json");
-            JObject json;
-            try
+            string path = Path.Combine(GetStringPropertyValue("ProjectDir"), "package.json");
+            JObject json = LoadPackageJson(path);
+            if (null == json)
             {
-                json = JObject.Parse(File.ReadAllText(packageJsonFilePath));
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "NTVS IoT Extension", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
             // Add platform to package.json for npm to use
             json["target_arch"] = GetPlatform();
 
-            // Save changes
-            File.WriteAllText(packageJsonFilePath, json.ToString());
+            return SavePackageJson(path, json);
+        }
+
+        JObject LoadPackageJson(string path)
+        {          
+            JObject json;
+            try
+            {
+                json = JObject.Parse(File.ReadAllText(path));
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "NTVS IoT Extension", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            return json;
+        }
+
+        bool SavePackageJson(string path, JObject json)
+        {
+            try
+            {
+                File.WriteAllText(path, json.ToString());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "NTVS IoT Extension", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
             return true;
         }
 
