@@ -22,12 +22,12 @@ uwp.close();
 ```
 
 ##Try it out!
-Follow the instructions [here](https://developer.microsoft.com/en-us/windows/iot/samples/nodejswu) for the steps to install the required software and to build your first 'Hello World' Node.js server.
-You can also try out the [Blinky sample](https://developer.microsoft.com/en-us/windows/iot/samples/nodejswublinky) which shows the use of UWP APIs inside a Node.js server to toggle an LED on or off.
+Follow the instructions [here](https://developer.microsoft.com/en-us/windows/iot/samples/helloworldnode) for the steps to install the required software and to build your first 'Hello World' Node.js server.
+You can also try out the [Blinky sample](https://developer.microsoft.com/en-us/windows/iot/samples/helloblinkynode) which shows the use of UWP APIs inside a Node.js server to toggle an LED on or off.
 
 Other samples to try out:
 * [Control a servo with Johnny-Five](https://developer.microsoft.com/en-us/windows/iot/samples/j5servocontroller)
-* [Control a servo with Cylon](https://developer.microsoft.com/en-us/windows/iot/samples/cylonservowu)
+* [Control a servo with Cylon](https://developer.microsoft.com/en-us/windows/iot/samples/cylonservonode)
 * [Send data from a light sensor to Azure](https://developer.microsoft.com/en-us/windows/iot/samples/azuredatauploader)
 
 
