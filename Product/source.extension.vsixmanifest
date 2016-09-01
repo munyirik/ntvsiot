@@ -2,7 +2,7 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
     <Identity Id="0BBF5C2B-3093-431D-8A14-47AC07CFFABF" Version="1.0" Language="en-US" Publisher="Microsoft" />
-    <DisplayName>NTVS IoT Extension</DisplayName>
+    <DisplayName>NTVS UWP Extension</DisplayName>
     <Description>VS package for building Node.js UWP applications</Description>
   </Metadata>
   <Installation InstalledByMsi="true">
