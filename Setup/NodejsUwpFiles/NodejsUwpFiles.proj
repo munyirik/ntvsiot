@@ -12,6 +12,7 @@
         <!-- Core extension -->
         <File Include="Microsoft.NodejsUwp.dll" />
         <File Include="Microsoft.NodejsUwp.ProjectWizard.dll" />
+        <File Include="Newtonsoft.Json.dll" />
 
         <!-- Resources -->
         <File Include="..\Icons\NodeJS.ico" />
