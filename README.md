@@ -36,6 +36,18 @@ In order to deploy an app to your PC or Phone, you must first enable Embedded Mo
 You also need to turn on `Developer mode`. This can be done on the `Settings -> Update & Security -> For Developers` page.
 
 
+##Intellisense for UWP API
+IntelliSense is available for UWP APIs through the [ES6 Intellisense](https://github.com/Microsoft/nodejstools/wiki/ES6-IntelliSense-Preview-in-NTVS-1.1) feature in NTVS 1.2.
+
+  ![capture](https://cloud.githubusercontent.com/assets/8389594/14468105/227e9760-0093-11e6-98c2-cc4b8dcd05e3.PNG)
+
+To enable IntelliSense in your project:
+* Ensure you have the 'ES6 IntelliSense Preview' option set under `Tools -> Options -> Text Editor -> Node.js -> IntelliSense`
+* Right click on your project in the Solution Explorer and select 'Open Command Prompt Here...'
+* Run `npm install typings -g`
+* Run `typings install dt~winrt-uwp --global`
+
+
 ##Creating new issues
 Please follow the guidelines below when creating new issues:
 * Use a descriptive title that identifies the issue to be addressed or the requested feature (e.g., "Feature F should report ABC when XYZ is used in DEF").
