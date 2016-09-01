@@ -31,13 +31,9 @@ Other samples to try out:
 * [Send data from a light sensor to Azure](https://developer.microsoft.com/en-us/windows/iot/samples/azuredatauploader)
 
 
-##Contributing
-The NTVS UWP Extension code is covered by the [MIT license](http://opensource.org/licenses/MIT). There is no formal style-guide, but contributors should try to match the style of the file they are editing. 
-Feel free to reach out if you need a hand in starting to tackle an issue. For new functionality, please contact us first so we can coordinate efforts (e.g. to avoid duplication of work, roadmap fit, etc.).
-Since this code is under the MIT license, all contributions will be made under that license as well. Please don’t submit anything with any other licensing statements. If you want to make a contribution 
-that includes code that you received under a different license, please let us know and we can figure out what to do. Please be sure that you have the right to make your contribution, including clearance 
-from your employer if applicable. You must sign the [Microsoft Contributor License Agreement (CLA)](https://cla.microsoft.com/) before submitting your pull-request. The CLA only needs to be completed once 
-to cover all Microsoft OSS projects.
+##Deployment to PC and Phone
+In order to deploy an app to your PC or Phone, you must first enable Embedded Mode. See [this](https://developer.microsoft.com/en-us/windows/iot/docs/embeddedmode) page for instructions on how to do that.
+You also need to turn on `Developer mode`. This can be done on the `Settings -> Update & Security -> For Developers` page.
 
 
 ##Creating new issues
@@ -50,7 +46,16 @@ Please follow the guidelines below when creating new issues:
     * Specify any relevant exception messages and stack traces.
 	
 
-##Build and debug
+##Contributing
+The NTVS UWP Extension code is covered by the [MIT license](http://opensource.org/licenses/MIT). There is no formal style-guide, but contributors should try to match the style of the file they are editing. 
+Feel free to reach out if you need a hand in starting to tackle an issue. For new functionality, please contact us first so we can coordinate efforts (e.g. to avoid duplication of work, roadmap fit, etc.).
+Since this code is under the MIT license, all contributions will be made under that license as well. Please don’t submit anything with any other licensing statements. If you want to make a contribution 
+that includes code that you received under a different license, please let us know and we can figure out what to do. Please be sure that you have the right to make your contribution, including clearance 
+from your employer if applicable. You must sign the [Microsoft Contributor License Agreement (CLA)](https://cla.microsoft.com/) before submitting your pull-request. The CLA only needs to be completed once 
+to cover all Microsoft OSS projects.
+
+
+##Debugging the Extension
 As a contributor, you can use the steps below to set up your PC to build and debug the code in this repository.
 
 **Prerequisites:** Visual Studio 2015 and Visual Studio 2015 SDK need to be installed.
