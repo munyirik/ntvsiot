@@ -377,7 +377,7 @@
     <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\StoreLogo.png" />
     <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\Wide310x150Logo.scale-200.png" />
     <Content Include="Newtonsoft.Json.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="VSTemplateStore.pkgdef" />
