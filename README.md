@@ -48,6 +48,19 @@ To enable IntelliSense in your project:
 * Run `typings install dt~winrt-uwp --global`
 
 
+##Installing npm packages
+Instructions on how to use the NTVS npm UI can be found [here](https://github.com/Microsoft/nodejstools/wiki/npm-Integration).
+If you are installing a native package or a package with native dependencies, the following is required.
+In the 'Other npm arguments' textbox in the `Install New npm packages` dialog, you can enter `--target_arch=arm|x86|x64 --node_uwp_dll` to target UWP. Example:
+
+  ![capture](https://cloud.githubusercontent.com/assets/8389594/18188096/ecab2eb4-7063-11e6-932f-d6b37aa280ea.PNG)
+
+Note:
+* The [uwp](https://github.com/microsoft/node-uwp) native addon will always be included in your project automatically so there is no need to install it.
+* Existing npm packages are likely to use APIs that are banned in UWP apps. In this case support for UWP would need to be added to the package. The serialport fork
+[here](https://github.com/ms-iot/node-serialport/tree/uwp) gives an example of how this can be done without affecting existing platforms.
+
+
 ##Creating new issues
 Please follow the guidelines below when creating new issues:
 * Use a descriptive title that identifies the issue to be addressed or the requested feature (e.g., "Feature F should report ABC when XYZ is used in DEF").
