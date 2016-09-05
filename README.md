@@ -60,7 +60,7 @@ These options can be entered in the 'Other npm arguments' textbox in the `Instal
 
 **Notes:**
 * The version of npm used by the extension is included with the [node-chakra installer](https://aka.ms/node-chakra-installer) which is bundled in the
-[release](https://aka.ms/node-chakra-installer)
+[release](https://aka.ms/ntvsiotlatest)
 * The [uwp](https://github.com/microsoft/node-uwp) package will always be included in your project automatically so there is no need to install it.
 * Existing npm packages are likely to use APIs that are banned in UWP apps
 (i.e. will not pass [WACK certification](https://developer.microsoft.com/en-us/windows/develop/app-certification-kit)). In these cases, support for UWP is 
