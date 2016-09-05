@@ -50,15 +50,22 @@ To enable IntelliSense in your project:
 
 ##Installing npm packages
 Instructions on how to use the NTVS npm UI can be found [here](https://github.com/Microsoft/nodejstools/wiki/npm-Integration).
-If you are installing a native package or a package with native dependencies, the following is required.
-In the 'Other npm arguments' textbox in the `Install New npm packages` dialog, you can enter `--target_arch=arm|x86|x64 --node_uwp_dll` to target UWP. Example:
+If you are installing a native package or a package with native dependencies, there are two options required to target UWP:
+* `--target_arch`: The processor architecture (arm, x86, or x64) of the device the package will be running on
+* `--node_uwp_dll`: Tells npm that you are building the package for use in a UWP app
+
+These options can be entered in the 'Other npm arguments' textbox in the `Install New npm packages` dialog:
 
   ![capture](https://cloud.githubusercontent.com/assets/8389594/18188096/ecab2eb4-7063-11e6-932f-d6b37aa280ea.PNG)
 
-Note:
-* The [uwp](https://github.com/microsoft/node-uwp) native addon will always be included in your project automatically so there is no need to install it.
-* Existing npm packages are likely to use APIs that are banned in UWP apps. In this case support for UWP would need to be added to the package. The serialport fork
-[here](https://github.com/ms-iot/node-serialport/tree/uwp) gives an example of how this can be done without affecting existing platforms.
+**Notes:**
+* The version of npm used by the extension is included with the [node-chakra installer](https://aka.ms/node-chakra-installer) which is bundled in the
+[release](https://aka.ms/node-chakra-installer)
+* The [uwp](https://github.com/microsoft/node-uwp) package will always be included in your project automatically so there is no need to install it.
+* Existing npm packages are likely to use APIs that are banned in UWP apps
+(i.e. will not pass [WACK certification](https://developer.microsoft.com/en-us/windows/develop/app-certification-kit)). In these cases, support for UWP is 
+required before they can build successfully. The serialport fork [here](https://github.com/ms-iot/node-serialport/tree/uwp) gives an example of how this 
+can be done.
 
 
 ##Creating new issues
