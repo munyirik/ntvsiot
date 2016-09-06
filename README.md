@@ -151,7 +151,7 @@ You have the option to build and deploy your app without using the Visual Studio
 
 * Open Developer Command Prompt for VS 2015.
 * Navigate to your project.
-* Run `msbuild <Your solution name>.sln /p:configuration=release /p:platform=<arm | x86 | x64 >` (use arm for Raspberry Pi 2 or 3 and x86 for MBM).
+* Run `msbuild <Your solution name>.sln /p:configuration=release /p:platform=<arm | x86 | x64 >` (use arm for Raspberry Pi 2 or 3 and x86 for MBM or DragonBoard).
 * After running the command above, you should see a new folder with the AppX in: \Your project root\AppPackages.
 * Once you have created an AppX, you can use [Windows Device Portal to deploy it](https://developer.microsoft.com/en-us/windows/iot/docs/deviceportal) to your device.
 * In a SSH or PowerShell window connected to your device, run `iotstartup list` to get the full package name of your app.
