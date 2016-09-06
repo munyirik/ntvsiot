@@ -68,6 +68,97 @@ required before they can build successfully. The serialport fork [here](https://
 can be done.
 
 
+##Unsupported Node.js API
+Since we are running Node in an UWP app the are a few internal modules/functions that will either work a little differently from what you're used to (i.e. with console node.exe)
+or will be unsupported due to the nature of UWP applications. Anything that is not listed here is expected to work normally.
+
+####Child-Process
+Unsupported
+
+####Cluster
+Unsupported
+
+####Console 
+console.* will output messages to the Visual Studio output window. The `--debug` option needs to be passed to node for this to work.
+You can also use the `--use-logger` option to redirect console output to a file in the 
+[local storage path](https://msdn.microsoft.com/en-us/library/windows/apps/windows.storage.applicationdata.localfolder.aspx) of the application 
+(C:\Data\Users\DefaultAccount\AppData\Local\Packages\&lt;Your Project Name&gt;_&lt;Publisher Hash String&gt;\LocalState\nodeuwp.log).
+
+####Debugger 
+Unsupported. For debugging, the Visual Studio JavaScript debugger is used.
+
+####File System
+Read/write permission is automatically granted for accessing files in the [local storage path](https://msdn.microsoft.com/en-us/library/windows/apps/windows.storage.applicationdata.localfolder.aspx) 
+of your application. You can also read files from the application [install path](https://msdn.microsoft.com/en-us/library/windows/apps/windows.applicationmodel.package.installedlocation.aspx). 
+The storage and install path can be retrieved using `fs.uwpstoragedir`, `fs.uwpstoragedirSync`, `fs.uwpinstalldir`, and `fs.uwpinstalldirSync`. 
+You may also access folders associated with [app capability declarations](https://msdn.microsoft.com/en-us/windows/uwp/packaging/app-capability-declarations).
+The following fs functions are not supported:
+* `fs.link`
+* `fs.linkSync`
+* `fs.readlink`
+* `fs.readlinkSync`
+* `fs.symlink`
+* `fs.symlinkSync`
+* `fs.unlink`
+* `fs.unlinkSync`
+* `fs.realpath`
+* `fs.realpathSync`
+* `fs.watch`
+* `fs.watchFile`
+
+####OS
+The following os functions are not supported:
+* `os.cpus`
+* `os.homedir`
+* `os.tmpdir`
+* `os.userInfo`
+
+####Process
+The following process functions/properties are not supported:
+* `process.connected`
+* `process.cpuUsage` (bug: this should work using [ProcessCpuUsage](https://msdn.microsoft.com/en-us/library/windows/apps/windows.system.diagnostics.processcpuusage.aspx))
+* `process.disconnect`
+* `process.env`
+* `process.getegid`
+* `process.geteuid`
+* `process.getgid`
+* `process.getgroups`
+* `process.getuid`
+* `process.initgroups`
+* `process.kill`
+* `process.memoryUsage` (bug: this should work using [MemoryManager](https://msdn.microsoft.com/en-us/library/windows.system.memorymanager.aspx))
+* `process.send`
+* `process.setegid`
+* `process.seteuid`
+* `process.setgid`
+* `process.setgroups`
+* `process.setuid`
+* `process.stdin`
+* `process.umask`
+
+####Readline
+Unsupported
+
+####REPL
+Unsupported
+
+####TTY
+Unsupported
+
+
+##Building and deploying an app package (AppX)
+You have the option to build and deploy your app without using the Visual Studio UI. To do this, follow the instructions below:
+
+* Open Developer Command Prompt for VS 2015.
+* Navigate to your project.
+* Run `msbuild <Your solution name>.sln /p:configuration=release /p:platform=<arm | x86 | x64 >` (use arm for Raspberry Pi 2 or 3 and x86 for MBM).
+* After running the command above, you should see a new folder with the AppX in: \Your project root\AppPackages.
+* Once you have created an AppX, you can use [Windows Device Portal to deploy it](https://developer.microsoft.com/en-us/windows/iot/docs/deviceportal) to your device.
+* In a SSH or PowerShell window connected to your device, run `iotstartup list` to get the full package name of your app.
+* Then run `iotstartup add headless <your package name>`
+* Run `shutdown /r /t 0` to reboot your device. When the reboot completes, the app will be running.
+
+
 ##Creating new issues
 Please follow the guidelines below when creating new issues:
 * Use a descriptive title that identifies the issue to be addressed or the requested feature (e.g., "Feature F should report ABC when XYZ is used in DEF").
