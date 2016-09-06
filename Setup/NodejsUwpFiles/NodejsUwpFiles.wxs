@@ -50,6 +50,9 @@
       <Component Guid="{8D40ED61-96A4-480F-9794-96DF63259866}" Directory="x86">
         <File Id="node_x86" Source="$(var.Release_Path)x86\node.dll" KeyPath='yes' />
       </Component>
+      <Component Guid="{BEA9D1D6-02F9-4A1A-B0B7-15C405FE1063}" Directory="x86">
+        <File Id="nodelib_x86" Source="$(var.Release_Path)x86\node.lib" KeyPath='yes' />
+      </Component>
       <Component Guid="{10EFA5AB-B452-4BC4-8932-5186F23F1550}" Directory="x86">
         <File Id="uwp_x86" Source="$(var.Release_Path)x86\uwp.node" KeyPath='yes' />
       </Component>
@@ -61,6 +64,9 @@
       <Component Guid="{C54F84EC-9B85-4AC1-AFD7-6B9342986756}" Directory="ARM">
         <File Id="node_ARM" Source="$(var.Release_Path)ARM\node.dll" KeyPath='yes' />
       </Component>
+      <Component Guid="{51FB2567-0D0D-4081-95B5-69D042051DB4}" Directory="ARM">
+        <File Id="nodelib_ARM" Source="$(var.Release_Path)ARM\node.lib" KeyPath='yes' />
+      </Component>
       <Component Guid="{C0A507C0-F07E-4C67-8566-5FFB0DA61D2F}" Directory="ARM">
         <File Id="uwp_ARM" Source="$(var.Release_Path)ARM\uwp.node" KeyPath='yes' />
       </Component>
@@ -71,6 +77,9 @@
       </Component>
       <Component Guid="{0384B5B5-57FA-4B37-9421-FCC6972E47D1}" Directory="x64">
         <File Id="node_x64" Source="$(var.Release_Path)x64\node.dll" KeyPath='yes' />
+      </Component>
+      <Component Guid="{2EB9A4E9-E7E2-4D31-B90F-6E2EC0D73B97}" Directory="x64">
+        <File Id="nodelib_x64" Source="$(var.Release_Path)x64\node.lib" KeyPath='yes' />
       </Component>
       <Component Guid="{EB52ED9A-5918-4EB5-BB9E-9DCD752182EA}" Directory="x64">
         <File Id="uwp_x64" Source="$(var.Release_Path)x64\uwp.node" KeyPath='yes' />
