@@ -5,7 +5,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <NodechUWPSDKPath Condition="'$(NodechUWPSDKPath)' == ''">$(ProgramFiles)\NodejsUWP</NodechUWPSDKPath>
   </PropertyGroup>
-  
+
   <!-- Reference C++ runtime for UWP wrapper -->
   <ItemGroup>
     <SDKReference Include="Microsoft.VCLibs, Version=14.0" />
@@ -47,33 +47,69 @@
   <ItemGroup>
     <NodeHostFiles Include="$(ProjectHome)\node_modules.zip"/>
   </ItemGroup>
+  <ItemGroup>
+    <NodeHostFiles Include="$(ProjectHome)\node_modules.hash"/>
+  </ItemGroup>
   
-  <UsingTask TaskName="ZipNodeModulesTask" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" >        
-    <ParameterGroup>        
-      <ProjectHome Required="true"/>            
-    </ParameterGroup>       
-    <Task>      
-      <Reference Include="System.IO.Compression.FileSystem"/>       
-      <Using Namespace="System.IO"/>        
-      <Using Namespace="System.IO.Compression"/>        
-      <Code Type="Fragment" Language="cs">      
-        <![CDATA[       
+  <Target Name="BeforeBuild">
+    <ItemGroup>
+      <Content Include="$(ProjectHome)\node_modules\**\*.*" />
+    </ItemGroup>
+  </Target>
+
+  <UsingTask TaskName="ZipNodeModulesTask" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" >
+    <ParameterGroup>
+      <ProjectHome Required="true"/>
+    </ParameterGroup>
+    <Task>
+      <Reference Include="System.IO.Compression.FileSystem"/>
+      <Using Namespace="System.IO"/>
+      <Using Namespace="System.IO.Compression"/>
+      <Using Namespace="System.Security.Cryptography"/>
+      <Using Namespace="System.Globalization"/>
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
           string modulesPath = Path.Combine(ProjectHome, "node_modules");
           string zipPath = Path.Combine(ProjectHome, "node_modules.zip");
+          string hashPath = Path.Combine(ProjectHome, "node_modules.hash");
+          bool doZip = true;
 
-          if (File.Exists(zipPath))
+          List<string> files = Directory.GetFiles(modulesPath, "*.*", SearchOption.AllDirectories).OrderBy(p => p).ToList();
+
+          string filesBlob = string.Empty;
+          foreach(string f in files)
           {
-            File.Delete(zipPath);
+            filesBlob = filesBlob + string.Format(CultureInfo.CurrentCulture, "{0} {1}\n", f, File.GetLastWriteTimeUtc(f));
           }
 
-          ZipFile.CreateFromDirectory(modulesPath, zipPath);    
-        ]]>     
-      </Code>       
-    </Task>     
-  </UsingTask>      
-    
-  <Target Name="ZipNodeModulesFolder"  BeforeTargets="CoreCompile">             
-    <ZipNodeModulesTask ProjectHome="$(ProjectHome)"/>      
+          MD5 md5 = MD5.Create();
+          byte[] hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(filesBlob));
+
+          if(File.Exists(hashPath))
+          {
+            if(File.ReadAllBytes(hashPath).SequenceEqual(hashBytes))
+            {
+              doZip = false;
+            }
+          }
+
+          if(doZip)
+          {
+            File.WriteAllBytes(hashPath, hashBytes);
+
+            if(File.Exists(zipPath))
+            {
+              File.Delete(zipPath);
+            }
+            ZipFile.CreateFromDirectory(modulesPath, zipPath, CompressionLevel.Fastest, false);
+          }
+        ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="ZipNodeModulesFolder"  BeforeTargets="CoreCompile">
+    <ZipNodeModulesTask ProjectHome="$(ProjectHome)"/>
   </Target>
 
   <PropertyGroup>
