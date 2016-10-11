@@ -72,28 +72,19 @@
           string modulesPath = Path.Combine(ProjectHome, "node_modules");
           string zipPath = Path.Combine(ProjectHome, "node_modules.zip");
           string hashPath = Path.Combine(ProjectHome, "node_modules.hash");
-          bool doZip = true;
 
           List<string> files = Directory.GetFiles(modulesPath, "*.*", SearchOption.AllDirectories).OrderBy(p => p).ToList();
 
-          string filesBlob = string.Empty;
+          StringBuilder filesBlob = new StringBuilder();
           foreach(string f in files)
           {
-            filesBlob = filesBlob + string.Format(CultureInfo.CurrentCulture, "{0} {1}\n", f, File.GetLastWriteTimeUtc(f));
+            filesBlob.AppendLine(string.Format(CultureInfo.CurrentCulture, "{0} {1}", f, File.GetLastWriteTimeUtc(f)));
           }
 
           MD5 md5 = MD5.Create();
           byte[] hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(filesBlob));
 
-          if(File.Exists(hashPath))
-          {
-            if(File.ReadAllBytes(hashPath).SequenceEqual(hashBytes))
-            {
-              doZip = false;
-            }
-          }
-
-          if(doZip)
+          if(!(File.Exists(hashPath) && File.ReadAllBytes(hashPath).SequenceEqual(hashBytes)))
           {
             File.WriteAllBytes(hashPath, hashBytes);
 
