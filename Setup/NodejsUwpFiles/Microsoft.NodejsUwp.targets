@@ -5,8 +5,8 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <NodechUWPSDKPath Condition="'$(NodechUWPSDKPath)' == ''">$(ProgramFiles)\NodejsUWP</NodechUWPSDKPath>
   </PropertyGroup>
-  
-   <!-- Reference C++ runtime for UWP wrapper -->
+
+  <!-- Reference C++ runtime for UWP wrapper -->
   <ItemGroup>
     <SDKReference Include="Microsoft.VCLibs, Version=14.0" />
   </ItemGroup>
@@ -33,7 +33,7 @@
   <!-- Node.js folders and files that will need to be custom packaged
        into the appx (using CustomOutputGroupForPackaging target) -->
   <ItemGroup>
-    <NodeModulesContentDir Include="$(ProjectHome)\node_modules"/>
+    <NodeModulesContentDir Include="$(ProjectHome)\node_modules\**\*.node"/>
   </ItemGroup>
   <ItemGroup>
     <PublicDir Include="$(ProjectHome)\public"/>
@@ -44,6 +44,63 @@
   <ItemGroup>
     <NodeHostFiles Include="$(NodechUWPSDKPath)\$(Platform)\*.dll"/>
   </ItemGroup>
+  <ItemGroup>
+    <NodeHostFiles Include="$(ProjectHome)\node_modules.zip"/>
+  </ItemGroup>
+  <ItemGroup>
+    <NodeHostFiles Include="$(ProjectHome)\node_modules.hash"/>
+  </ItemGroup>
+  
+  <Target Name="BeforeBuild">
+    <ItemGroup>
+      <Content Include="$(ProjectHome)\node_modules\**\*.*" />
+    </ItemGroup>
+  </Target>
+
+  <UsingTask TaskName="ZipNodeModulesTask" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" >
+    <ParameterGroup>
+      <ProjectHome Required="true"/>
+    </ParameterGroup>
+    <Task>
+      <Reference Include="System.IO.Compression.FileSystem"/>
+      <Using Namespace="System.IO"/>
+      <Using Namespace="System.IO.Compression"/>
+      <Using Namespace="System.Security.Cryptography"/>
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+          string modulesPath = Path.Combine(ProjectHome, "node_modules");
+          string zipPath = Path.Combine(ProjectHome, "node_modules.zip");
+          string hashPath = Path.Combine(ProjectHome, "node_modules.hash");
+
+          List<string> files = Directory.GetFiles(modulesPath, "*.*", SearchOption.AllDirectories).OrderBy(p => p).ToList();
+
+          StringBuilder filesBlob = new StringBuilder();
+          foreach(string f in files)
+          {
+            filesBlob.AppendFormat("{0} {1}\n", f, File.GetLastWriteTimeUtc(f));
+          }
+
+          MD5 md5 = MD5.Create();
+          byte[] hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(filesBlob));
+
+          if(!(File.Exists(hashPath) && File.ReadAllBytes(hashPath).SequenceEqual(hashBytes)))
+          {
+            File.WriteAllBytes(hashPath, hashBytes);
+
+            if(File.Exists(zipPath))
+            {
+              File.Delete(zipPath);
+            }
+            ZipFile.CreateFromDirectory(modulesPath, zipPath, CompressionLevel.Fastest, false);
+          }
+        ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="ZipNodeModulesFolder"  BeforeTargets="CoreCompile">
+    <ZipNodeModulesTask ProjectHome="$(ProjectHome)"/>
+  </Target>
 
   <PropertyGroup>
     <IncludeCustomOutputGroupForPackaging>true</IncludeCustomOutputGroupForPackaging>
@@ -56,7 +113,7 @@
     <AssignTargetPath Files="@(Compile->'%(FullPath)')" RootFolder="$(OutputPath)">
       <Output TaskParameter="AssignedFiles" ItemName="CustomOutputGroupForPackagingOutput" />
     </AssignTargetPath>
-    <AssignTargetPath Files="@(NodeModulesContentDir->'%(FullPath)')" RootFolder="@(NodeModulesContentDir)" Condition="Exists(@(NodeModulesContentDir))">
+    <AssignTargetPath Files="@(NodeModulesContentDir->'%(FullPath)')" RootFolder="$(ProjectHome)">
       <Output TaskParameter="AssignedFiles" ItemName="CustomOutputGroupForPackagingOutput" />
     </AssignTargetPath>
     <AssignTargetPath Files="@(NodeTestsDir->'%(FullPath)')" RootFolder="@(NodeTestsDir)" Condition="Exists(@(NodeTestsDir))">
