@@ -66,7 +66,6 @@
       <Using Namespace="System.IO"/>
       <Using Namespace="System.IO.Compression"/>
       <Using Namespace="System.Security.Cryptography"/>
-      <Using Namespace="System.Globalization"/>
       <Code Type="Fragment" Language="cs">
         <![CDATA[
           string modulesPath = Path.Combine(ProjectHome, "node_modules");
@@ -78,7 +77,7 @@
           StringBuilder filesBlob = new StringBuilder();
           foreach(string f in files)
           {
-            filesBlob.AppendLine(string.Format(CultureInfo.CurrentCulture, "{0} {1}", f, File.GetLastWriteTimeUtc(f)));
+            filesBlob.AppendFormat("{0} {1}\n", f, File.GetLastWriteTimeUtc(f));
           }
 
           MD5 md5 = MD5.Create();
