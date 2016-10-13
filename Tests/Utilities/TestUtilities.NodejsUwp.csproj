@@ -123,6 +123,7 @@
     <Compile Include="NodejsUwpProjectProcessor.cs" />
     <Compile Include="NodejsUwpProjectTest.cs" />
     <Compile Include="NodejsUwpTestData.cs" />
+    <Compile Include="TargetInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(BuildRoot)\Common\Tests\Utilities\TestUtilities.csproj">

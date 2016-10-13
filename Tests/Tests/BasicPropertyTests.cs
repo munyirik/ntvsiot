@@ -37,7 +37,7 @@ using TestUtilities.NodejsUwp;
 
 namespace NodejsUwp.Tests {
     [TestClass]
-    public class NodejsBasicProjectTests : NodejsUwpProjectTest {
+    public class BasicPropertyTests : NodejsUwpProjectTest {
         [TestMethod, Priority(0), TestCategory("Core")]
         [HostType("VSTestHost")]
         public void TestProjectProperties() {
