@@ -38,13 +38,6 @@ using EnvDTE80;
 
 namespace NodejsUwp.Tests
 {
-    class TargetInfo
-    {
-        public string IP { get; set; }
-
-        public string Plat { get; set; }
-    }
-
     [TestClass]
     public class DebugTests : NodejsUwpProjectTest
     {
@@ -63,7 +56,7 @@ namespace NodejsUwp.Tests
             {
                 var project = app.OpenProject(@"TestData\HelloWorld.sln");
 
-                TargetInfo ti = GetTargetInfo();
+                TargetInfo ti = TargetInfo.GetTargetInfo();
 
                 // Wait for solution to load...
                 for (int i = 0; i < 40 && app.Dte.Solution.Projects.Count == 0; i++)
@@ -136,14 +129,6 @@ namespace NodejsUwp.Tests
                 Assert.IsTrue(app.Dte.ActiveDocument.Name.Contains("server.js"));
                 Assert.IsTrue((app.Dte.ActiveDocument.Object("TextDocument") as TextDocument).Selection.ActivePoint.Line == 3);
             }
-        }
-
-        TargetInfo GetTargetInfo()
-        {
-            TargetInfo ti = new TargetInfo();
-            ti.IP = Environment.GetEnvironmentVariable("IOT_TARGET_IP_ADDRESS").Trim();
-            ti.Plat = Environment.GetEnvironmentVariable("IOT_TARGET_PLATFORM").Trim();
-            return ti;
         }
     }
 }

@@ -25,6 +25,9 @@
 using System.ComponentModel.Composition;
 using TestUtilities.SharedProject;
 using MSBuild = Microsoft.Build.Evaluation;
+using System.IO;
+using System.Text;
+using Microsoft.Build.Construction;
 
 namespace TestUtilities.NodejsUwp {
     [Export(typeof(IProjectProcessor))]
@@ -51,7 +54,17 @@ namespace TestUtilities.NodejsUwp {
             project.SetProperty("RemoteDebugEnabled", "true");
             project.SetProperty("PlatformAware", "true");
             project.SetProperty("AvailablePlatforms", "x86,x64,ARM");
-        }
+
+            // Add package.json
+            string jsonStr = "{\"name\": \"HelloWorld\",\"version\": \"0.0.0\",\"main\": \"server.js\"}";
+            string jsonPath = string.Format("{0}\\package.json", project.DirectoryPath);
+
+            using (FileStream fs = File.Create(jsonPath)) {
+                fs.Write(Encoding.ASCII.GetBytes(jsonStr), 0, jsonStr.Length);
+            }
+            ProjectItemGroupElement itemGroup = project.Xml.AddItemGroup();
+            itemGroup.AddItem("Content", jsonPath);
+    }
 
         public void PostProcess(MSBuild.Project project) {
         }

@@ -75,50 +75,14 @@ namespace NodejsUwp.Tests {
                 openFile.MoveCaret(7, 1);
                 Keyboard.Type("http.");
                 System.Threading.Thread.Sleep(5000);
-                Keyboard.Type("Cli\r");
+                Keyboard.Type("cre\r");
                 openFile.WaitForText(@"var http = require('http');
 
 http.createServer(function (req, res) {
     res.writeHead(200, { 'Content-Type': 'text/plain' });
     res.end('Hello World\n');
 }).listen(1337);
-http.ClientRequest");
-            }
-        }
-
-        [TestMethod, Priority(0), TestCategory("Core")]
-        [HostType("VSTestHost")]
-        public void ModuleCompletions() {
-            Window window;
-
-            using (var app = new VisualStudioApp()) {
-                var openFile = OpenProjectItem(app, "intellisensemod.js", out window);
-
-                openFile.MoveCaret(3, 1);
-                Keyboard.Type("server.");
-                System.Threading.Thread.Sleep(3000);
-                Keyboard.Type("lis\r");
-                openFile.WaitForText(@"var http = require('http');
-var server = http.createServer(null); // server.listen
-server.listen
-
-var sd = require('stringdecoder');  // sd.StringDecoder();
-
-
-");
-
-                openFile.MoveCaret(6, 1);
-                Keyboard.Type("sd.");
-                System.Threading.Thread.Sleep(3000);
-                Keyboard.Type("Str\r");
-                openFile.WaitForText(@"var http = require('http');
-var server = http.createServer(null); // server.listen
-server.listen
-
-var sd = require('stringdecoder');  // sd.StringDecoder();
-sd.StringDecoder
-
-");
+http.createClient");
             }
         }
 

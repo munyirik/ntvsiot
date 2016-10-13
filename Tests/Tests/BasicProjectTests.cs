@@ -36,6 +36,7 @@ using TestUtilities;
 using TestUtilities.NodejsUwp;
 using TestUtilities.UI;
 using ST = System.Threading;
+using EnvDTE80;
 
 namespace NodejsUwp.Tests {
     [TestClass]
@@ -69,15 +70,31 @@ namespace NodejsUwp.Tests {
             {
                 var project = app.OpenProject(@"TestData\HelloWorld.sln");
 
+                TargetInfo ti = TargetInfo.GetTargetInfo();
+
+                // Wait for solution to load...
+                for (int i = 0; i < 40 && app.Dte.Solution.Projects.Count == 0; i++) {
+                    System.Threading.Thread.Sleep(250);
+                }
+
+                Assert.IsFalse(0 == app.Dte.Solution.Projects.Count);
+
+                // Set platform
+                foreach (SolutionConfiguration2 solConfiguration2 in app.Dte.Solution.SolutionBuild.SolutionConfigurations) {
+                    if (String.Equals(solConfiguration2.PlatformName, ti.Plat, StringComparison.Ordinal)) {
+                        solConfiguration2.Activate();
+                        break;
+                    }
+                }
+
                 app.Dte.Solution.SolutionBuild.Build(true);
 
-                string[] expectedOutputFiles = { "AppxManifest.xml", "HelloWorld.build.appxrecipe", "resources.pri", "startupinfo.xml" };
+                string[] expectedOutputFiles = { "AppxManifest.xml", "HelloWorld.build.appxrecipe" };
 
                 string currentDir = Directory.GetCurrentDirectory();
 
-                foreach (string s in expectedOutputFiles)
-                {
-                    Assert.AreEqual(true, File.Exists(string.Format("{0}\\TestData\\HelloWorld\\bin\\{1}", currentDir, s)),
+                foreach (string s in expectedOutputFiles) {
+                    Assert.AreEqual(true, File.Exists(string.Format("{0}\\TestData\\HelloWorld\\bin\\{1}\\Debug\\{2}", currentDir, ti.Plat, s)),
                         string.Format("{0} is missing from bin output folder", s));
                 }
 

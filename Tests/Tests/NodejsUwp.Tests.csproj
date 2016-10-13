@@ -121,9 +121,9 @@
     <Compile Include="BasicIntellisense.cs" />
     <Compile Include="BasicProjectTests.cs" />
     <Compile Include="DebugTests.cs" />
-    <Compile Include="NodejsBasicProjectTests.cs" />
+    <Compile Include="BasicPropertyTests.cs" />
     <Compile Include="ProjectTests.cs" />
-    <Compile Include="RequireIntellisense.cs" />
+    <Compile Include="ReferenceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Tests\Utilities.UI\TestUtilities.UI.csproj">

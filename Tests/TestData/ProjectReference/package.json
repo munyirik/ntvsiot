@@ -1,0 +1,12 @@
+{
+  "name": "project-reference",
+  "version": "0.0.0",
+  "description": "ProjectReference",
+  "main": "server.js",
+  "author": {
+    "name": "munyirik",
+    "email": ""
+  },
+  "target_arch": "ARM",
+  "platform": "uwp"
+}
