@@ -30,16 +30,21 @@ using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using System.ComponentModel.Design;
 
 namespace Microsoft.NodejsUwp
 {
     [Guid(GuidList.NodejsUwpProjectFlavorString)]
-    class NodejsUwpProjectFlavor : 
+    class NodejsUwpProjectFlavor :
         FlavoredProjectBase,
-        IVsProjectFlavorCfgProvider
+        IVsProjectFlavorCfgProvider,
+        IVsProjectSpecialFiles,
+        IOleCommandTarget
     {
         internal NodejsUwpPackage _package;
         private IVsProjectFlavorCfgProvider _innerVsProjectFlavorCfgProvider = null;
+        private IOleCommandTarget _menuService;
+        private NodejsUwpProjectFlavorCfg _config;
 
         protected override void Close()
         {
@@ -64,6 +69,12 @@ namespace Microsoft.NodejsUwp
             }
             base.SetInnerProject(innerIUnknown);
             _innerVsProjectFlavorCfgProvider = objectForIUnknown as IVsProjectFlavorCfgProvider;
+
+            _menuService = (IOleCommandTarget)((System.IServiceProvider)this).GetService(typeof(IMenuCommandService));
+            if (_menuService == null)
+            {
+                throw new InvalidOperationException("Unable to get menu command service");
+            }
         }
 
         #region IVsProjectFlavorCfgProvider Members
@@ -78,7 +89,7 @@ namespace Microsoft.NodejsUwp
                 )
             );
 
-            ppFlavorCfg = new NodejsUwpProjectFlavorCfg(this, pBaseProjectCfg, cfg);
+            ppFlavorCfg = _config = new NodejsUwpProjectFlavorCfg(this, pBaseProjectCfg, cfg);
             return VSConstants.S_OK;
         }
 
@@ -91,7 +102,7 @@ namespace Microsoft.NodejsUwp
                 case __VSHPROPID2.VSHPROPID_CfgPropertyPagesCLSIDList:
                     {
                         var res = base.GetProperty(itemId, propId, out property);
-                        
+
                         property += ';' + typeof(NodejsUwpPropertyPage).GUID.ToString("B");
 
                         property = RemovePropertyPagesFromList((string)property, CfgSpecificPropertyPagesToRemove);
@@ -102,6 +113,25 @@ namespace Microsoft.NodejsUwp
                         var res = base.GetProperty(itemId, propId, out property);
                         property = RemovePropertyPagesFromList((string)property, PropertyPagesToRemove);
                         return res;
+                    }
+            }
+
+            switch ((__VSHPROPID5)propId)
+            {
+                case __VSHPROPID5.VSHPROPID_AppContainer:
+                    {
+                        property = true;
+                        return VSConstants.S_OK;
+                    }
+                case __VSHPROPID5.VSHPROPID_TargetPlatformIdentifier:
+                    {
+                        property = _config.GetStringPropertyValue("TargetPlatformIdentifier");
+                        return VSConstants.S_OK;
+                    }
+                case __VSHPROPID5.VSHPROPID_TargetPlatformVersion:
+                    {
+                        property = _config.GetStringPropertyValue("TargetPlatformVersion");
+                        return VSConstants.S_OK;
                     }
             }
 
@@ -154,12 +184,12 @@ namespace Microsoft.NodejsUwp
             // is supported.
             // For now this solution works well since we do not need to modify the base project.
 
-            if (pguidCmdGroup == GuidList.NodejsNpmCmdSet && 
+            if (pguidCmdGroup == GuidList.NodejsNpmCmdSet &&
                 prgCmds[0].cmdID == 0x302) // 0x302 is the value of cmdidNpmUpdateModules in https://github.com/Microsoft/nodejstools/blob/master/Nodejs/Product/Nodejs/PkgCmdId.cs
-            {              
+            {
                 EnvDTE.DTE dte = (EnvDTE.DTE)Package.GetGlobalService(typeof(EnvDTE.DTE));
                 Array projs = (Array)dte.ActiveSolutionProjects;
-                if(projs.Length > 0)
+                if (projs.Length > 0)
                 {
                     EnvDTE.Project activeProj = (EnvDTE.Project)projs.GetValue(0);
                     string projectPath = activeProj.FullName.Substring(0, activeProj.FullName.LastIndexOf('\\'));
@@ -175,5 +205,41 @@ namespace Microsoft.NodejsUwp
 
             return base.QueryStatusCommand(itemid, ref pguidCmdGroup, cCmds, prgCmds, pCmdText);
         }
+
+        #region IVsProjectSpecialFiles Members
+
+        int IVsProjectSpecialFiles.GetFile(int fileID, uint grfFlags, out uint pitemid, out string pbstrFilename)
+        {
+            pitemid = (uint)VSConstants.VSITEMID.Nil;
+            pbstrFilename = string.Empty;
+            if ((__PSFFILEID5)fileID == __PSFFILEID5.PSFFILEID_AppxManifest)
+            {
+                // It's okay for pbstrFilename to be empty since it will be set correctly by VS packaging code
+                return VSConstants.S_OK;
+            }
+            return VSConstants.E_NOTIMPL; // Same as what base returns
+        }
+
+        #endregion
+
+        #region IOleCommandTarget Members
+
+        int IOleCommandTarget.Exec(ref Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
+        {
+            return _menuService.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
+        }
+
+        int IOleCommandTarget.QueryStatus(ref Guid pguidCmdGroup, uint cCmds, OLECMD[] prgCmds, IntPtr pCmdText)
+        {
+            // TODO: This is temporarily needed to hide the Create Appx Package menu which isn't supported yet
+            if (pguidCmdGroup == new Guid("ac8bcc47-f5f3-4afa-8cc2-f0d697e04bb7") && prgCmds[0].cmdID == 0x0016)
+            {
+                prgCmds[0].cmdf = (uint)(OLECMDF.OLECMDF_SUPPORTED | OLECMDF.OLECMDF_INVISIBLE);
+                return VSConstants.S_OK;
+            }
+            return _menuService.QueryStatus(ref pguidCmdGroup, cCmds, prgCmds, pCmdText);
+        }
+
+        #endregion
     }
 }
