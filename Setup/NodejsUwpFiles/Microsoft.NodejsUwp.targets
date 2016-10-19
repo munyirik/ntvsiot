@@ -91,7 +91,7 @@
           }
 
           MD5 md5 = MD5.Create();
-          byte[] hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(filesBlob));
+          byte[] hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(filesBlob.ToString()));
 
           if(!(File.Exists(hashPath) && File.ReadAllBytes(hashPath).SequenceEqual(hashBytes)))
           {
