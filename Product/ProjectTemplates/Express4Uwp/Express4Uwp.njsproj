@@ -74,9 +74,6 @@
     <None Include="$projectname$_TemporaryKey.pfx" />
   </ItemGroup>
 
-  <Import Project="$(VSToolsPath)\JavaScript\Microsoft.VisualStudio.WJProject.Default.props" />
-  <Import Project="$(VSToolsPath)\JavaScript\Microsoft.VisualStudio.WJProject.props" />
-  <Import Project="$(VSToolsPath)\JavaScript\Microsoft.VisualStudio.JavaScript.UAP.targets" />
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsUwp.targets" />
 
   <PropertyGroup>

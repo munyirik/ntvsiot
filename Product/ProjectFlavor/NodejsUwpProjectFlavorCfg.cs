@@ -756,7 +756,7 @@ namespace Microsoft.NodejsUwp
             return recipeFile;
         }
 
-        private string GetStringPropertyValue(string propertyName)
+        internal string GetStringPropertyValue(string propertyName)
         {
             IVsBuildPropertyStorage bps = GetBuildPropertyStorage();
             string property = null;
