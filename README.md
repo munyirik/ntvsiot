@@ -159,6 +159,13 @@ You have the option to build and deploy your app without using the Visual Studio
 * Run `shutdown /r /t 0` to reboot your device. When the reboot completes, the app will be running.
 
 
+##Long paths
+Workarounds for the long path limit (MAX_PATH) are listed [here](https://github.com/Microsoft/nodejs-guidelines/blob/master/windows-environment.md#max_path-explanation-and-workarounds).
+If you run into [this error](https://github.com/ms-iot/ntvsiot/issues/80) while deploying to IoT Core, run the commands below to remove the limit.
+* `reg add "HKLM\SYSTEM\CurrentControlSet\Control\FileSystem" /t REG_DWORD /d 1 /v LongPathsEnabled /f`
+* `shutdown /r /t 0` (this just reboots your device)
+
+
 ##Creating new issues
 Please follow the guidelines below when creating new issues:
 * Use a descriptive title that identifies the issue to be addressed or the requested feature (e.g., "Feature F should report ABC when XYZ is used in DEF").
