@@ -171,6 +171,7 @@ You can reference a C# or C++ UWP component in your Node.js UWP app by using the
 To do this, right click on the `references` node in your project and select `Add Reference...`. This will bring up a dialog which you can use to either:
 * Choose a winmd project (within your solution) to reference in your app.
 * Browse to a winmd file to reference in your app.
+
 Once the reference is added, you can use it from your Node.js code as shown below:
 
 Say you have a C# project that has the method shown here:
