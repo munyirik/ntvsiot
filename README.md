@@ -166,6 +166,39 @@ If you run into [this error](https://github.com/ms-iot/ntvsiot/issues/80) while 
 * `shutdown /r /t 0` (this just reboots your device)
 
 
+##Referencing winmd files
+You can reference a C# or C++ UWP component in your Node.js UWP app by using the Visual Studio reference manager.
+To do this, right click on the `references` node in your project and select `Add Reference...`. This will bring up a dialog which you can use to either:
+* Choose a winmd project (within your solution) to reference in your app.
+* Browse to a winmd file to reference in your app.
+Once the reference is added, you can use it from your Node.js code as shown below:
+
+Say you have a C# project that has the method shown here:
+
+```cs
+namespace MyNamespace 
+{
+  public class MyClass 
+  {
+    public string MyMethod()
+    {
+      return "Hello!";
+    }
+  }
+}
+```
+
+You can use it in your Node.js app like this to print 'Hello!':
+
+```javascript
+var uwp = require('uwp');
+uwp.projectNamespace('MyNamespace');
+
+var csref = new MyNamespace.MyClass();
+console.log(csref.myMethod());
+```
+
+
 ##Creating new issues
 Please follow the guidelines below when creating new issues:
 * Use a descriptive title that identifies the issue to be addressed or the requested feature (e.g., "Feature F should report ABC when XYZ is used in DEF").
