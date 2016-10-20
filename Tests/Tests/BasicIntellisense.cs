@@ -58,30 +58,6 @@ namespace NodejsUwp.Tests {
 
         [TestMethod, Priority(0), TestCategory("Core")]
         [HostType("VSTestHost")]
-        public void NodeModulesPackageJsonFolder() {
-            var project = Project("ReferenceIntellisense",
-                Compile("server", "require('mymod')"),
-                Folder("node_modules"),
-                Folder("node_modules\\mymod"),
-                Folder("node_modules\\mymod\\lib"),
-                Compile("node_modules\\mymod\\lib\\index", "exports.x = 42;"),
-                Content("node_modules\\mymod\\package.json", "{main: './lib/index.js', name: 'mymod'}")
-            );
-
-            using (var solution = project.Generate().ToVs()) {
-                var server = solution.OpenItem("ReferenceIntellisense", "server.js");
-
-                server.MoveCaret(1, 17);
-
-                Keyboard.Type(".x.");
-                System.Threading.Thread.Sleep(3000);
-                Keyboard.Type("toF\t");
-                server.WaitForText("require('mymod').x.toFixed");
-            }
-        }
-
-        [TestMethod, Priority(0), TestCategory("Core")]
-        [HostType("VSTestHost")]
         public void SignaturesTest() {
             var project = Project("SignaturesTest",
                 Compile("server", "function f(a, b, c) { }\r\n\r\n")

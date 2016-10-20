@@ -28,11 +28,11 @@
     <AppContainerApplication>true</AppContainerApplication>
     <ApplicationType>Windows Store</ApplicationType>
     <ApplicationTypeRevision>10</ApplicationTypeRevision>
-    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformMinVersion>10.0.10586.0</WindowsTargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <AppxPackage>true</AppxPackage>
     <WindowsAppContainer>true</WindowsAppContainer>
-    <RemoteDebugEnabled>true</RemoteDebugEnabled>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -65,7 +65,24 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
+    <Folder Include="typings\" />
+    <Folder Include="typings\globals\" />
+    <Folder Include="typings\globals\node\" />
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
+    <TypeScriptCompile Include="typings\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CSComponent\CSComponent.csproj">
+      <Name>CSComponent</Name>
+      <Project>{69457d9d-7264-4662-884e-23ccc176b9c2}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\JavaScript\Microsoft.VisualStudio.WJProject.Default.props" />
+  <Import Project="$(VSToolsPath)\JavaScript\Microsoft.VisualStudio.WJProject.props" />
+  <Import Project="$(VSToolsPath)\JavaScript\Microsoft.VisualStudio.JavaScript.UAP.targets" />
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsUwp.targets" />
   <PropertyGroup>
     <PlatformAware>true</PlatformAware>

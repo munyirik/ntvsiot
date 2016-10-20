@@ -29,11 +29,21 @@
   <Target Name="CopyUWPAddon" BeforeTargets="CoreCompile">
     <Copy SourceFiles="$(NodechUWPSDKPath)\$(Platform)\uwp.node" DestinationFolder="$(ProjectHome)\node_modules" OverwriteReadOnlyFiles="true"/>
   </Target>
+  
+  <!-- Disable _CopyWebApplicationLegacy from running -->
+  <PropertyGroup>
+    <Disable_CopyWebApplication>true</Disable_CopyWebApplication>
+  </PropertyGroup>
+  
+  <!-- For enabling C# references. If removed, there will be a 'project.json doesn't list win 10' build error -->
+  <PropertyGroup>
+    <PlatformTarget Condition="'$(PlatformTarget)' ==''">$(Platform)</PlatformTarget>
+  </PropertyGroup>
 
   <!-- Node.js folders and files that will need to be custom packaged
        into the appx (using CustomOutputGroupForPackaging target) -->
   <ItemGroup>
-    <NodeModulesContentDir Include="$(ProjectHome)\node_modules\**\*.node"/>
+    <NodeModulesContentDir Include="$(ProjectHome)\**\*.node"/>
   </ItemGroup>
   <ItemGroup>
     <PublicDir Include="$(ProjectHome)\public"/>
@@ -81,7 +91,7 @@
           }
 
           MD5 md5 = MD5.Create();
-          byte[] hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(filesBlob));
+          byte[] hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(filesBlob.ToString()));
 
           if(!(File.Exists(hashPath) && File.ReadAllBytes(hashPath).SequenceEqual(hashBytes)))
           {
