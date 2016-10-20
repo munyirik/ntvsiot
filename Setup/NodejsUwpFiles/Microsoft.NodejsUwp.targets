@@ -43,7 +43,7 @@
   <!-- Node.js folders and files that will need to be custom packaged
        into the appx (using CustomOutputGroupForPackaging target) -->
   <ItemGroup>
-    <NodeModulesContentDir Include="$(ProjectHome)\node_modules\**\*.node"/>
+    <NodeModulesContentDir Include="$(ProjectHome)\**\*.node"/>
   </ItemGroup>
   <ItemGroup>
     <PublicDir Include="$(ProjectHome)\public"/>
