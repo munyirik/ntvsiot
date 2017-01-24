@@ -19,5 +19,5 @@
     <String Id="WDExpressSetup_Rollback">Removing extension from !(loc.WDProductName)...</String>
     <String Id="VWDExpressSetup">Registering extension in !(loc.VWDProductName)...</String>
     <String Id="VWDExpressSetup_Rollback">Removing extension from !(loc.VWDProductName)...</String>
-    <String Id="NTVSNotInstalled">Node.js Tools !(loc.ForVisualStudio) is not installed. It can be downloaded from http://aka.ms/ntvslatest.</String>
+    <String Id="NTVSNotInstalled">Node.js Tools !(loc.ForVisualStudio) is not installed.</String>
 </WixLocalization>
