@@ -33,9 +33,10 @@
       <PropertyRef Id="VWDEXPRESS_PATH"/>
       
       <!-- Check for NTVS installation -->
-      <Condition Message="!(loc.NTVSNotInstalled)">
+	  <!-- TODO: Is there a way to check for the NTVS VS 2017 VSIX installation?-->
+      <!--<Condition Message="!(loc.NTVSNotInstalled)">
           NTVS_INSTALLED OR Installed
-      </Condition>
+      </Condition>-->
 
       <!-- This location is the directory that NodejsUwpFiles.msm will install into.
             We use it to reference some installed files. -->
