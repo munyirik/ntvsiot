@@ -282,6 +282,9 @@
     </ZipProject>
     <ZipProject Include="ProjectTemplates\JohnnyFiveUwp\package.json" />
     <None Include="packages.config" />
+    <None Include="ProjectTemplates\templateManifest0.1033.vstman">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
@@ -402,6 +405,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <DefineConstants>TRACE;FEATURE_AZURE_REMOTE_DEBUG;NODEJS_TOOLS;NTVS_FEATURE_INTERACTIVEWINDOW;DEV15</DefineConstants>
+    <CreateVsixContainer>True</CreateVsixContainer>
+    <CopyVsixExtensionFiles>True</CopyVsixExtensionFiles>
+    <CopyVsixExtensionLocation>..\BuildOutput\Release15.0\VSIX\Microsoft.NodejsUwp\</CopyVsixExtensionLocation>
   </PropertyGroup>
   <Import Project="ProjectAfter.settings" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
