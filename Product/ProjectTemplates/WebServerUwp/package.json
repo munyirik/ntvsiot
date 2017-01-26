@@ -8,5 +8,8 @@
     "email": ""
   },
   "target_arch": "arm",
-  "platform": "uwp"
+  "platform": "uwp",
+  "devDependencies": {
+    "@types/winrt-uwp": "^0.0.16"
+  }
 }
