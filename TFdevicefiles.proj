@@ -1,6 +1,8 @@
 <!-- This project is used by Team Foundation build. It will build the Node.js UWP binaries that are deployed to devices -->
 
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="packages\MicroBuild.Core.0.2.0\build\MicroBuild.Core.props" Condition="Exists('packages\MicroBuild.Core.0.2.0\build\MicroBuild.Core.props')" />
+	
 	<PropertyGroup>
 		<OutputPath>bin\</OutputPath>
 	</PropertyGroup>
