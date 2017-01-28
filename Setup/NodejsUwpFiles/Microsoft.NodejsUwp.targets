@@ -43,9 +43,6 @@
   <!-- Node.js folders and files that will need to be custom packaged
        into the appx (using CustomOutputGroupForPackaging target) -->
   <ItemGroup>
-    <NodeModulesContentDir Include="$(ProjectHome)\node_modules\**\*.node"/>
-  </ItemGroup>
-  <ItemGroup>
     <PublicDir Include="$(ProjectHome)\public"/>
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +57,13 @@
   <ItemGroup>
     <NodeHostFiles Include="$(ProjectHome)\node_modules.hash"/>
   </ItemGroup>
+  
+  <Target Name="IncludeNativeNodeModules" BeforeTargets="CoreCompile">
+    <ItemGroup>
+      <NodeModulesContentDir Include="$(ProjectHome)\node_modules\**\*.node"/>
+      <NodeModulesContentDir Include="$(ProjectHome)\node_modules\*.node"/>
+    </ItemGroup>
+  </Target>
 
   <UsingTask TaskName="ZipNodeModulesTask" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" >
     <ParameterGroup>
