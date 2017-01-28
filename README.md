@@ -41,11 +41,9 @@ IntelliSense is available for UWP APIs through the [ES6 Intellisense](https://gi
 
   ![capture](https://cloud.githubusercontent.com/assets/8389594/14468105/227e9760-0093-11e6-98c2-cc4b8dcd05e3.PNG)
 
-To enable IntelliSense in your project:
-* Ensure you have the 'ES6 IntelliSense Preview' option set under `Tools -> Options -> Text Editor -> Node.js -> IntelliSense`
+To enable IntelliSense for UWP API in your project:
 * Right click on your project in the Solution Explorer and select 'Open Command Prompt Here...'
-* Run `npm install typings -g`
-* Run `typings install dt~winrt-uwp --global`
+* Run `npm install @types/winrt-uwp`
 
 
 ##Installing npm packages
