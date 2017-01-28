@@ -12,10 +12,7 @@
     "johnny-five": "^0.9.14"
   },
   "target_arch": "arm",
-  "platform": "uwp",
-  "devDependencies": {
-    "@types/winrt-uwp": "^0.0.16"
-  }
+  "platform": "uwp"
 }
 
 
